@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components';
-import { Button } from '../styles/Button';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { Button } from "../styles/Button";
+import { NavLink } from "react-router-dom";
 import { FaDiscord, FaInstagram, FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
@@ -15,9 +15,7 @@ const Footer = () => {
           </div>
           <div>
             <Button>
-              <NavLink to="/contact">
-                Get started
-              </NavLink>
+              <NavLink to="/contact">Get started</NavLink>
             </Button>
           </div>
         </div>
@@ -27,10 +25,12 @@ const Footer = () => {
       <footer>
         <div className="container grid grid-four-column">
           <div className="footer-about">
-            <h3>Thapa Technical</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
+            <h3>MerchVault</h3>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
               atque temporibus veniam doloribus libero ad error omnis voluptates
-              animi! Suscipit sapiente.</p>
+              animi! Suscipit sapiente.
+            </p>
           </div>
 
           <div className="footer-subscribe">
@@ -51,7 +51,9 @@ const Footer = () => {
                 <FaInstagram className="icons" />
               </div>
               <div>
-                <a href="https://www.youtube.com/"><FaYoutube className="icons" /></a>
+                <a href="https://www.youtube.com/">
+                  <FaYoutube className="icons" />
+                </a>
               </div>
             </div>
           </div>
@@ -68,9 +70,7 @@ const Footer = () => {
         <div className="footer-bottom--section">
           <hr />
           <div className="container grid grid-two-column">
-            <p>
-              @{new Date().getFullYear()} ThapaTechnical. All Rights Reserved
-            </p>
+            <p>@{new Date().getFullYear()} MerchVault. All Rights Reserved</p>
             <div>
               <p>PRIVACY POLICY</p>
               <p>TERMS & CONDITIONS</p>
@@ -79,10 +79,10 @@ const Footer = () => {
         </div>
       </footer>
     </Wrapper>
-  )
+  );
 };
 const Wrapper = styled.section`
-   .iSIFGq {
+  .iSIFGq {
     margin: 0;
   }
 

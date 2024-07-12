@@ -5,7 +5,7 @@ const About = () => {
   const { myName } = useProductContext();
 
   const data = {
-    name: "Thapa Ecommerce",
+    name: "MerchVault Ecommerce",
   };
 
   return (
@@ -15,7 +15,5 @@ const About = () => {
     </>
   );
 };
-
-
 
 export default About;
