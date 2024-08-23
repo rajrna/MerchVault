@@ -80,9 +80,13 @@ const Wrapper = styled.section`
   .card {
     background-color: #fff;
     border-radius: 1rem;
+    padding: 0 0 0.01rem 0;
 
+    img {
+      border-radius: 5px;
+    }
     .card-data {
-      padding: 0 2rem;
+      padding: 0 3rem;
     }
 
     .card-data-flex {

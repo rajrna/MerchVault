@@ -2,7 +2,7 @@ const FormatPrice = ({ price }) => {
   return Intl.NumberFormat("ne-NP", {
     style: "currency",
     currency: "NPR",
-    maximumFractionDigits: 2,
+    maximumFractionDigits: 0,
   }).format((price / 100) * 1.6);
 };
 

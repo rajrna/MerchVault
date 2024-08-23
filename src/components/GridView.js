@@ -61,6 +61,11 @@ const Wrapper = styled.section`
   .card {
     background-color: ${({ theme }) => theme.colors.bg};
     border-radius: 1rem;
+    padding: 0 0 0.01rem 0;
+
+    img {
+      border-radius: 5px;
+    }
 
     .card-data {
       padding: 0 1rem;

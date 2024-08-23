@@ -14,16 +14,16 @@ const Footer = () => {
             <h3>Talk to us today</h3>
           </div>
           <div>
-            <Button>
-              <NavLink to="/contact">Get started</NavLink>
-            </Button>
+            <NavLink to="/contact">
+              <Button>Get started</Button>
+            </NavLink>
           </div>
         </div>
       </section>
 
       {/*main footer */}
       <footer>
-        <div className="container grid grid-four-column">
+        <div className="container grid grid-three-column">
           <div className="footer-about">
             <h3>MerchVault</h3>
             <p>
@@ -33,13 +33,13 @@ const Footer = () => {
             </p>
           </div>
 
-          <div className="footer-subscribe">
+          {/* <div className="footer-subscribe">
             <h3>Subscribe to get important updates</h3>
             <form action="">
               <input type="email" placeholder="your email" />
               <input type="submit" value="subscribe" />
             </form>
-          </div>
+          </div> */}
 
           <div className="footer-social">
             <h3>Follow Us</h3>
@@ -103,7 +103,8 @@ const Wrapper = styled.section`
 
   footer {
     padding: 14rem 0 9rem 0;
-    background-color: ${({ theme }) => theme.colors.footer_bg};
+    // background-color: ${({ theme }) => theme.colors.footer_bg};
+    background-color: rgb(0 51 51);
     h3 {
       color: ${({ theme }) => theme.colors.hr};
       margin-bottom: 2.4rem;

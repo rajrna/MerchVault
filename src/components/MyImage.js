@@ -47,6 +47,7 @@ const Wrapper = styled.section`
       background-size: cover;
       object-fit: contain;
       cursor: pointer;
+      border-radius: 5px;
       box-shadow: ${({ theme }) => theme.colors.shadow};
     }
   }
@@ -56,6 +57,7 @@ const Wrapper = styled.section`
     place-items: center;
     order: 1;
     img {
+      border-radius: 5px;
       max-width: 100%;
       height: auto;
       box-shadow: ${({ theme }) => theme.colors.shadow};

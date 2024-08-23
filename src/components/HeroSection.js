@@ -11,11 +11,11 @@ const HeroSection = ({ myData }) => {
         <div className="grid grid-two-column">
           <div className="hero-section-data">
             <p className="intro-data">Welcome to </p>
-            <h1> {name} </h1>
+            <h1> {name}! </h1>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-              atque temporibus veniam doloribus libero ad error omnis voluptates
-              animi! Suscipit sapiente.
+              Create products that are uniquely yours. Customize your favorite
+              items with personalized graphics and designs. Start exploring and
+              make something special today!
             </p>
             <NavLink to="/cart">
               <Button>show now</Button>
@@ -84,6 +84,7 @@ const Wrapper = styled.section`
   .img-style {
     width: 100%;
     height: auto;
+    border-radius: 5px;
   }
 
   @media (max-width: ${({ theme }) => theme.media.mobile}) {

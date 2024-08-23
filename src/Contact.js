@@ -18,12 +18,13 @@ const Contact = () => {
           gap: 3rem;
 
           input[type="submit"] {
+            border-radius: 2px;
             cursor: pointer;
             transition: all 0.2s;
 
             &:hover {
               background-color: ${({ theme }) => theme.colors.white};
-              border: 1px solid ${({ theme }) => theme.colors.btn};
+              // border: 1px solid ${({ theme }) => theme.colors.btn};
               color: ${({ theme }) => theme.colors.btn};
               transform: scale(0.9);
             }
@@ -42,16 +43,40 @@ const Contact = () => {
         height="500"
         style={{ border: 0 }}
         allowFullsScreen=""
-        loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+        loading="lazy"
+        title="myMap"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
       <div className="container">
         <div className="contact-form">
-          <form action="https://formspree.io/f/movaqdnd" method="POST" className="contact-inputs">
-            <input type="text" placeholder="username" name="username" required autoComplete="off" />
+          <form
+            action="https://formspree.io/f/movaqdnd"
+            method="POST"
+            className="contact-inputs"
+          >
+            <input
+              type="text"
+              placeholder="username"
+              name="username"
+              required
+              autoComplete="off"
+            />
 
-            <input type="email" placeholder="email" name="email" required autoComplete="off" />
+            <input
+              type="email"
+              placeholder="email"
+              name="email"
+              required
+              autoComplete="off"
+            />
 
-            <textarea name="message" cols="30" rows="10" required autoComplete="off"></textarea>
+            <textarea
+              name="message"
+              cols="30"
+              rows="10"
+              required
+              autoComplete="off"
+            ></textarea>
 
             <input type="submit" value="send" />
           </form>

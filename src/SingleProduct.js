@@ -67,7 +67,7 @@ const SingleProduct = () => {
 
             <p>{description}</p>
 
-            <div className="product-data-warranty">
+            {/* <div className="product-data-warranty">
               <div className="product-warranty-data">
                 <TbTruckDelivery className="warranty-icon" />
                 <p>Free Delivery</p>
@@ -87,19 +87,19 @@ const SingleProduct = () => {
                 <MdSecurity className="warranty-icon" />
                 <p>2 Year Warranty </p>
               </div>
-            </div>
+            </div> */}
 
             <div className="product-data-info">
-              <p>
+              <h3>
                 Available:{" "}
                 <span>{stock > 0 ? "In Stock" : "Not Available"}</span>
-              </p>
-              <p>
+              </h3>
+              <h3>
                 ID : <span> {id} </span>
-              </p>
-              <p>
+              </h3>
+              <h3>
                 Brand :<span> {company} </span>
-              </p>
+              </h3>
             </div>
             <hr />
             {stock > 0 && <AddToCart product={singleProduct} />}
@@ -124,6 +124,10 @@ const Wrapper = styled.section`
     align-items: flex-start;
     justify-content: center;
     gap: 2rem;
+
+    h2 {
+      text-transform: uppercase;
+    }
 
     .product-data-warranty {
       width: 100%;
@@ -155,6 +159,7 @@ const Wrapper = styled.section`
     }
     .product-data-real-price {
       color: ${({ theme }) => theme.colors.btn};
+      // color: rgb(0 102 51);
     }
     .product-data-info {
       display: flex;
