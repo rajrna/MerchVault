@@ -35,10 +35,8 @@ const ListView = ({ products }) => {
 };
 
 const Wrapper = styled.section`
-  padding: 9rem 0;
-
   .container {
-    max-width: 120rem;
+    max-width: 100rem;
   }
 
   .grid {

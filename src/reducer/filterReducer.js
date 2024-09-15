@@ -3,18 +3,13 @@ const filterReducer = (state, action) => {
     case "LOAD_FILTER_PRODUCTS":
       let priceArr = action.payload.map((curElem) => curElem.price);
 
-      // let maxPrice = priceArr.reduce(
-      //   (initialVal, curVal) => Math.max(initialVal, curVal),
-      //   0
-      // );
-
       let maxPrice = Math.max(...priceArr);
 
       return {
         ...state,
         filter_products: [...action.payload],
         all_products: [...action.payload],
-        filters: { ...state.filters, maxPrice, price: maxPrice },
+        filters: { ...state.filters, maxPrice, price: maxPrice, minPrice: 0 },
       };
 
     case "SET_GRID_VIEW":
@@ -30,9 +25,6 @@ const filterReducer = (state, action) => {
       };
 
     case "GET_SORT_VALUE":
-      // let userSortValue = document.getElementById("sort");
-      // let sort_value = userSortValue.options[userSortValue.selectedIndex].value;
-      // console.log(sort_value);
       return {
         ...state,
         sorting_value: action.payload,
@@ -128,9 +120,8 @@ const filterReducer = (state, action) => {
           category: "all",
           company: "all",
           color: "all",
-          maxPrice: 0,
-          price: state.filters.maxPrice,
-          minPrice: state.filters.maxPrice,
+          price: state.filters.maxPrice, // Reset to the max price
+          minPrice: 0, // Reset to 0
         },
       };
 

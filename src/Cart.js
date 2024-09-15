@@ -188,12 +188,27 @@ const Wrapper = styled.section`
 
     button {
       border: none;
-      background-color: #fff;
+      background-color: #f0f0f0;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
       cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        background-color: #e0e0e0;
+        transform: scale(1.1);
+      }
     }
 
     .amount-style {
-      font-size: 2.4rem;
+      font-size: 2rem;
       color: ${({ theme }) => theme.colors.btn};
     }
   }

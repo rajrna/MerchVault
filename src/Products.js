@@ -25,6 +25,16 @@ const Products = () => {
 };
 
 const Wrapper = styled.section`
+  .main-product {
+    overflow-y: scroll;
+    margin: 5px 0;
+    width: 100%;
+    height: 62rem;
+  }
+
+  .product-view--sort {
+    width: 100rem;
+  }
   .grid-filter-column {
     grid-template-columns: 0.2fr 1fr;
   }

@@ -102,9 +102,9 @@ const Wrapper = styled.section`
   }
 
   footer {
-    padding: 14rem 0 9rem 0;
-    // background-color: ${({ theme }) => theme.colors.footer_bg};
-    background-color: rgb(0 51 51);
+    padding: 12rem 0 2rem 0;
+    background-color: ${({ theme }) => theme.colors.footer_bg};
+    // background-color: rgb(0 51 51);
     h3 {
       color: ${({ theme }) => theme.colors.hr};
       margin-bottom: 2.4rem;
@@ -132,7 +132,7 @@ const Wrapper = styled.section`
   }
 
   .footer-bottom--section {
-    padding-top: 9rem;
+    padding-top: 5rem;
 
     hr {
       margin-bottom: 2rem;

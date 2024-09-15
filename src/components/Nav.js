@@ -12,7 +12,7 @@ const Nav = () => {
   const Nav = styled.nav`
     .navbar-lists {
       display: flex;
-      gap: 4.8rem;
+      gap: 15rem;
       align-items: center;
 
       .navbar-link {
@@ -20,7 +20,7 @@ const Nav = () => {
         &:visited {
           display: inline-block;
           text-decoration: none;
-          font-size: 1.8rem;
+          font-size: 1.5rem;
           font-weight: 500;
           text-transform: uppercase;
           color: ${({ theme }) => theme.colors.black};
@@ -179,11 +179,11 @@ const Nav = () => {
           </li>
           <li>
             <NavLink
-              to="/about"
+              to="/customize"
               className="navbar-link "
               onClick={() => setMenuIcon(false)}
             >
-              About
+              Customize
             </NavLink>
           </li>
           <li>
