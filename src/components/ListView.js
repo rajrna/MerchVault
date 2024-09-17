@@ -35,10 +35,8 @@ const ListView = ({ products }) => {
 };
 
 const Wrapper = styled.section`
-  padding: 9rem 0;
-
   .container {
-    max-width: 120rem;
+    max-width: 100rem;
   }
 
   .grid {
@@ -68,7 +66,7 @@ const Wrapper = styled.section`
       width: 100%;
     }
     &:hover img {
-      transform: scale(1.2);
+      transform: scale(1.5);
     }
     img {
       max-width: 90%;
@@ -80,7 +78,12 @@ const Wrapper = styled.section`
 
   .card {
     border: 0.1rem solid rgb(170 170 170 / 40%);
+    border-radius: 10px;
+    padding: 1rem;
 
+    img {
+      border-radius: 5px;
+    }
     .card-data {
       padding: 0 2rem;
     }

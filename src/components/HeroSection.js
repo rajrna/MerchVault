@@ -9,23 +9,25 @@ const HeroSection = ({ myData }) => {
     <Wrapper>
       <div className="container">
         <div className="grid grid-two-column">
+          {/* Hero Text */}
           <div className="hero-section-data">
-            <p className="intro-data">Welcome to </p>
-            <h1> {name} </h1>
+            <p className="intro-data">Welcome to</p>
+            <h1>{name}</h1>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-              atque temporibus veniam doloribus libero ad error omnis voluptates
-              animi! Suscipit sapiente.
+              Create products that are uniquely yours. Customize your favorite
+              items with personalized graphics and designs. Start exploring and
+              make something special today!
             </p>
-            <NavLink to="/cart">
-              <Button>show now</Button>
+            <NavLink to="/products">
+              <Button>Show Now</Button>
             </NavLink>
           </div>
-          {/* our homepage image  */}
+
+          {/* Hero Image */}
           <div className="hero-section-image">
             <figure>
               <img
-                src="images/hero.jpg"
+                src="images/hero_home.png"
                 alt="hero-section-photo"
                 className="img-style"
               />
@@ -38,67 +40,78 @@ const HeroSection = ({ myData }) => {
 };
 
 const Wrapper = styled.section`
-  padding: 12rem 0;
+  padding: 5rem 0;
+  background: #fff;
 
-  img {
-    min-width: 10rem;
-    height: 10rem;
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
   }
 
   .hero-section-data {
-    p {
-      margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .intro-data {
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: #555;
     }
 
     h1 {
-      text-transform: capitalize;
-      font-weight: bold;
+      font-size: 3rem;
+      font-weight: 700;
+      color: #333;
     }
 
-    .intro-data {
-      margin-bottom: 0;
+    p {
+      font-size: 1.4rem;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    a {
+      margin-top: 1rem;
     }
   }
 
   .hero-section-image {
-    width: 100%;
-    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  figure {
-    position: relative;
 
-    &::after {
-      content: "";
-      width: 60%;
-      height: 80%;
-      background-color: rgba(81, 56, 238, 0.4);
-      position: absolute;
-      left: 50%;
-      top: -5rem;
-      z-index: -1;
+    figure {
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .img-style {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      object-fit: cover;
     }
   }
-  .img-style {
-    width: 100%;
-    height: auto;
+
+  @media (max-width: ${({ theme }) => theme.media.tablet}) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (max-width: ${({ theme }) => theme.media.mobile}) {
-    .grid {
-      gap: 10rem;
+    padding: 8rem 0;
+
+    .hero-section-data h1 {
+      font-size: 2.5rem;
     }
 
-    figure::after {
-      content: "";
-      width: 50%;
-      height: 100%;
-      left: 0;
-      top: 10%;
-      /* bottom: 10%; */
-      background-color: rgba(81, 56, 238, 0.4);
+    .hero-section-data p {
+      font-size: 1.2rem;
     }
   }
 `;

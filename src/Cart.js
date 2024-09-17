@@ -1,8 +1,88 @@
 import styled from "styled-components";
+import { useCartContext } from "./context/cart_context";
+import CartItem from "./components/CartItem";
+import { NavLink } from "react-router-dom";
+import { Button } from "./styles/Button";
+import FormatPrice from "./Helpers/FormatPrice";
 
 const Cart = () => {
-  return <Wrapper></Wrapper>;
+  const { cart, clearCart, total_price, shipping_fee } = useCartContext();
+
+  if (cart.length === 0) {
+    return (
+      <EmptyDiv>
+        <h3>No Cart in Item </h3>
+      </EmptyDiv>
+    );
+  }
+
+  return (
+    <Wrapper>
+      <div className="container">
+        <div className="cart_heading grid grid-five-column">
+          <h3>Item</h3>
+          <h3 className="cart-hide">Price</h3>
+          <h3>Quantity</h3>
+          <h3 className="cart-hide">Sub-Total</h3>
+          <h3>Remove</h3>
+        </div>
+        <hr />
+
+        <div className="cart-item">
+          {cart.map((curElem) => {
+            return <CartItem key={curElem.id} {...curElem} />;
+          })}
+        </div>
+
+        <hr />
+        <div className="cart-two-button">
+          <NavLink to="/products">
+            <Button>Continue Shopping</Button>
+          </NavLink>
+          <Button className="btn btn-clear" onClick={clearCart}>
+            Clear Cart
+          </Button>
+        </div>
+
+        <div className="order-total--amount">
+          <div className="order-total--subdata">
+            <div>
+              <p>Subtotal:</p>
+              <p>
+                <FormatPrice price={total_price} />
+              </p>
+            </div>
+            <div>
+              <p>Shipping Fee:</p>
+              <p>
+                <FormatPrice price={shipping_fee} />
+              </p>
+            </div>
+            <hr />
+            <div>
+              <p>Order Total:</p>
+              <p>
+                <FormatPrice price={shipping_fee + total_price} />
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Wrapper>
+  );
 };
+
+const EmptyDiv = styled.div`
+  display: grid;
+  place-items: center;
+  height: 50vh;
+
+  h3 {
+    font-size: 4.2rem;
+    text-transform: capitalize;
+    font-weight: 300;
+  }
+`;
 
 const Wrapper = styled.section`
   padding: 9rem 0;
@@ -53,13 +133,15 @@ const Wrapper = styled.section`
     /* background-color: red; */
     align-items: center;
     display: grid;
-    gap: 1rem;
+    gap: 3rem;
     grid-template-columns: 0.4fr 1fr;
     text-transform: capitalize;
     text-align: left;
     img {
-      max-width: 5rem;
-      height: 5rem;
+      max-width: 7rem;
+      height: rem;
+
+      border-radius: 5px;
       object-fit: contain;
       color: transparent;
     }
@@ -71,9 +153,8 @@ const Wrapper = styled.section`
       gap: 1rem;
 
       .color-style {
-        width: 1.4rem;
-        height: 1.4rem;
-
+        width: 1.9rem;
+        height: 1.9rem;
         border-radius: 50%;
       }
     }
@@ -87,6 +168,15 @@ const Wrapper = styled.section`
     .btn-clear {
       background-color: #e74c3c;
     }
+
+    .btn-clear:hover,
+    btn-clear:active {
+      box-shadow: 0 2rem 2rem 0 rgb(202 28 28 / 40%);
+      box-shadow: ${({ theme }) => theme.colors.shadowSupport};
+      transform: scale(0.96);
+      background-color: rgb(255 255 255);
+      color: #e74c3c;
+    }
   }
 
   .amount-toggle {
@@ -98,12 +188,27 @@ const Wrapper = styled.section`
 
     button {
       border: none;
-      background-color: #fff;
+      background-color: #f0f0f0;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #333;
       cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        background-color: #e0e0e0;
+        transform: scale(1.1);
+      }
     }
 
     .amount-style {
-      font-size: 2.4rem;
+      font-size: 2rem;
       color: ${({ theme }) => theme.colors.btn};
     }
   }

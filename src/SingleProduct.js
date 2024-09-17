@@ -6,8 +6,6 @@ import PageNavigation from "./components/PageNavigation";
 import MyImage from "./components/MyImage";
 import { Container } from "./styles/Container";
 import FormatPrice from "./Helpers/FormatPrice";
-import { MdSecurity } from "react-icons/md";
-import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import Star from "./components/Star";
 import AddToCart from "./components/AddToCart";
 
@@ -34,75 +32,50 @@ const SingleProduct = () => {
 
   useEffect(() => {
     getSingleProduct(`${API}?id=${id}`);
-  }, []);
+  }, [id]);
 
   if (isSingleLoading) {
     return <div className="page_loading">Loading.....</div>;
   }
 
+  // Calculate old price based on 20% markup
+  const oldPrice = price * 1.2;
+
   return (
     <Wrapper>
       <PageNavigation title={name} />
-      <Container className="container">
-        <div className="grid grid-two-column">
-          {/*product images*/}
-          <div className="product_images">
+      <Container>
+        <div className="product-wrapper">
+          {/* Product Image Gallery */}
+          <div className="image-gallery">
             <MyImage imgs={image} />
           </div>
 
-          {/*product data */}
-          <div className="product-data">
-            <h2>{name}</h2>
+          {/* Product Details */}
+          <div className="details">
+            <h1 className="product-name">{name}</h1>
             <Star stars={stars} reviews={reviews} />
-            <p className="product-data-price">
-              {/*NPR:*/}
-              <del>
-                <FormatPrice price={price + 25000} />
-              </del>
-            </p>
-
-            <p className="product-data-price product-data-real-price">
-              Deal of the Day: <FormatPrice price={price} />
-            </p>
-
-            <p>{description}</p>
-
-            <div className="product-data-warranty">
-              <div className="product-warranty-data">
-                <TbTruckDelivery className="warranty-icon" />
-                <p>Free Delivery</p>
-              </div>
-
-              <div className="product-warranty-data">
-                <TbReplace className="warranty-icon" />
-                <p>30 Days Replacement</p>
-              </div>
-
-              <div className="product-warranty-data">
-                <TbTruckDelivery className="warranty-icon" />
-                <p>Thapa Delivered </p>
-              </div>
-
-              <div className="product-warranty-data">
-                <MdSecurity className="warranty-icon" />
-                <p>2 Year Warranty </p>
-              </div>
+            <div className="price-info">
+              <p className="old-price">
+                <FormatPrice price={oldPrice} />
+              </p>
+              <p className="current-price">
+                Deal of the Day: <FormatPrice price={price} />
+              </p>
             </div>
-
-            <div className="product-data-info">
-              <p>
+            <p className="product-description">{description}</p>
+            <div className="additional-info">
+              <h3>
                 Available:{" "}
                 <span>{stock > 0 ? "In Stock" : "Not Available"}</span>
-              </p>
-              <p>
-                ID : <span> {id} </span>
-              </p>
-              <p>
-                Brand :<span> {company} </span>
-              </p>
+              </h3>
+              <h3>
+                Brand: <span>{company}</span>
+              </h3>
             </div>
-            <hr />
-            {stock > 0 && <AddToCart product={singleProduct} />}
+            <div className="cart-button">
+              {stock > 0 && <AddToCart product={singleProduct} />}
+            </div>
           </div>
         </div>
       </Container>
@@ -111,79 +84,164 @@ const SingleProduct = () => {
 };
 
 const Wrapper = styled.section`
-  .container {
-    padding: 9rem 0;
-  }
-  .product_images {
-    display: flex;
-    align-items: center;
-  }
-  .product-data {
+  background: #fff;
+
+  .product-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
     gap: 2rem;
-
-    .product-data-warranty {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #ccc;
-      margin-bottom: 1rem;
-
-      .product-warranty-data {
-        text-align: center;
-
-        .warranty-icon {
-          background-color: rgba(220, 220, 220, 0.5);
-          border-radius: 50%;
-          width: 4rem;
-          height: 4rem;
-          padding: 0.6rem;
-        }
-        p {
-          font-size: 1.4rem;
-          padding-top: 0.4rem;
-        }
-      }
-    }
-
-    .product-data-price {
-      font-weight: bold;
-    }
-    .product-data-real-price {
-      color: ${({ theme }) => theme.colors.btn};
-    }
-    .product-data-info {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      font-size: 1.8rem;
-
-      span {
-        font-weight: bold;
-      }
-    }
-
-    hr {
-      max-width: 100%;
-      width: 90%;
-      /* height: 0.2rem; */
-      border: 0.1rem solid #000;
-      color: red;
-    }
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
   }
 
-  .product-images {
+  .image-gallery {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #f1f1f1;
+    padding: 1rem;
+    border-radius: 8px;
   }
 
-  @media (max-width: ${({ theme }) => theme.media.mobile}) {
-    padding: 0 2.4rem;
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+
+    .product-name {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .price-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .old-price {
+        font-size: 1rem;
+        color: #888;
+        text-decoration: line-through;
+      }
+
+      .current-price {
+        font-size: 1.4rem;
+        color: #e53935;
+        font-weight: 700;
+      }
+    }
+
+    .product-description {
+      font-size: 1rem;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .additional-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 1rem;
+      color: #444;
+
+      h3 {
+        font-weight: 700;
+      }
+
+      span {
+        font-size: 1.2rem;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+    }
+
+    .cart-button {
+      margin-top: 1.5rem;
+    }
+  }
+
+  /* Media queries for responsiveness */
+  @media (min-width: 768px) {
+    .product-wrapper {
+      flex-direction: row;
+      padding: 2rem;
+      gap: 3rem;
+    }
+
+    .image-gallery {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .details {
+      flex: 1;
+      padding: 2rem;
+
+      .product-name {
+        font-size: 2rem;
+      }
+
+      .price-info .old-price {
+        font-size: 1.2rem;
+      }
+
+      .price-info .current-price {
+        font-size: 1.6rem;
+      }
+
+      .product-description {
+        font-size: 1.1rem;
+      }
+
+      .additional-info {
+        font-size: 1.1rem;
+      }
+
+      .additional-info span {
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .product-wrapper {
+      padding: 3rem;
+      gap: 4rem;
+    }
+
+    .image-gallery {
+      padding: 3rem;
+    }
+
+    .details {
+      padding: 3rem;
+
+      .product-name {
+        font-size: 2.4rem;
+      }
+
+      .price-info .old-price {
+        font-size: 1.4rem;
+      }
+
+      .price-info .current-price {
+        font-size: 1.8rem;
+      }
+
+      .product-description {
+        font-size: 1.2rem;
+      }
+
+      .additional-info span {
+        font-size: 1.6rem;
+      }
+    }
   }
 `;
 

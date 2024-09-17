@@ -3,14 +3,16 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
+import { useCartContext } from "../context/cart_context";
 
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
+  const { total_item } = useCartContext();
 
   const Nav = styled.nav`
     .navbar-lists {
       display: flex;
-      gap: 4.8rem;
+      gap: 15rem;
       align-items: center;
 
       .navbar-link {
@@ -18,7 +20,7 @@ const Nav = () => {
         &:visited {
           display: inline-block;
           text-decoration: none;
-          font-size: 1.8rem;
+          font-size: 1.5rem;
           font-weight: 500;
           text-transform: uppercase;
           color: ${({ theme }) => theme.colors.black};
@@ -28,6 +30,7 @@ const Nav = () => {
         &:hover,
         &:active {
           color: ${({ theme }) => theme.colors.helper};
+          // color: rgb(0 102 51);
         }
       }
     }
@@ -169,23 +172,26 @@ const Nav = () => {
             <NavLink
               to="/"
               className="navbar-link "
-              onClick={() => setMenuIcon(false)}>
+              onClick={() => setMenuIcon(false)}
+            >
               Home
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="/about"
+              to="/customize"
               className="navbar-link "
-              onClick={() => setMenuIcon(false)}>
-              About
+              onClick={() => setMenuIcon(false)}
+            >
+              Customize
             </NavLink>
           </li>
           <li>
             <NavLink
               to="/products"
               className="navbar-link "
-              onClick={() => setMenuIcon(false)}>
+              onClick={() => setMenuIcon(false)}
+            >
               Products
             </NavLink>
           </li>
@@ -193,14 +199,15 @@ const Nav = () => {
             <NavLink
               to="/contact"
               className="navbar-link "
-              onClick={() => setMenuIcon(false)}>
+              onClick={() => setMenuIcon(false)}
+            >
               Contact
             </NavLink>
           </li>
           <li>
             <NavLink to="/cart" className="navbar-link cart-trolley--link">
               <FiShoppingCart className="cart-trolley" />
-              <span className="cart-total--item"> 10 </span>
+              <span className="cart-total--item"> {total_item}</span>
             </NavLink>
           </li>
         </ul>

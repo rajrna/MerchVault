@@ -1,168 +1,228 @@
 import React from "react";
 import { useFilterContext } from "../context/filter_context";
 import styled from "styled-components";
+import { FaCheck } from "react-icons/fa";
+import FormatPrice from "../Helpers/FormatPrice";
+import { Button } from "../styles/Button";
 
 const FilterSection = () => {
   const {
-    filters: { text, category },
+    filters: { text, category, color, price, maxPrice, minPrice },
     all_products,
     updateFilterValue,
+    clearFilters,
   } = useFilterContext();
 
-  //to get the unique data of each fields
+  // Function to get unique data for filtering
   const getUniqueData = (data, property) => {
-    let newVal = data.map((curElem) => {
-      return curElem[property];
-    });
-    return (newVal = ["all", ...new Set(newVal)]);
+    let newVal = data.map((item) => item[property]);
+    if (property === "colors") {
+      newVal = newVal.flat();
+    }
+    return ["all", ...new Set(newVal)];
   };
 
-  //we need unique data
   const categoryOnlyData = getUniqueData(all_products, "category");
   const companyOnlyData = getUniqueData(all_products, "company");
+  const colorsData = getUniqueData(all_products, "colors");
 
   return (
     <Wrapper>
       <div className="filter-search">
-        <form onSubmit={(e) => e.preventDefault()}>
-          <input
-            type="text"
-            name="text"
-            value={text}
-            onChange={updateFilterValue}
-          />
-        </form>
+        <input
+          type="text"
+          name="text"
+          placeholder="Search..."
+          value={text}
+          onChange={updateFilterValue}
+        />
       </div>
 
       <div className="filter-category">
         <h3>Category</h3>
         <div>
-          {categoryOnlyData.map((curElem, index) => {
-            return (
-              <button
-                key={index}
-                type="button"
-                name="category"
-                value={curElem}
-                onClick={updateFilterValue}
-              >
-                {curElem}
-              </button>
-            );
-          })}
+          {categoryOnlyData.map((item, index) => (
+            <button
+              key={index}
+              type="button"
+              name="category"
+              value={item}
+              onClick={updateFilterValue}
+              className={category === item ? "active" : ""}
+            >
+              {item}
+            </button>
+          ))}
         </div>
       </div>
 
       <div className="filter-company">
         <h3>Company</h3>
-        <form action="#">
-          <select
-            name="company"
-            id="company"
-            className="filter-company--select"
-            onClick={updateFilterValue}
-          >
-            {companyOnlyData.map((curElem, index) => {
-              return (
-                <option key={index} value={curElem} name="company">
-                  {curElem}
-                </option>
-              );
-            })}
-          </select>
-        </form>
+        <select
+          name="company"
+          id="company"
+          onChange={updateFilterValue}
+          className="filter-company--select"
+        >
+          {companyOnlyData.map((item, index) => (
+            <option key={index} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="filter-colors">
+        <h3>Colors</h3>
+        <div className="filter-color-style">
+          {colorsData.map((curColor, index) => (
+            <button
+              key={index}
+              type="button"
+              value={curColor}
+              name="color"
+              style={{ backgroundColor: curColor }}
+              className={`color-btn ${color === curColor ? "active" : ""}`}
+              onClick={updateFilterValue}
+            >
+              {color === curColor ? <FaCheck className="checkStyle" /> : null}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="filter-price">
+        <h3>Price</h3>
+        <p>
+          <FormatPrice price={price} />
+        </p>
+        <input
+          type="range"
+          name="price"
+          min={minPrice}
+          max={maxPrice}
+          value={price}
+          onChange={updateFilterValue}
+        />
+      </div>
+
+      <div className="filter-clear">
+        <Button className="btn" onClick={clearFilters}>
+          Clear Filter
+        </Button>
       </div>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.section`
-  padding: 5rem 0;
+  padding: 3rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
 
   h3 {
-    padding: 2rem 0;
-    font-size: bold;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.text};
   }
 
-  .filter-search {
-    input {
-      padding: 0.6rem 1rem;
-      width: 80%;
+  .filter-search input {
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    border: 1px solid ${({ theme }) => theme.colors.border};
+    width: 100%;
+    font-size: 1rem;
+    color: ${({ theme }) => theme.colors.text};
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: ${({ theme }) => theme.colors.primary};
+      outline: none;
     }
   }
 
-  .filter-category {
-    div {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1.4rem;
+  .filter-category div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 
-      button {
-        border: none;
-        background-color: ${({ theme }) => theme.colors.white};
-        text-transform: capitalize;
-        cursor: pointer;
+    button {
+      background: ${({ theme }) => theme.colors.white};
+      border: 1px solid ${({ theme }) => theme.colors.border};
+      border-radius: 8px;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      text-transform: capitalize;
+      cursor: pointer;
+      transition: color 0.3s, border-color 0.3s;
 
-        &:hover {
-          color: ${({ theme }) => theme.colors.btn};
-        }
+      &:hover {
+        color: ${({ theme }) => theme.colors.primary};
+        border-color: ${({ theme }) => theme.colors.primary};
       }
 
-      .active {
-        border-bottom: 1px solid #000;
-        color: ${({ theme }) => theme.colors.btn};
+      &.active {
+        color: ${({ theme }) => theme.colors.primary};
+        border-color: ${({ theme }) => theme.colors.primary};
       }
     }
   }
 
   .filter-company--select {
-    padding: 0.3rem 1.2rem;
-    font-size: 1.6rem;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid ${({ theme }) => theme.colors.border};
     color: ${({ theme }) => theme.colors.text};
-    text-transform: capitalize;
-  }
+    width: 100%;
+    background: ${({ theme }) => theme.colors.white};
 
-  .filter-color-style {
-    display: flex;
-    justify-content: center;
-  }
-
-  .color-all--style {
-    background-color: transparent;
-    text-transform: capitalize;
-    border: none;
-    cursor: pointer;
-  }
-  .btnStyle {
-    width: 2rem;
-    height: 2rem;
-    background-color: #000;
-    border-radius: 50%;
-    margin-left: 1rem;
-    border: none;
-    outline: none;
-    opacity: 0.5;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 1;
+    &:focus {
+      border-color: ${({ theme }) => theme.colors.primary};
+      outline: none;
     }
   }
 
-  .active {
-    opacity: 1;
+  .filter-colors {
+    .filter-color-style {
+      display: flex;
+      gap: 0.8rem;
+
+      .color-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        outline: none;
+
+        &:hover {
+          transform: scale(1.1);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        &.active {
+          border: 2px solid #000;
+          box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      .checkStyle {
+        color: #fff;
+        font-size: 1rem;
+      }
+    }
   }
 
   .checkStyle {
-    font-size: 1rem;
-    color: #fff;
+    font-size: 1.4rem;
   }
 
-  .filter_price {
+  .filter-price {
     input {
       margin: 0.5rem 0 1rem 0;
       padding: 0;
@@ -176,10 +236,15 @@ const Wrapper = styled.section`
     align-items: center;
     gap: 1rem;
   }
-
   .filter-clear .btn {
-    background-color: #ec7063;
-    color: #000;
+    background-color: ${({ theme }) => theme.colors.danger};
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      background-color: #fff;
+      color: ${({ theme }) => theme.colors.danger};
+    }
   }
 `;
 

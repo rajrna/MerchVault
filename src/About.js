@@ -5,7 +5,7 @@ const About = () => {
   const { myName } = useProductContext();
 
   const data = {
-    name: "MerchVault Ecommerce",
+    name: "Customize Your Product",
   };
 
   return (
