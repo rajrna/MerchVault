@@ -9,18 +9,26 @@ import {
 import useImage from "use-image";
 import styled from "styled-components";
 import html2canvas from "html2canvas";
+import { Button } from "./styles/Button";
+import { FaTshirt } from "react-icons/fa";
+import { FaHatCowboy } from "react-icons/fa";
+import { MdImage } from "react-icons/md";
+import { GiHoodie } from "react-icons/gi";
+import { FaUpload } from "react-icons/fa";
+import { FaDownload } from "react-icons/fa";
 
 const CustomizeProduct = () => {
   const [selectedProduct, setSelectedProduct] = useState("tshirt");
+  const [selectedVariant, setSelectedVariant] = useState("white");
   const [imageUrl, setImageUrl] = useState(null);
   const [text1, setText1] = useState({
-    text: "Text 1",
+    text: "Your Text 1",
     color: "black",
     size: 24,
     fontWeight: "normal",
   });
   const [text2, setText2] = useState({
-    text: "Text 2",
+    text: "Your Text 2",
     color: "black",
     size: 24,
     fontWeight: "normal",
@@ -28,7 +36,9 @@ const CustomizeProduct = () => {
   const [selectedShape, setSelectedShape] = useState(null);
   const [image, setImage] = useState(null);
   const [customImage] = useImage(imageUrl);
-  const [productImage] = useImage(`/images/${selectedProduct}-template.png`);
+  const [productImage] = useImage(
+    `/images/${selectedProduct}-${selectedVariant}.png`
+  );
   const stageRef = useRef(null);
 
   // Boundary constants
@@ -122,14 +132,79 @@ const CustomizeProduct = () => {
       <div className="container">
         {/* Sidebar for controls */}
         <aside className="controls-sidebar">
-          <div className="product-selector">
-            <button onClick={() => setSelectedProduct("tshirt")}>
-              T-Shirt
-            </button>
-            <button onClick={() => setSelectedProduct("hoodie")}>Hoodie</button>
-            <button onClick={() => setSelectedProduct("poster")}>Poster</button>
-            <button onClick={() => setSelectedProduct("hat")}>Hat</button>
+          <div className="card">
+            <div className="product-selector">
+              <h3>Select a Product</h3>
+              <Button
+                onClick={() => {
+                  setSelectedProduct("tshirt");
+                  setSelectedVariant("white");
+                }}
+                className="prod-btn"
+              >
+                <FaTshirt className="p-icons" />
+                T-Shirt
+              </Button>
+              <Button
+                onClick={() => {
+                  setSelectedProduct("hoodie");
+                  setSelectedVariant("white");
+                }}
+                className="prod-btn"
+              >
+                <GiHoodie className="p-icons" />
+                Hoodie
+              </Button>
+              <Button
+                onClick={() => setSelectedProduct("poster")}
+                className="prod-btn"
+              >
+                <MdImage className="p-icons" />
+                Poster
+              </Button>
+              <Button
+                onClick={() => {
+                  setSelectedProduct("hat");
+                  setSelectedVariant("white");
+                }}
+                className="prod-btn"
+              >
+                <FaHatCowboy className="p-icons" />
+                Hat
+              </Button>
+            </div>
           </div>
+
+          {["tshirt", "hoodie", "hat"].includes(selectedProduct) && (
+            <div className="card">
+              <div className="color-btn-container">
+                <h3>Select Color</h3>
+                <div className="color-container">
+                  <Button
+                    onClick={() => setSelectedVariant("white")}
+                    className={
+                      selectedVariant === "white"
+                        ? "prod-btn-white"
+                        : "prod-btn"
+                    }
+                  >
+                    White
+                  </Button>
+                  <Button
+                    onClick={() => setSelectedVariant("black")}
+                    className={
+                      selectedVariant === "black"
+                        ? "prod-btn-black"
+                        : "prod-btn"
+                    }
+                  >
+                    Black
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="controls">
             <label className="file-upload">
               <input
@@ -137,89 +212,100 @@ const CustomizeProduct = () => {
                 accept="image/*"
                 onChange={handleImageUpload}
               />
-              <span className="upload-button">Choose File</span>
+              <span>
+                <FaUpload className="p-icons" />
+                Upload Your Image
+              </span>
             </label>
 
-            <div className="text-controls">
-              <h3>Text 1</h3>
-              <label>
-                <span>Text:</span>
-                <input
-                  type="text"
-                  value={text1.text}
-                  onChange={(event) => handleTextChange(1, event)}
-                />
-              </label>
-              <label>
-                <span>Color:</span>
-                <input
-                  type="color"
-                  value={text1.color}
-                  onChange={(event) => handleColorChange(1, event)}
-                />
-              </label>
-              <label>
-                <span>Size:</span>
-                <input
-                  type="number"
-                  min="10"
-                  max="100"
-                  value={text1.size}
-                  onChange={(event) => handleSizeChange(1, event)}
-                />
-              </label>
-              <label>
-                <span>Font Weight:</span>
-                <select
-                  value={text1.fontWeight}
-                  onChange={(event) => handleFontWeightChange(1, event)}
-                >
-                  <option value="normal">Normal</option>
-                  <option value="bold">Bold</option>
-                </select>
-              </label>
+            <div className="card">
+              <div className="text-controls">
+                <h3>Add Your First Text: </h3>
+                <label>
+                  <span>Text:</span>
+                  <input
+                    type="text"
+                    value={text1.text}
+                    onChange={(event) => handleTextChange(1, event)}
+                  />
+                </label>
+                <label>
+                  <span>Color:</span>
+                  <input
+                    type="color"
+                    value={text1.color}
+                    onChange={(event) => handleColorChange(1, event)}
+                  />
+                </label>
+                <label>
+                  <span>Size:</span>
+                  <input
+                    type="number"
+                    min="10"
+                    max="100"
+                    value={text1.size}
+                    onChange={(event) => handleSizeChange(1, event)}
+                  />
+                </label>
+                <label>
+                  <span>Font Weight:</span>
+                  <select
+                    value={text1.fontWeight}
+                    onChange={(event) => handleFontWeightChange(1, event)}
+                  >
+                    <option value="normal">Normal</option>
+                    <option value="bold">Bold</option>
+                  </select>
+                </label>
+              </div>
             </div>
 
-            <div className="text-controls">
-              <h3>Text 2</h3>
-              <label>
-                <span>Text:</span>
-                <input
-                  type="text"
-                  value={text2.text}
-                  onChange={(event) => handleTextChange(2, event)}
-                />
-              </label>
-              <label>
-                <span>Color:</span>
-                <input
-                  type="color"
-                  value={text2.color}
-                  onChange={(event) => handleColorChange(2, event)}
-                />
-              </label>
-              <label>
-                <span>Size:</span>
-                <input
-                  type="number"
-                  min="10"
-                  max="100"
-                  value={text2.size}
-                  onChange={(event) => handleSizeChange(2, event)}
-                />
-              </label>
-              <label>
-                <span>Font Weight:</span>
-                <select
-                  value={text2.fontWeight}
-                  onChange={(event) => handleFontWeightChange(2, event)}
-                >
-                  <option value="normal">Normal</option>
-                  <option value="bold">Bold</option>
-                </select>
-              </label>
+            <div className="card">
+              {" "}
+              <div className="text-controls">
+                <h3>Add Your Second Text: </h3>
+                <label>
+                  <span>Text:</span>
+                  <input
+                    type="text"
+                    value={text2.text}
+                    onChange={(event) => handleTextChange(2, event)}
+                  />
+                </label>
+                <label>
+                  <span>Color:</span>
+                  <input
+                    type="color"
+                    value={text2.color}
+                    onChange={(event) => handleColorChange(2, event)}
+                  />
+                </label>
+                <label>
+                  <span>Size:</span>
+                  <input
+                    type="number"
+                    min="10"
+                    max="100"
+                    value={text2.size}
+                    onChange={(event) => handleSizeChange(2, event)}
+                  />
+                </label>
+                <label>
+                  <span>Font Weight:</span>
+                  <select
+                    value={text2.fontWeight}
+                    onChange={(event) => handleFontWeightChange(2, event)}
+                  >
+                    <option value="normal">Normal</option>
+                    <option value="bold">Bold</option>
+                  </select>
+                </label>
+              </div>
             </div>
-            <button onClick={handleExport}>Export Image</button>
+            <button onClick={handleExport}>
+              <FaDownload className="p-icons" />
+              Export Image
+            </button>
           </div>
         </aside>
 
@@ -310,16 +396,25 @@ const CustomizeProduct = () => {
 
 const Wrapper = styled.div`
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the component takes the full height of the viewport */
 
   .container {
     display: flex;
     flex: 1;
+    width: 100%;
+  }
+  .card {
+    padding: 4rem 2rem;
+    border: 0.1px solid ${({ theme }) => theme.colors.border};
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: ${({ theme }) => theme.colors.white};
   }
 
   .controls-sidebar {
     width: 300px;
-    background-color: #f7f7f7;
+    // background-color: #f7f7f7;
     padding: 20px;
     border-right: 1px solid #ddd;
     display: flex;
@@ -327,25 +422,69 @@ const Wrapper = styled.div`
     gap: 20px;
   }
 
-  .product-selector {
+  .color-btn-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+  .color-container {
+    display: flex;
+    gap: 1rem;
+  }
+  .prod-btn-black {
+    background-color: black;
+    font-weight: bold;
+    color: white;
+    border: 1px solid black;
+  }
+  .prod-btn-white {
+    background-color: white;
+    font-weight: bold;
+    color: black;
+    border: 1px solid black;
   }
 
-  .product-selector button {
+  .product-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .product-selector h3,
+  .card h3 {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 2rem;
+  }
+  .product-selector .prod-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     padding: 10px;
     font-size: 16px;
-    border: none;
+    font-weight: bold;
+    border: 1px solid rgb(13, 59, 102);
     border-radius: 5px;
-    background-color: #007bff;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
   }
-
+  .product-selector .prod-btn:active {
+    background-color: rgb(13, 59, 102);
+  }
   .product-selector button:hover {
-    background-color: #0056b3;
+    background-color: rgb(255 255 255);
+    color: rgb(13, 59, 102);
+    border: 1px solid rgb(13, 59, 102);
+  }
+
+  .p-icons {
+    font-size: 2rem;
+    margin-right: 10px;
   }
 
   .controls {
@@ -356,8 +495,14 @@ const Wrapper = styled.div`
 
   .text-controls {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
-
+  .text-controls h3 {
+    font-weight: bold;
+    font-size: 2.2rem;
+  }
   .controls label {
     display: flex;
     align-items: center;
@@ -379,9 +524,11 @@ const Wrapper = styled.div`
     margin-right: 10px;
     flex: 1;
   }
-
-  .controls input[type="color"] {
+  .controls input[type="text"] {
     width: 100%;
+  }
+  .controls input[type="color"] {
+    width: 80%;
     height: 3.5vh;
     padding: 0;
   }
@@ -389,7 +536,7 @@ const Wrapper = styled.div`
   .controls button {
     padding: 10px 20px;
     font-size: 16px;
-    border: none;
+    border: 1px solid #28a745;
     border-radius: 5px;
     background-color: #28a745;
     color: white;
@@ -398,7 +545,9 @@ const Wrapper = styled.div`
   }
 
   .controls button:hover {
-    background-color: #218838;
+    border: 1px solid #28a745;
+    background-color: #fff;
+    color: #28a745;
   }
 
   .file-upload {
@@ -408,35 +557,40 @@ const Wrapper = styled.div`
   }
 
   .file-upload input[type="file"] {
+    display: flex;
+    justify-content: center;
     opacity: 0;
     width: 0;
     height: 0;
+    margin-right: -10px;
   }
 
-  .file-upload .upload-button {
-    display: inline-block;
-    padding: 10px 20px;
+  .file-upload :hover {
+    display: flex;
     font-size: 16px;
-    color: #007bff;
-    border: 1px solid #007bff;
-    border-radius: 5px;
+    color: rgb(98 84 243);
     cursor: pointer;
-    background-color: #fff;
     transition: background-color 0.3s, color 0.3s;
   }
 
   .file-upload .upload-button:hover {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #fff;
+    color: #dd1d1d;
   }
 
   .canvas-area {
+    border-radius: 5px;
+    height: 80rem;
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fff;
+    background-color: #f1f1f1;
+    padding-bottom: 40px; /* Adds spacing at the bottom */
   }
+
+  /* Adds space between CustomizeProduct component and footer */
+  margin-bottom: 50px;
 `;
 
 export default CustomizeProduct;

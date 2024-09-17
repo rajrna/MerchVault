@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 import { TbTruckDelivery } from "react-icons/tb";
 import { MdSecurity } from "react-icons/md";
 import { GiReceiveMoney } from "react-icons/gi";

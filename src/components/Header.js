@@ -34,7 +34,7 @@ const MainHeader = styled.header`
   }
 
   .logo {
-    height: 4rem; /* Logo height */
+    height: 3.5rem; /* Logo height */
     object-fit: contain; /* Ensure the logo is contained within its box without distortion */
   }
 

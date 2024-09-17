@@ -6,23 +6,6 @@ import styled from "styled-components";
 const Product = (curElem) => {
   const { id, name, image, price, category } = curElem;
   return (
-    // <NavLink to={`/singleproduct/${id}`}>
-    //   <div className="card">
-    //     <figure>
-    //       <img src={image} alt={name} />
-    //       {/* <figcaption className="caption">{category}</figcaption> */}
-    //     </figure>
-
-    //     <div className="card-data">
-    //       <div className="card-data-flex">
-    //         <h3>{name}</h3>
-    //         <br />
-    //         <p className=" price">{<FormatPrice price={price} />}</p>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </NavLink>
-
     <Wrapper>
       <NavLink to={`/singleproduct/${id}`}>
         <div className="product-card">
@@ -46,6 +29,7 @@ const Wrapper = styled.section`
     flex-direction: column;
     width: 250px;
     margin: 20px;
+    padding: 10px;
     background-color: #fff;
     border-radius: 10px;
     overflow: hidden;
@@ -61,6 +45,7 @@ const Wrapper = styled.section`
   .product-image {
     width: 100%;
     height: 160px;
+    border-radius: 10px;
     object-fit: cover;
   }
 
@@ -84,7 +69,7 @@ const Wrapper = styled.section`
   /* Add to Cart Button */
   .btn-cart {
     padding: 10px 20px;
-    background-color: #6254f3;
+    background-color: rgb(13, 59, 102);
     color: white;
     border: none;
     border-radius: 5px;
@@ -94,7 +79,9 @@ const Wrapper = styled.section`
   }
 
   .btn-cart:hover {
-    background-color: #76c7f0;
+    background-color: white;
+    color: rgb(13, 59, 102);
+    border: 1px solid rgb(13, 59, 102);
   }
 `;
 

@@ -54,23 +54,25 @@ const SingleProduct = () => {
           {/* Product Details */}
           <div className="details">
             <h1 className="product-name">{name}</h1>
+            <h3>
+              Brand: <span>{company}</span>
+            </h3>
             <Star stars={stars} reviews={reviews} />
             <div className="price-info">
               <p className="old-price">
                 <FormatPrice price={oldPrice} />
               </p>
               <p className="current-price">
-                Deal of the Day: <FormatPrice price={price} />
+                <FormatPrice price={price} />
               </p>
             </div>
             <p className="product-description">{description}</p>
             <div className="additional-info">
-              <h3>
+              <h3 className="stock-status">
                 Available:{" "}
-                <span>{stock > 0 ? "In Stock" : "Not Available"}</span>
-              </h3>
-              <h3>
-                Brand: <span>{company}</span>
+                <span className={stock > 0 ? "in-stock" : "out-of-stock"}>
+                  {stock > 0 ? "In Stock" : "Not Available"}
+                </span>
               </h3>
             </div>
             <div className="cart-button">
@@ -93,19 +95,19 @@ const Wrapper = styled.section`
     max-width: 1200px;
     margin: 0 auto;
     background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    // border-radius: 8px;
+    // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 1rem;
   }
 
-  .image-gallery {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f1f1f1;
-    padding: 1rem;
-    border-radius: 8px;
-  }
+  // .image-gallery {
+  //   display: flex;
+  //   // justify-content: center;
+  //   // align-items: center;
+  //   // background: #f1f1f1;
+  //   // padding: 1rem;
+  //   border-radius: 8px;
+  // }
 
   .details {
     display: flex;
@@ -158,6 +160,21 @@ const Wrapper = styled.section`
         font-size: 1.2rem;
         font-weight: 500;
         text-transform: uppercase;
+      }
+
+      .stock-status {
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+
+      .in-stock {
+        color: green;
+        font-weight: 600;
+      }
+
+      .out-of-stock {
+        color: red;
+        font-weight: 600;
       }
     }
 

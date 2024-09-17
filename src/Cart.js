@@ -167,6 +167,7 @@ const Wrapper = styled.section`
 
     .btn-clear {
       background-color: #e74c3c;
+      border: 1px solid #e74c3c;
     }
 
     .btn-clear:hover,
@@ -176,6 +177,7 @@ const Wrapper = styled.section`
       transform: scale(0.96);
       background-color: rgb(255 255 255);
       color: #e74c3c;
+      border: 1px solid #e74c3c;
     }
   }
 
