@@ -16,23 +16,30 @@ import { MdImage } from "react-icons/md";
 import { GiHoodie } from "react-icons/gi";
 import { FaUpload } from "react-icons/fa";
 import { FaDownload } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 
 const CustomizeProduct = () => {
   const [selectedProduct, setSelectedProduct] = useState("tshirt");
   const [selectedVariant, setSelectedVariant] = useState("white");
   const [imageUrl, setImageUrl] = useState(null);
-  const [text1, setText1] = useState({
-    text: "Your Text 1",
-    color: "black",
-    size: 24,
-    fontWeight: "normal",
-  });
-  const [text2, setText2] = useState({
-    text: "Your Text 2",
-    color: "black",
-    size: 24,
-    fontWeight: "normal",
-  });
+  // const [text1, setText1] = useState({
+  //   text: "Your Text 1",
+  //   color: "black",
+  //   size: 24,
+  //   fontWeight: "normal",
+  // });
+  // const [text2, setText2] = useState({
+  //   text: "Your Text 2",
+  //   color: "black",
+  //   size: 24,
+  //   fontWeight: "normal",
+  // });
+  const [texts, setTexts] = useState([
+    { text: "Your Text 1", color: "black", size: 24, fontWeight: "normal" },
+    { text: "Your Text 2", color: "black", size: 24, fontWeight: "normal" },
+  ]);
+
   const [selectedShape, setSelectedShape] = useState(null);
   const [image, setImage] = useState(null);
   const [customImage] = useImage(imageUrl);
@@ -58,39 +65,80 @@ const CustomizeProduct = () => {
   };
 
   // Handle text change
+  // const handleTextChange = (index, event) => {
+  //   if (index === 1) {
+  //     setText1({ ...text1, text: event.target.value });
+  //   } else if (index === 2) {
+  //     setText2({ ...text2, text: event.target.value });
+  //   }
+  // };
   const handleTextChange = (index, event) => {
-    if (index === 1) {
-      setText1({ ...text1, text: event.target.value });
-    } else if (index === 2) {
-      setText2({ ...text2, text: event.target.value });
-    }
+    const newTexts = [...texts];
+    newTexts[index].text = event.target.value;
+    setTexts(newTexts);
   };
 
   // Handle color change
+  // const handleColorChange = (index, event) => {
+  //   if (index === 1) {
+  //     setText1({ ...text1, color: event.target.value });
+  //   } else if (index === 2) {
+  //     setText2({ ...text2, color: event.target.value });
+  //   }
+  // };
   const handleColorChange = (index, event) => {
-    if (index === 1) {
-      setText1({ ...text1, color: event.target.value });
-    } else if (index === 2) {
-      setText2({ ...text2, color: event.target.value });
-    }
+    const newTexts = [...texts];
+    newTexts[index].color = event.target.value;
+    setTexts(newTexts);
   };
 
   // Handle size change
+  // const handleSizeChange = (index, event) => {
+  //   if (index === 1) {
+  //     setText1({ ...text1, size: parseInt(event.target.value, 10) });
+  //   } else if (index === 2) {
+  //     setText2({ ...text2, size: parseInt(event.target.value, 10) });
+  //   }
+  // };
   const handleSizeChange = (index, event) => {
-    if (index === 1) {
-      setText1({ ...text1, size: parseInt(event.target.value, 10) });
-    } else if (index === 2) {
-      setText2({ ...text2, size: parseInt(event.target.value, 10) });
-    }
+    const newTexts = [...texts];
+    newTexts[index].size = parseInt(event.target.value, 10);
+    setTexts(newTexts);
   };
 
   // Handle font weight change
+  // const handleFontWeightChange = (index, event) => {
+  //   if (index === 1) {
+  //     setText1({ ...text1, fontWeight: event.target.value });
+  //   } else if (index === 2) {
+  //     setText2({ ...text2, fontWeight: event.target.value });
+  //   }
+  // };
   const handleFontWeightChange = (index, event) => {
-    if (index === 1) {
-      setText1({ ...text1, fontWeight: event.target.value });
-    } else if (index === 2) {
-      setText2({ ...text2, fontWeight: event.target.value });
+    const newTexts = [...texts];
+    newTexts[index].fontWeight = event.target.value;
+    setTexts(newTexts);
+  };
+
+  // Handle adding new text
+  const handleAddText = () => {
+    if (texts.length < 10) {
+      setTexts([
+        ...texts,
+        {
+          text: `Your Text ${texts.length + 1}`,
+          color: "black",
+          size: 24,
+          fontWeight: "normal",
+        },
+      ]);
     }
+  };
+
+  //Handle delete text
+  const handleDeleteText = (index) => {
+    const newTexts = texts.filter((_, i) => i !== index);
+    setTexts(newTexts);
   };
 
   // Handle export
@@ -219,90 +267,74 @@ const CustomizeProduct = () => {
             </label>
 
             <div className="card">
-              <div className="text-controls">
-                <h3>Add Your First Text: </h3>
-                <label>
-                  <span>Text:</span>
-                  <input
-                    type="text"
-                    value={text1.text}
-                    onChange={(event) => handleTextChange(1, event)}
-                  />
-                </label>
-                <label>
-                  <span>Color:</span>
-                  <input
-                    type="color"
-                    value={text1.color}
-                    onChange={(event) => handleColorChange(1, event)}
-                  />
-                </label>
-                <label>
-                  <span>Size:</span>
-                  <input
-                    type="number"
-                    min="10"
-                    max="100"
-                    value={text1.size}
-                    onChange={(event) => handleSizeChange(1, event)}
-                  />
-                </label>
-                <label>
-                  <span>Font Weight:</span>
-                  <select
-                    value={text1.fontWeight}
-                    onChange={(event) => handleFontWeightChange(1, event)}
-                  >
-                    <option value="normal">Normal</option>
-                    <option value="bold">Bold</option>
-                  </select>
-                </label>
+              <div className="text-container">
+                {" "}
+                <h3>Add Your Texts</h3>
+                <div className="text-scroll-handler">
+                  {" "}
+                  {texts.map((textObj, index) => (
+                    <div key={index} className="text-controls">
+                      <h4>Text {index + 1}</h4>
+                      <label>
+                        <span>Text:</span>
+                        <input
+                          type="text"
+                          value={textObj.text}
+                          onChange={(event) => handleTextChange(index, event)}
+                        />
+                      </label>
+                      <label>
+                        <span>Color:</span>
+                        <input
+                          type="color"
+                          value={textObj.color}
+                          onChange={(event) => handleColorChange(index, event)}
+                        />
+                      </label>
+                      <label>
+                        <span>Size:</span>
+                        <input
+                          type="number"
+                          min="10"
+                          max="100"
+                          value={textObj.size}
+                          onChange={(event) => handleSizeChange(index, event)}
+                        />
+                      </label>
+                      <label>
+                        <span>Font Weight:</span>
+                        <select
+                          value={textObj.fontWeight}
+                          onChange={(event) =>
+                            handleFontWeightChange(index, event)
+                          }
+                        >
+                          <option value="normal">Normal</option>
+                          <option value="bold">Bold</option>
+                        </select>
+                      </label>
+                      <button
+                        onClick={() => handleDeleteText(index)}
+                        className="delete-btn"
+                      >
+                        <FaTrash className="d-icons" />
+                      </button>
+                      <hr />
+                    </div>
+                  ))}
+                </div>
+                <button
+                  onClick={handleAddText}
+                  disabled={texts.length >= 5}
+                  className="text-add-btn"
+                >
+                  <FaPlus className="p-icons" />
+                  Add Another Text
+                </button>
               </div>
             </div>
 
-            <div className="card">
-              {" "}
-              <div className="text-controls">
-                <h3>Add Your Second Text: </h3>
-                <label>
-                  <span>Text:</span>
-                  <input
-                    type="text"
-                    value={text2.text}
-                    onChange={(event) => handleTextChange(2, event)}
-                  />
-                </label>
-                <label>
-                  <span>Color:</span>
-                  <input
-                    type="color"
-                    value={text2.color}
-                    onChange={(event) => handleColorChange(2, event)}
-                  />
-                </label>
-                <label>
-                  <span>Size:</span>
-                  <input
-                    type="number"
-                    min="10"
-                    max="100"
-                    value={text2.size}
-                    onChange={(event) => handleSizeChange(2, event)}
-                  />
-                </label>
-                <label>
-                  <span>Font Weight:</span>
-                  <select
-                    value={text2.fontWeight}
-                    onChange={(event) => handleFontWeightChange(2, event)}
-                  >
-                    <option value="normal">Normal</option>
-                    <option value="bold">Bold</option>
-                  </select>
-                </label>
-              </div>
-            </div>
-            <button onClick={handleExport}>
+            <button onClick={handleExport} className="export-img">
               <FaDownload className="p-icons" />
               Export Image
             </button>
@@ -364,28 +396,20 @@ const CustomizeProduct = () => {
                   }}
                 />
               )}
-              <KonvaText
-                text={text1.text}
-                fontSize={text1.size}
-                fontFamily="Arial"
-                fill={text1.color}
-                fontWeight={text1.fontWeight}
-                x={boundaryX + 10}
-                y={boundaryY + 10}
-                draggable
-                onDragMove={(e) => handleTextDragMove(e, text1)}
-              />
-              <KonvaText
-                text={text2.text}
-                fontSize={text2.size}
-                fontFamily="Arial"
-                fill={text2.color}
-                fontWeight={text2.fontWeight}
-                x={boundaryX + 10}
-                y={boundaryY + 50}
-                draggable
-                onDragMove={(e) => handleTextDragMove(e, text2)}
-              />
+              {texts.map((textObj, index) => (
+                <KonvaText
+                  key={index}
+                  text={textObj.text}
+                  fontSize={textObj.size}
+                  fontFamily="Arial"
+                  fill={textObj.color}
+                  fontWeight={textObj.fontWeight}
+                  x={boundaryX + 10}
+                  y={boundaryY + 10 + index * 40}
+                  draggable
+                  onDragMove={(e) => handleTextDragMove(e, textObj)}
+                />
+              ))}
             </Layer>
           </Stage>
         </main>
@@ -407,7 +431,7 @@ const Wrapper = styled.div`
   .card {
     padding: 4rem 2rem;
     border: 0.1px solid ${({ theme }) => theme.colors.border};
-    border-radius: 10px;
+    border-radius: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-color: ${({ theme }) => theme.colors.white};
   }
@@ -453,9 +477,10 @@ const Wrapper = styled.div`
     flex-wrap: wrap;
   }
   .product-selector h3,
-  .card h3 {
-    margin-top: -10px;
-    margin-bottom: 10px;
+  .card h3,
+  .text-container h3 {
+    // margin-top: -10px;
+    margin-bottom: 20px;
     font-weight: bold;
     font-size: 2rem;
   }
@@ -468,7 +493,7 @@ const Wrapper = styled.div`
     font-size: 16px;
     font-weight: bold;
     border: 1px solid rgb(13, 59, 102);
-    border-radius: 5px;
+    border-radius: 30px;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -482,9 +507,27 @@ const Wrapper = styled.div`
     border: 1px solid rgb(13, 59, 102);
   }
 
+  .text-container {
+    max-height: 50rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .text-scroll-handler {
+    max-height: 34rem;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .text-add-btn {
+    margin-top: 2rem;
+  }
+
   .p-icons {
     font-size: 2rem;
     margin-right: 10px;
+  }
+  d-icons {
+    font-size: 2rem;
   }
 
   .controls {
@@ -499,10 +542,33 @@ const Wrapper = styled.div`
     flex-direction: column;
     gap: 2rem;
   }
-  .text-controls h3 {
-    font-weight: bold;
-    font-size: 2.2rem;
+  .text-controls .delete-btn {
+    width: 100%;
+    background-color: rgb(231, 76, 60);
+    border: 1px solid rgb(231, 76, 60);
   }
+  .text-controls .delete-btn:hover {
+    background-color: white;
+    color: rgb(231, 76, 60);
+    border: 1px solid rgb(231, 76, 60);
+  }
+  .text-container .text-add-btn {
+    border: 1px solid rgb(13, 59, 102);
+    background-color: rgb(13, 59, 102);
+    font-weight: bold;
+  }
+  .text-container .text-add-btn:hover {
+    border: 1px solid rgb(13, 59, 102);
+    color: rgb(13, 59, 102);
+  }
+  .export-img,
+  .text-container .text-add-btn,
+  .text-controls .delete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .controls label {
     display: flex;
     align-items: center;
@@ -517,15 +583,16 @@ const Wrapper = styled.div`
   .controls input[type="text"],
   .controls input[type="number"],
   .controls select {
-    padding: 8px;
+    padding: 10px 20px;
     font-size: 16px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 30px;
     margin-right: 10px;
     flex: 1;
   }
   .controls input[type="text"] {
     width: 100%;
+    text-transform: none;
   }
   .controls input[type="color"] {
     width: 80%;
@@ -537,7 +604,7 @@ const Wrapper = styled.div`
     padding: 10px 20px;
     font-size: 16px;
     border: 1px solid #28a745;
-    border-radius: 5px;
+    border-radius: 30px;
     background-color: #28a745;
     color: white;
     cursor: pointer;

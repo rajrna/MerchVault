@@ -31,7 +31,7 @@ const Wrapper = styled.section`
     margin: 20px;
     padding: 10px;
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: 25px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -45,7 +45,7 @@ const Wrapper = styled.section`
   .product-image {
     width: 100%;
     height: 160px;
-    border-radius: 10px;
+    border-radius: 25px;
     object-fit: cover;
   }
 
@@ -72,7 +72,7 @@ const Wrapper = styled.section`
     background-color: rgb(13, 59, 102);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s ease;

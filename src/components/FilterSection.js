@@ -28,16 +28,14 @@ const FilterSection = () => {
 
   return (
     <Wrapper>
-      <div className="card">
-        <div className="filter-search">
-          <input
-            type="text"
-            name="text"
-            placeholder="Search..."
-            value={text}
-            onChange={updateFilterValue}
-          />
-        </div>
+      <div className="filter-search">
+        <input
+          type="text"
+          name="text"
+          placeholder="Search..."
+          value={text}
+          onChange={updateFilterValue}
+        />
       </div>
 
       <div className="card">
@@ -143,14 +141,14 @@ const Wrapper = styled.section`
   .card {
     padding: 1.5rem;
     border: 1px solid ${({ theme }) => theme.colors.border};
-    border-radius: 10px;
+    border-radius: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-color: ${({ theme }) => theme.colors.white};
   }
 
   .filter-search input {
     padding: 0.8rem 1rem;
-    border-radius: 8px;
+    border-radius: 30px;
     border: 1px solid ${({ theme }) => theme.colors.border};
     width: 100%;
     font-size: 1rem;
@@ -171,7 +169,7 @@ const Wrapper = styled.section`
     button {
       background: ${({ theme }) => theme.colors.white};
       border: 1px solid ${({ theme }) => theme.colors.border};
-      border-radius: 8px;
+      border-radius: 30px;
       padding: 0.8rem 1.2rem;
       font-size: 1.1rem;
       text-transform: capitalize;
@@ -196,7 +194,7 @@ const Wrapper = styled.section`
   .filter-company--select {
     padding: 0.8rem 1.2rem;
     font-size: 1.1rem;
-    border-radius: 8px;
+    border-radius: 30px;
     border: 1px solid ${({ theme }) => theme.colors.border};
     color: ${({ theme }) => theme.colors.text};
     width: 100%;
