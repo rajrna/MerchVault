@@ -234,12 +234,19 @@ const Nav = () => {
           </li>
 
           <li>
+            <div className="login-btn">
+              <NavLink to="/login" className="navbar-link profile--link">
+                <Button>Log In</Button>
+              </NavLink>
+            </div>
+          </li>
+          {/* <li>
             <div className="circle ml-auto">
               <NavLink to="/profile" className="navbar-link profile--link">
                 <FiUser className="profile" />
               </NavLink>
             </div>
-          </li>
+          </li> */}
 
           <li>
             <NavLink to="/cart" className="navbar-link cart-trolley--link">

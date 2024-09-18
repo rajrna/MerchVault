@@ -144,18 +144,18 @@ input, textarea{
     text-transform: uppercase;
    box-shadow: ${({ theme }) => theme.colors.shadowSupport};
 }
-    input[type="submit"]{
-    max-width: 16rem;
-    margin-top: 2rem;
-    background-color: ${({ theme }) => theme.colors.btn};
-    color: ${({ theme }) => theme.colors.white};
-    padding: 1.4rem 2.2rem;
-    border-style: solid;
-    border-width: .1rem;
-    text-transform: uppercase;
-    font-size: 1.8rem;
-    cursor: pointer;
-    }
+    // input[type="submit"]{
+    // max-width: 16rem;
+    // margin-top: 2rem;
+    // background-color: ${({ theme }) => theme.colors.btn};
+    // color: ${({ theme }) => theme.colors.white};
+    // padding: 1.4rem 2.2rem;
+    // border-style: solid;
+    // border-width: .1rem;
+    // text-transform: uppercase;
+    // font-size: 1.8rem;
+    // cursor: pointer;
+    // }
 
 @media (max-width: ${({ theme }) => theme.media.tab}) {
     .container {

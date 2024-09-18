@@ -36,11 +36,12 @@ const ListView = ({ products }) => {
 
 const Wrapper = styled.section`
   .container {
-    max-width: 100rem;
+    max-width: 120rem;
   }
 
   .grid {
     gap: 3.2rem;
+    padding: 2rem;
   }
 
   figure {
@@ -78,11 +79,12 @@ const Wrapper = styled.section`
 
   .card {
     border: 0.1rem solid rgb(170 170 170 / 40%);
-    border-radius: 10px;
+    border-radius: 25px;
     padding: 1rem;
+    width: 89.45rem;
 
     img {
-      border-radius: 5px;
+      border-radius: 25px;
     }
     .card-data {
       padding: 0 2rem;
@@ -97,28 +99,9 @@ const Wrapper = styled.section`
 
     .btn {
       margin: 2rem 0;
-      background-color: rgb(0 0 0 / 0%);
-      border: 0.1rem solid rgb(98 84 243);
       display: flex;
       justify-content: center;
       align-items: center;
-      color: rgb(98 84 243);
-
-      &:hover {
-        background-color: rgb(98 84 243);
-      }
-
-      &:hover a {
-        color: #fff;
-      }
-      a {
-        color: rgb(98 84 243);
-        font-size: 1.4rem;
-      }
-    }
-
-    .btn-main .btn:hover {
-      color: #fff;
     }
   }
 `;

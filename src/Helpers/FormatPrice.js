@@ -1,9 +1,9 @@
 const FormatPrice = ({ price }) => {
-  return Intl.NumberFormat("ne-NP", {
+  return Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "NPR",
-    maximumFractionDigits: 2,
-  }).format((price / 100) * 1.6);
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(price / 100);
 };
 
 export default FormatPrice;

@@ -37,84 +37,84 @@ const FilterSection = () => {
           onChange={updateFilterValue}
         />
       </div>
-
       <div className="card">
-        <div className="filter-category">
-          <h3>Category</h3>
-          <div>
-            {categoryOnlyData.map((item, index) => (
-              <button
-                key={index}
-                type="button"
-                name="category"
-                value={item}
-                onClick={updateFilterValue}
-                className={category === item ? "active" : ""}
-              >
-                {item}
-              </button>
-            ))}
+        {" "}
+        <div className="card">
+          <div className="filter-category">
+            <h3>Category</h3>
+            <div>
+              {categoryOnlyData.map((item, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  name="category"
+                  value={item}
+                  onClick={updateFilterValue}
+                  className={category === item ? "active" : ""}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="card">
+          <div className="filter-company">
+            <h3>Company</h3>
+            <select
+              name="company"
+              id="company"
+              onChange={updateFilterValue}
+              className="filter-company--select"
+            >
+              {companyOnlyData.map((item, index) => (
+                <option key={index} value={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="card">
+          <div className="filter-colors">
+            <h3>Colors</h3>
+            <div className="filter-color-style">
+              {colorsData.map((curColor, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  value={curColor}
+                  name="color"
+                  style={{ backgroundColor: curColor }}
+                  className={`color-btn ${color === curColor ? "active" : ""}`}
+                  onClick={updateFilterValue}
+                >
+                  {color === curColor ? (
+                    <FaCheck className="checkStyle" />
+                  ) : null}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="card">
+          <div className="filter-price">
+            <h3>Filter by Price</h3>
+            <p>
+              <span>Price : </span>$0 - <FormatPrice price={price} />
+            </p>
+            <input
+              type="range"
+              name="price"
+              min={minPrice}
+              max={maxPrice}
+              value={price}
+              onChange={updateFilterValue}
+            />
           </div>
         </div>
       </div>
-
-      <div className="card">
-        <div className="filter-company">
-          <h3>Company</h3>
-          <select
-            name="company"
-            id="company"
-            onChange={updateFilterValue}
-            className="filter-company--select"
-          >
-            {companyOnlyData.map((item, index) => (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div className="card">
-        <div className="filter-colors">
-          <h3>Colors</h3>
-          <div className="filter-color-style">
-            {colorsData.map((curColor, index) => (
-              <button
-                key={index}
-                type="button"
-                value={curColor}
-                name="color"
-                style={{ backgroundColor: curColor }}
-                className={`color-btn ${color === curColor ? "active" : ""}`}
-                onClick={updateFilterValue}
-              >
-                {color === curColor ? <FaCheck className="checkStyle" /> : null}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="card">
-        <div className="filter-price">
-          <h3>Price</h3>
-          <p>
-            <FormatPrice price={price} />
-          </p>
-          <input
-            type="range"
-            name="price"
-            min={minPrice}
-            max={maxPrice}
-            value={price}
-            onChange={updateFilterValue}
-          />
-        </div>
-      </div>
-
-      <div className="card">
+      <div className="clear-btn-container">
         <div className="filter-clear">
           <Button className="btn" onClick={clearFilters}>
             Clear Filter
@@ -140,9 +140,11 @@ const Wrapper = styled.section`
 
   .card {
     padding: 1.5rem;
+    display: flex;
+    gap: 5rem;
+    flex-direction: column;
     border: 1px solid ${({ theme }) => theme.colors.border};
     border-radius: 25px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     background-color: ${({ theme }) => theme.colors.white};
   }
 
@@ -250,9 +252,17 @@ const Wrapper = styled.section`
       padding: 0;
       box-shadow: none;
       cursor: pointer;
+      color: black;
     }
   }
-
+  .filter-price span {
+    font-weight: bold;
+  }
+  .clear-btn-container .filter-clear {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .filter-clear .btn {
     background-color: ${({ theme }) => theme.colors.danger};
     color: #fff;
