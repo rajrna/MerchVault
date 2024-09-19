@@ -1,10 +1,12 @@
 import styled from "styled-components";
+import { Button } from "./styles/Button";
 
 const Contact = () => {
   const Wrapper = styled.section`
     padding: 5rem 0;
     text-align: center;
     background-color: ${({ theme }) => theme.colors.bg};
+
     h2 {
       font-size: 3rem;
       color: ${({ theme }) => theme.colors.primary};
@@ -20,7 +22,7 @@ const Contact = () => {
       flex-direction: column;
 
       .contact-form {
-        background-color: #f9f9f9;
+        background-color: #fff;
         padding: 3rem 2rem;
         border-radius: 10px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -48,6 +50,7 @@ const Contact = () => {
             border-radius: 5px;
             transition: all 0.3s ease;
             outline: none;
+            text-transform: none;
 
             &:focus {
               border-color: ${({ theme }) => theme.colors.primary};
@@ -59,32 +62,31 @@ const Contact = () => {
             resize: none;
             height: 150px;
           }
-
-          input[type="submit"] {
-            background-color: ${({ theme }) => theme.colors.btn};
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 1.2rem;
-            cursor: pointer;
-            font-size: 1.4rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-
-            &:hover {
-              background-color: ${({ theme }) => theme.colors.secondary};
-              transform: scale(1.05);
-              color: ${({ theme }) => theme.colors.white};
-            }
-          }
         }
+      }
+    }
+    .container .contact-form input[type="submit"] {
+      color: white;
+      border: 1px slid rgb(13, 59, 102);
+      border-radius: 50px;
+      padding: 1.2rem;
+      cursor: pointer;
+      font-size: 1.4rem;
+      font-weight: bold;
+      background: rgb(13, 59, 102);
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.white};
+        // transform: scale(1.05);
+        color: rgb(13, 59, 102);
+        border: 1px solid rgb(13, 59, 102);
       }
     }
 
     iframe {
       margin-top: 3rem;
-      // border-radius: 10px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
   `;
@@ -97,7 +99,7 @@ const Contact = () => {
         width="100%"
         height="400"
         style={{ border: 0 }}
-        allowFullsScreen=""
+        allowFullScreen=""
         loading="lazy"
         title="myMap"
         referrerPolicy="no-referrer-when-downgrade"
@@ -134,7 +136,9 @@ const Contact = () => {
               autoComplete="off"
             ></textarea>
 
-            <input type="submit" value="Send Message" />
+            <div>
+              <input type="submit" value="Send Message" />
+            </div>
           </form>
         </div>
       </div>

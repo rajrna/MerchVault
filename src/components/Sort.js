@@ -8,48 +8,50 @@ const Sort = () => {
     useFilterContext();
   return (
     <Wrapper>
-      {/* 1st column: Grid/List View Toggle */}
-      <div className="view-toggle">
-        <button
-          className={grid_view ? "active sort-btn" : "sort-btn"}
-          onClick={setGridView}
-        >
-          <BsFillGridFill className="icon" />
-        </button>
-
-        <button
-          className={!grid_view ? "active sort-btn" : "sort-btn"}
-          onClick={setListView}
-        >
-          <BsList className="icon" />
-        </button>
-      </div>
-      {/* 2nd column: Product Count */}
-      <div className="product-count">
-        <p>{`${filter_products.length} Product${
-          filter_products.length > 1 ? "s" : ""
-        } Available`}</p>
-      </div>
-
-      {/* 3rd column: Sort Selection */}
-      <div className="sort-select">
-        <form>
-          <label htmlFor="sort" className="visually-hidden">
-            Sort Products :
-          </label>
-          <select
-            name="sort"
-            id="sort"
-            className="sort-select--style"
-            onChange={sorting}
+      <div className="card">
+        {" "}
+        {/* 1st column: Grid/List View Toggle */}
+        <div className="view-toggle">
+          <button
+            className={grid_view ? "active sort-btn" : "sort-btn"}
+            onClick={setGridView}
           >
-            <option value="">Select Sort Option</option>
-            <option value="lowest">Price (Lowest)</option>
-            <option value="highest">Price (Highest)</option>
-            <option value="a-z">Name (A - Z)</option>
-            <option value="z-a">Name (Z - A)</option>
-          </select>
-        </form>
+            <BsFillGridFill className="icon" />
+          </button>
+
+          <button
+            className={!grid_view ? "active sort-btn" : "sort-btn"}
+            onClick={setListView}
+          >
+            <BsList className="icon" />
+          </button>
+        </div>
+        {/* 2nd column: Product Count */}
+        <div className="product-count">
+          <p>{`${filter_products.length} Product${
+            filter_products.length > 1 ? "s" : ""
+          } Available`}</p>
+        </div>
+        {/* 3rd column: Sort Selection */}
+        <div className="sort-select">
+          <form>
+            <label htmlFor="sort" className="visually-hidden">
+              Sort Products :{" "}
+            </label>
+            <select
+              name="sort"
+              id="sort"
+              className="sort-select--style"
+              onChange={sorting}
+            >
+              <option value="">Select Sort Option</option>
+              <option value="lowest">Price (Lowest)</option>
+              <option value="highest">Price (Highest)</option>
+              <option value="a-z">Name (A - Z)</option>
+              <option value="z-a">Name (Z - A)</option>
+            </select>
+          </form>
+        </div>
       </div>
     </Wrapper>
   );
@@ -61,6 +63,18 @@ const Wrapper = styled.section`
   align-items: center;
   margin-top: 2rem; /* Adjusted margin for better spacing */
 
+  .card {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 24rem;
+    padding: 1.5rem;
+    // border: 1px solid ${({ theme }) => theme.colors.border};
+    border-radius: 30px;
+    // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: ${({ theme }) => theme.colors.white};
+  }
+
   .view-toggle {
     display: flex;
     gap: 1rem; /* Reduced gap for better alignment */
@@ -68,8 +82,8 @@ const Wrapper = styled.section`
     .sort-btn {
       padding: 0.6rem 0.8rem;
       border: 1px solid ${({ theme }) => theme.colors.black};
-      border-radius: 0.3rem;
-      background-color: ${({ theme }) => theme.colors.bg};
+      border-radius: 10px;
+      background-color: ${({ theme }) => theme.colors.white};
       display: flex;
       justify-content: center;
       align-items: center;
@@ -97,10 +111,13 @@ const Wrapper = styled.section`
 
   .sort-select {
     .sort-select--style {
-      padding: 0.5rem;
-      border: 1px solid ${({ theme }) => theme.colors.black};
-      border-radius: 0.3rem;
-      background-color: ${({ theme }) => theme.colors.bg};
+      padding: 0.8rem 1.2rem;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      border: 1px solid ${({ theme }) => theme.colors.border};
+      color: ${({ theme }) => theme.colors.text};
+
+      background: ${({ theme }) => theme.colors.white};
       cursor: pointer;
       font-size: 1rem;
       transition: border-color 0.3s;

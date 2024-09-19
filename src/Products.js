@@ -33,10 +33,35 @@ const Wrapper = styled.section`
   }
 
   .product-view--sort {
-    width: 100rem;
+    width: 100%;
   }
+
   .grid-filter-column {
+    display: grid;
     grid-template-columns: 0.2fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 1024px) {
+    .grid-filter-column {
+      grid-template-columns: 0.3fr 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .grid-filter-column {
+      grid-template-columns: 1fr;
+    }
+
+    .main-product {
+      height: 50rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .main-product {
+      height: auto;
+    }
   }
 
   @media (max-width: ${({ theme }) => theme.media.mobile}) {

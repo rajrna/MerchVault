@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
 import { useCartContext } from "../context/cart_context";
+import { FiUser } from "react-icons/fi";
+import { Button } from "../styles/Button";
 
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
@@ -12,7 +14,7 @@ const Nav = () => {
   const Nav = styled.nav`
     .navbar-lists {
       display: flex;
-      gap: 15rem;
+      gap: 6rem;
       align-items: center;
 
       .navbar-link {
@@ -70,6 +72,15 @@ const Nav = () => {
         top: -20%;
         left: 70%;
         background-color: ${({ theme }) => theme.colors.helper};
+      }
+
+      .profile--link {
+        position: relative;
+      }
+
+      .profile {
+        position: relative;
+        font-size: 3.2rem;
       }
     }
 
@@ -162,6 +173,23 @@ const Nav = () => {
         padding: 0.8rem 1.4rem;
       }
     }
+
+    .circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px !important;
+      height: 40px !important;
+      width: 40px !important;
+      border-radius: 50% !important;
+      border: 2px solid #c1c1c1 !important;
+      color: #000;
+      margin-right: -5rem; /* Add margin to push it to the right */
+    }
+
+    .circle svg {
+      font-size: 2.4rem;
+    }
   `;
 
   return (
@@ -204,6 +232,22 @@ const Nav = () => {
               Contact
             </NavLink>
           </li>
+
+          <li>
+            <div className="login-btn">
+              <NavLink to="/login" className="navbar-link profile--link">
+                <Button>Log In</Button>
+              </NavLink>
+            </div>
+          </li>
+          {/* <li>
+            <div className="circle ml-auto">
+              <NavLink to="/profile" className="navbar-link profile--link">
+                <FiUser className="profile" />
+              </NavLink>
+            </div>
+          </li> */}
+
           <li>
             <NavLink to="/cart" className="navbar-link cart-trolley--link">
               <FiShoppingCart className="cart-trolley" />

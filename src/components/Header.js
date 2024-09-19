@@ -31,10 +31,14 @@ const MainHeader = styled.header`
     display: flex;
     align-items: center;
     text-decoration: none;
+    transition: transform 0.3s ease; /* Adding transition for smooth scaling */
+  }
+  .logo-link:hover {
+    transform: scale(1.1); /* Scale the logo slightly on hover */
   }
 
   .logo {
-    height: 4rem; /* Logo height */
+    height: 3.5rem; /* Logo height */
     object-fit: contain; /* Ensure the logo is contained within its box without distortion */
   }
 

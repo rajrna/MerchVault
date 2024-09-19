@@ -12,6 +12,10 @@ const PageNavigation = ({ title }) => {
           Home
         </NavLink>
         <span className="separator">/</span>
+        <NavLink to="/products" className="home-link">
+          Products
+        </NavLink>
+        <span className="separator">/</span>
         <span className="current-page">{title}</span>
       </div>
     </Wrapper>
@@ -20,7 +24,7 @@ const PageNavigation = ({ title }) => {
 const Wrapper = styled.section`
   background: #fff;
   padding: 1rem 0;
-  border-top: 1px solid #ddd;
+  // border-bottom: 1px solid #ddd;
 
   .navigation-container {
     max-width: 1200px;

@@ -30,11 +30,15 @@ const Cart = () => {
 
         <div className="cart-item">
           {cart.map((curElem) => {
-            return <CartItem key={curElem.id} {...curElem} />;
+            return (
+              <div>
+                <CartItem key={curElem.id} {...curElem} />
+                <hr />
+              </div>
+            );
           })}
         </div>
 
-        <hr />
         <div className="cart-two-button">
           <NavLink to="/products">
             <Button>Continue Shopping</Button>
@@ -46,6 +50,8 @@ const Cart = () => {
 
         <div className="order-total--amount">
           <div className="order-total--subdata">
+            <h3>Cart Total</h3>
+            <hr />
             <div>
               <p>Subtotal:</p>
               <p>
@@ -61,9 +67,14 @@ const Cart = () => {
             <hr />
             <div>
               <p>Order Total:</p>
-              <p>
+              <p className="total-price">
                 <FormatPrice price={shipping_fee + total_price} />
               </p>
+            </div>
+            <div className="cart-two-button">
+              <NavLink to="/">
+                <Button>Proceed To CheckOut</Button>
+              </NavLink>
             </div>
           </div>
         </div>
@@ -104,10 +115,10 @@ const Wrapper = styled.section`
     margin-top: 1rem;
   }
   .cart-item {
-    padding: 3.2rem 0;
+    padding: 1.2rem 0;
     display: flex;
     flex-direction: column;
-    gap: 3.2rem;
+    gap: 1rem;
   }
 
   .cart-user--profile {
@@ -167,6 +178,7 @@ const Wrapper = styled.section`
 
     .btn-clear {
       background-color: #e74c3c;
+      border: 1px solid #e74c3c;
     }
 
     .btn-clear:hover,
@@ -176,6 +188,7 @@ const Wrapper = styled.section`
       transform: scale(0.96);
       background-color: rgb(255 255 255);
       color: #e74c3c;
+      border: 1px solid #e74c3c;
     }
   }
 
@@ -229,16 +242,23 @@ const Wrapper = styled.section`
     align-items: flex-end;
 
     .order-total--subdata {
-      border: 0.1rem solid #f0f0f0;
+      border: 0.1rem solid #9a9a9a;
       display: flex;
       flex-direction: column;
       gap: 1.8rem;
       padding: 3.2rem;
+      border-radius: 25px;
+    }
+    h3 {
+      font-weight: bold;
     }
     div {
       display: flex;
       gap: 3.2rem;
       justify-content: space-between;
+    }
+    .total-price {
+      font-size: 2.5rem;
     }
 
     div:last-child {

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import About from "./CustomizeProduct";
+import LogIn from "./LogIn";
+import SignUp from "./SignUp";
 import Home from "./Home";
 import Products from "./Products";
 import Contact from "./Contact";
@@ -12,8 +13,14 @@ import { ThemeProvider } from "styled-components";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CustomizeProduct from "./CustomizeProduct";
+import { createContext } from "react";
+import axios from "axios";
+
+const MyContext = createContext();
 
 const App = () => {
+  const [isHeaderFooterShow, setisHeaderFooterShow] = useState(true);
+
   const theme = {
     colors: {
       heading: "rgb(24 24 29)",
@@ -39,24 +46,33 @@ const App = () => {
     },
   };
 
+  const values = { isHeaderFooterShow, setisHeaderFooterShow };
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <GlobalStyle />
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/customize" element={<CustomizeProduct />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/singleproduct/:id" element={<SingleProduct />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-        <Footer />
+        <MyContext.Provider value={values}>
+          {isHeaderFooterShow === true && <Header />}
+
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/customize" element={<CustomizeProduct />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/singleproduct/:id" element={<SingleProduct />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+          {isHeaderFooterShow === true && <Footer />}
+        </MyContext.Provider>
       </Router>
     </ThemeProvider>
   );
 };
 
 export default App;
+
+export { MyContext };

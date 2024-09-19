@@ -1,6 +1,9 @@
 import { useProductContext } from "../context/productcontext";
 import styled from "styled-components";
 import Product from "./Product";
+import { Button } from "../styles/Button";
+import { NavLink } from "react-router-dom";
+import { FaArrowRight } from "react-icons/fa";
 
 const FeatureProduct = () => {
   const { isLoading, featureProducts } = useProductContext();
@@ -12,8 +15,19 @@ const FeatureProduct = () => {
   return (
     <Wrapper className="section">
       <div className="container">
-        <div className="intro-data">Check Now! </div>
-        <div className="common-heading">Our Feature Products</div>
+        <div className="fp-container">
+          <div className="fp-header">
+            {" "}
+            <div className="intro-data">Check Now! </div>
+            <div className="common-heading">Our Feature Products</div>
+          </div>
+          <NavLink to="/products">
+            <Button className="viewall-btn">
+              View All <FaArrowRight />
+            </Button>
+          </NavLink>
+        </div>
+
         <div className="grid grid-three-column">
           {featureProducts.map((curElem) => {
             return <Product key={curElem.id} {...curElem} />;
@@ -125,6 +139,23 @@ const Wrapper = styled.section`
         font-size: 1.4rem;
       }
     }
+  }
+
+  .fp-container {
+    display: flex;
+    flex-direction: row;
+    height: 7rem;
+  }
+  .fp-header {
+    width: 89%;
+  }
+
+  .viewall-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px;
   }
 `;
 
