@@ -1,7 +1,6 @@
 import React from "react";
 import HeroSection from "./components/HeroSection";
 import Services from "./components/Services";
-import Trusted from "./components/Trusted";
 import FeatureProduct from "./components/FeatureProduct";
 import ImageSlider from "./components/ImageSlider";
 
@@ -15,7 +14,6 @@ const Home = () => {
       <HeroSection myData={data} />;
       <ImageSlider />;
       <FeatureProduct />;
-      <Services />;
     </>
   );
 };

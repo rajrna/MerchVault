@@ -22,19 +22,21 @@ const Product = (curElem) => {
     </Wrapper>
   );
 };
+
 const Wrapper = styled.section`
-  /* src/ProductCard.css */
   .product-card {
     display: flex;
     flex-direction: column;
     width: 250px;
     margin: 20px;
     padding: 10px;
-    background-color: #fff;
-    border-radius: 25px;
+    background-color: rgb(234, 238, 241);
+    border-radius: 20px;
     overflow: hidden;
+    border: 0.5px solid ${({ theme }) => theme.colors.border};
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
   }
 
   .product-card:hover {
@@ -42,11 +44,17 @@ const Wrapper = styled.section`
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   }
 
+  /* Zoom effect on image hover */
+  .product-card:hover .product-image {
+    transform: scale(1.15);
+  }
+
   .product-image {
     width: 100%;
     height: 160px;
-    border-radius: 25px;
+    border-radius: 20px;
     object-fit: cover;
+    transition: transform 0.3s ease;
   }
 
   .product-info {

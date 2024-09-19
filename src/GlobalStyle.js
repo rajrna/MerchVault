@@ -7,6 +7,7 @@ export const GlobalStyle = createGlobalStyle`
   padding: 0;
   box-sizing: border-box;
   font-family: "Work Sans", sans-serif;
+
 }
 
 
@@ -15,12 +16,14 @@ html {
   /* scroll-behavior: smooth; */
   /* 1rem = 10px */
   overflow-x: hidden;
+  
 }
 
 body {
   overflow-x: hidden;
    scrollbar-color: rgb(98 84 243);
     scrollbar-width: thin;
+      background-color: ${({ theme }) => theme.colors.bg};
 }
 
 body::-webkit-scrollbar {

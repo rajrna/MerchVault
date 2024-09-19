@@ -30,6 +30,8 @@ const Wrapper = styled.section`
     margin: 5px 0;
     width: 100%;
     height: 62rem;
+    border-top: 3.5px solid #ddd;
+    border-bottom: 3.5px solid #ddd;
   }
 
   .product-view--sort {

@@ -37,83 +37,83 @@ const FilterSection = () => {
           onChange={updateFilterValue}
         />
       </div>
+
       <div className="card">
-        {" "}
-        <div className="card">
-          <div className="filter-category">
-            <h3>Category</h3>
-            <div>
-              {categoryOnlyData.map((item, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  name="category"
-                  value={item}
-                  onClick={updateFilterValue}
-                  className={category === item ? "active" : ""}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="card">
-          <div className="filter-company">
-            <h3>Company</h3>
-            <select
-              name="company"
-              id="company"
-              onChange={updateFilterValue}
-              className="filter-company--select"
-            >
-              {companyOnlyData.map((item, index) => (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="card">
-          <div className="filter-colors">
-            <h3>Colors</h3>
-            <div className="filter-color-style">
-              {colorsData.map((curColor, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  value={curColor}
-                  name="color"
-                  style={{ backgroundColor: curColor }}
-                  className={`color-btn ${color === curColor ? "active" : ""}`}
-                  onClick={updateFilterValue}
-                >
-                  {color === curColor ? (
-                    <FaCheck className="checkStyle" />
-                  ) : null}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="card">
-          <div className="filter-price">
-            <h3>Filter by Price</h3>
-            <p>
-              <span>Price : </span>$0 - <FormatPrice price={price} />
-            </p>
-            <input
-              type="range"
-              name="price"
-              min={minPrice}
-              max={maxPrice}
-              value={price}
-              onChange={updateFilterValue}
-            />
+        <div className="filter-category">
+          <h3>Category</h3>
+          <div className="filter-category-buttons">
+            {categoryOnlyData.map((item, index) => (
+              <button
+                key={index}
+                type="button"
+                name="category"
+                value={item}
+                onClick={updateFilterValue}
+                className={category === item ? "active" : ""}
+              >
+                {item}
+              </button>
+            ))}
           </div>
         </div>
       </div>
+
+      <div className="card">
+        <div className="filter-company">
+          <h3>Company</h3>
+          <select
+            name="company"
+            id="company"
+            onChange={updateFilterValue}
+            className="filter-company--select"
+          >
+            {companyOnlyData.map((item, index) => (
+              <option key={index} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="filter-colors">
+          <h3>Colors</h3>
+          <div className="filter-color-style">
+            {colorsData.map((curColor, index) => (
+              <button
+                key={index}
+                type="button"
+                value={curColor}
+                name="color"
+                style={{ backgroundColor: curColor }}
+                className={`color-btn ${color === curColor ? "active" : ""}`}
+                onClick={updateFilterValue}
+              >
+                {color === curColor ? <FaCheck className="checkStyle" /> : null}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="filter-price">
+          <h3>Filter by Price</h3>
+          <p>
+            <span>Price : </span>$0 - <FormatPrice price={price} />
+          </p>
+          <input
+            type="range"
+            name="price"
+            min={minPrice}
+            max={maxPrice}
+            value={price}
+            onChange={updateFilterValue}
+          />
+        </div>
+      </div>
+
       <div className="clear-btn-container">
         <div className="filter-clear">
           <Button className="btn" onClick={clearFilters}>
@@ -163,36 +163,47 @@ const Wrapper = styled.section`
     }
   }
 
-  .filter-category div {
+  .filter-category {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
+
+    h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .filter-category-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
 
     button {
-      background: ${({ theme }) => theme.colors.white};
-      border: 1px solid ${({ theme }) => theme.colors.border};
+      padding: 0.5rem 2rem;
       border-radius: 30px;
-      padding: 0.8rem 1.2rem;
-      font-size: 1.1rem;
-      text-transform: capitalize;
+      background-color: ${({ theme }) => theme.colors.backgroundLight};
+      border: 1px solid ${({ theme }) => theme.colors.borderLight};
+      color: ${({ theme }) => theme.colors.textDark};
+      font-size: 1rem;
       cursor: pointer;
-      transition: color 0.3s, border-color 0.3s;
+      transition: background-color 0.3s ease, color 0.3s ease,
+        box-shadow 0.3s ease;
 
       &:hover {
-        color: ${({ theme }) => theme.colors.primary};
-        border-color: ${({ theme }) => theme.colors.primary};
+        background-color: ${({ theme }) => theme.colors.primary};
+        color: #a1a1a1;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
       }
 
       &.active {
-        color: ${({ theme }) => theme.colors.primary};
-        background-color: #f1f1f1;
+        background-color: #333;
+        color: #fff;
+        border-color: #333;
         font-weight: bold;
-        border-color: ${({ theme }) => theme.colors.primary};
-        border: 1.5px solid ${({ theme }) => theme.colors.primary};
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
       }
     }
   }
-
   .filter-company--select {
     padding: 0.8rem 1.2rem;
     font-size: 1.1rem;
@@ -258,11 +269,13 @@ const Wrapper = styled.section`
   .filter-price span {
     font-weight: bold;
   }
+
   .clear-btn-container .filter-clear {
     display: flex;
     justify-content: center;
     align-items: center;
   }
+
   .filter-clear .btn {
     background-color: ${({ theme }) => theme.colors.danger};
     color: #fff;
@@ -270,7 +283,7 @@ const Wrapper = styled.section`
 
     &:hover {
       background-color: #fff;
-      color: ${({ theme }) => theme.colors.danger};
+      color: rgb(13, 59, 102);
     }
   }
 `;

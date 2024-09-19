@@ -22,7 +22,7 @@ const PageNavigation = ({ title }) => {
   );
 };
 const Wrapper = styled.section`
-  background: #fff;
+  background: rgb(246, 248, 250);
   padding: 1rem 0;
   // border-bottom: 1px solid #ddd;
 
