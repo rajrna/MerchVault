@@ -58,9 +58,11 @@ const FilterSection = () => {
         </div>
       </div>
 
+      <hr />
+
       <div className="card">
         <div className="filter-company">
-          <h3>Company</h3>
+          <h3>Brands</h3>
           <select
             name="company"
             id="company"
@@ -75,6 +77,8 @@ const FilterSection = () => {
           </select>
         </div>
       </div>
+
+      <hr />
 
       <div className="card">
         <div className="filter-colors">
@@ -97,6 +101,8 @@ const FilterSection = () => {
         </div>
       </div>
 
+      <hr />
+
       <div className="card">
         <div className="filter-price">
           <h3>Filter by Price</h3>
@@ -113,6 +119,8 @@ const FilterSection = () => {
           />
         </div>
       </div>
+
+      <hr />
 
       <div className="clear-btn-container">
         <div className="filter-clear">
@@ -143,9 +151,9 @@ const Wrapper = styled.section`
     display: flex;
     gap: 5rem;
     flex-direction: column;
-    border: 1px solid ${({ theme }) => theme.colors.border};
-    border-radius: 25px;
-    background-color: ${({ theme }) => theme.colors.white};
+    // border: 1px solid ${({ theme }) => theme.colors.border};
+    // border-radius: 25px;
+    background-color: ${({ theme }) => theme.colors.bg};
   }
 
   .filter-search input {

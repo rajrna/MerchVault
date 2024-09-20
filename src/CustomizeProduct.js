@@ -21,6 +21,7 @@ import {
 } from "react-icons/fa";
 import { MdImage } from "react-icons/md";
 import { GiHoodie } from "react-icons/gi";
+import { TbMouseOff } from "react-icons/tb";
 
 const CustomizeProduct = () => {
   const [selectedProduct, setSelectedProduct] = useState("tshirt");
@@ -35,17 +36,34 @@ const CustomizeProduct = () => {
   const [image, setImage] = useState(null);
   const [customImage] = useImage(imageUrl);
   const [productImage] = useImage(
-    `/images/${selectedProduct}-${selectedVariant}.png`
+    `/images/product-images/${selectedProduct}-${selectedVariant}.png`
   );
   const stageRef = useRef(null);
-
+  const transformerRef = useRef(null);
+  const imageRef = useRef(null);
   const [productName, setProductName] = useState(""); // New state for product name
 
   // Boundary constants
-  const boundaryWidth = 250;
-  const boundaryHeight = 380;
-  const boundaryX = 180;
+  const boundaryWidth = 290;
+  const boundaryHeight = 400;
+  const boundaryX = 160;
   const boundaryY = 120;
+
+  // Predefined images for selection
+  const predefinedImages = [
+    "/images/pre-images/p1.png",
+    "/images/pre-images/p2.png",
+    "/images/pre-images/p3.png",
+    "/images/pre-images/p4.png",
+    "/images/pre-images/p5.png",
+    "/images/pre-images/p6.png",
+    "/images/pre-images/p7.png",
+    "/images/pre-images/p8.png",
+    "/images/pre-images/p9.png",
+    "/images/pre-images/p10.png",
+    "/images/pre-images/p11.png",
+    "/images/pre-images/p12.png",
+  ];
 
   // Handle image upload
   const handleImageUpload = (event) => {
@@ -57,14 +75,35 @@ const CustomizeProduct = () => {
     reader.readAsDataURL(file);
   };
 
+  // Handle predefined image selection
+  const handlePredefinedImageSelect = (imagePath) => {
+    setImageUrl(imagePath);
+  };
+
+  // Handle image deletion
+  const handleDeleteImage = () => {
+    setImageUrl(null);
+    setSelectedShape(null);
+    transformerRef.current.nodes([]); // Remove transformer
+    transformerRef.current.getLayer().batchDraw(); // Update the layer
+  };
+
+  // Select uploaded image to make it resizable
+  const handleSelectImage = () => {
+    setSelectedShape("image");
+    transformerRef.current.nodes([imageRef.current]);
+    transformerRef.current.getLayer().batchDraw();
+  };
+
+  const handleDeselect = () => {
+    setSelectedShape(null);
+    if (transformerRef.current) {
+      transformerRef.current.nodes([]); // Remove transformer
+      transformerRef.current.getLayer().batchDraw(); // Update the layer
+    }
+  };
+
   // Handle text change
-  // const handleTextChange = (index, event) => {
-  //   if (index === 1) {
-  //     setText1({ ...text1, text: event.target.value });
-  //   } else if (index === 2) {
-  //     setText2({ ...text2, text: event.target.value });
-  //   }
-  // };
   const handleTextChange = (index, event) => {
     const newTexts = [...texts];
     newTexts[index].text = event.target.value;
@@ -72,13 +111,6 @@ const CustomizeProduct = () => {
   };
 
   // Handle color change
-  // const handleColorChange = (index, event) => {
-  //   if (index === 1) {
-  //     setText1({ ...text1, color: event.target.value });
-  //   } else if (index === 2) {
-  //     setText2({ ...text2, color: event.target.value });
-  //   }
-  // };
   const handleColorChange = (index, event) => {
     const newTexts = [...texts];
     newTexts[index].color = event.target.value;
@@ -86,13 +118,6 @@ const CustomizeProduct = () => {
   };
 
   // Handle size change
-  // const handleSizeChange = (index, event) => {
-  //   if (index === 1) {
-  //     setText1({ ...text1, size: parseInt(event.target.value, 10) });
-  //   } else if (index === 2) {
-  //     setText2({ ...text2, size: parseInt(event.target.value, 10) });
-  //   }
-  // };
   const handleSizeChange = (index, event) => {
     const newTexts = [...texts];
     newTexts[index].size = parseInt(event.target.value, 10);
@@ -100,13 +125,6 @@ const CustomizeProduct = () => {
   };
 
   // Handle font weight change
-  // const handleFontWeightChange = (index, event) => {
-  //   if (index === 1) {
-  //     setText1({ ...text1, fontWeight: event.target.value });
-  //   } else if (index === 2) {
-  //     setText2({ ...text2, fontWeight: event.target.value });
-  //   }
-  // };
   const handleFontWeightChange = (index, event) => {
     const newTexts = [...texts];
     newTexts[index].fontWeight = event.target.value;
@@ -179,25 +197,9 @@ const CustomizeProduct = () => {
   return (
     <Wrapper>
       <div className="container">
-        {/* Sidebar for controls */}
-
+        {/* Right Side Controls */}
         <div className="controls-sidebar-container">
-          <h2>Customization controls</h2>{" "}
           <aside className="controls-sidebar">
-            <div className="controls card">
-              <div className="prod-name-container">
-                <h3>Enter Your Product Name:</h3>
-                <label>
-                  <input
-                    type="text"
-                    value={productName}
-                    onChange={(e) => setProductName(e.target.value)}
-                    placeholder="Enter product name"
-                  />
-                </label>
-              </div>
-            </div>
-
             <div className="card">
               <div className="product-selector">
                 <h3>Select a Product</h3>
@@ -241,6 +243,8 @@ const CustomizeProduct = () => {
               </div>
             </div>
 
+            <hr />
+
             {["tshirt", "hoodie", "hat"].includes(selectedProduct) && (
               <div className="card">
                 <div className="color-btn-container">
@@ -272,6 +276,8 @@ const CustomizeProduct = () => {
               </div>
             )}
 
+            <hr />
+
             <div className="controls">
               <div className="file-upload">
                 <input
@@ -284,6 +290,177 @@ const CustomizeProduct = () => {
                   Upload Your Image
                 </span>
               </div>
+
+              <hr />
+
+              <div className="controls">
+                <div className="up-img-controls">
+                  {imageUrl && (
+                    <button onClick={handleDeselect} className="deselect-img">
+                      <TbMouseOff className="p-icons" />
+                      Deselect Image
+                    </button>
+                  )}
+                  {imageUrl && (
+                    <button onClick={handleDeleteImage} className="delete-img">
+                      <FaTrash className="p-icons" />
+                      Delete Image
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <hr />
+
+              <div className="card">
+                <div className="pre-available-images">
+                  <h3>Select Pre-Available Image</h3>
+                  <div className="predefined-images-grid">
+                    {predefinedImages.map((imgSrc, index) => (
+                      <img
+                        key={index}
+                        src={imgSrc}
+                        alt={`Predefined ${index + 1}`}
+                        onClick={() => handlePredefinedImageSelect(imgSrc)}
+                        style={{
+                          width: "70px",
+                          height: "65px",
+                          cursor: "pointer",
+                          border: imageUrl === imgSrc ? "2px solid blue" : "",
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        {/* Main canvas area */}
+        <main className="canvas-area">
+          <Stage
+            width={600}
+            height={600}
+            ref={stageRef}
+            // onMouseDown={handleStageClick}
+          >
+            <Layer>
+              <KonvaImage image={productImage} width={600} height={600} />
+              <Rect
+                x={boundaryX}
+                y={boundaryY}
+                width={boundaryWidth}
+                height={boundaryHeight}
+                stroke="transparent"
+                strokeWidth={2}
+                dash={[10, 5]}
+                listening={false}
+              />
+
+              {imageUrl && (
+                <>
+                  <KonvaImage
+                    image={customImage}
+                    x={boundaryX}
+                    y={boundaryY}
+                    width={150}
+                    height={150}
+                    draggable
+                    ref={imageRef}
+                    onClick={handleSelectImage} // Select the image when clicked
+                    onDragMove={(e) => {
+                      const x = Math.max(
+                        boundaryX,
+                        Math.min(
+                          e.target.x(),
+                          boundaryX +
+                            boundaryWidth -
+                            e.target.width() * e.target.scaleX()
+                        )
+                      );
+                      const y = Math.max(
+                        boundaryY,
+                        Math.min(
+                          e.target.y(),
+                          boundaryY +
+                            boundaryHeight -
+                            e.target.height() * e.target.scaleY()
+                        )
+                      );
+                      e.target.position({ x, y });
+                    }}
+                    onTransformEnd={() => {
+                      const node = imageRef.current;
+                      const scaleX = node.scaleX();
+                      const scaleY = node.scaleY();
+                      node.scaleX(1);
+                      node.scaleY(1);
+                      node.width(node.width() * scaleX);
+                      node.height(node.height() * scaleY);
+                    }}
+                  />
+
+                  {/* Transformer to allow resizing */}
+                  {selectedShape === "image" && (
+                    <Transformer
+                      ref={transformerRef}
+                      boundBoxFunc={(oldBox, newBox) => {
+                        // Limit the resizing to keep image within boundaries
+                        if (
+                          newBox.width < 50 ||
+                          newBox.height < 50 ||
+                          newBox.x < boundaryX ||
+                          newBox.x + newBox.width > boundaryX + boundaryWidth ||
+                          newBox.y < boundaryY ||
+                          newBox.y + newBox.height > boundaryY + boundaryHeight
+                        ) {
+                          return oldBox;
+                        }
+                        return newBox;
+                      }}
+                    />
+                  )}
+                </>
+              )}
+
+              {texts.map((textObj, index) => (
+                <KonvaText
+                  key={index}
+                  text={textObj.text}
+                  fontSize={textObj.size}
+                  fontFamily={textObj.fontFamily} // Use selected font family
+                  fill={textObj.color}
+                  fontWeight={textObj.fontWeight}
+                  x={boundaryX + 10}
+                  y={boundaryY + 10 + index * 40}
+                  draggable
+                  onDragMove={(e) => handleTextDragMove(e, textObj)}
+                />
+              ))}
+            </Layer>
+          </Stage>
+        </main>
+
+        {/* Left Side Controls */}
+        <div className="controls-sidebar-container">
+          <aside className="controls-sidebar">
+            <div className="controls">
+              <div className="controls card">
+                <div className="prod-name-container">
+                  <h3>Enter Your Product Name:</h3>
+                  <label>
+                    <input
+                      type="text"
+                      value={productName}
+                      onChange={(e) => setProductName(e.target.value)}
+                      placeholder="Enter product name"
+                    />
+                  </label>
+                </div>
+              </div>
+
+              <hr />
 
               <div className="card">
                 <div className="text-container">
@@ -379,86 +556,17 @@ const CustomizeProduct = () => {
                 </div>
               </div>
 
-              <button onClick={handleExport} className="export-img">
-                <FaDownload className="p-icons" />
-                Export Image
-              </button>
+              <hr />
+
+              <div className="export-container">
+                <button onClick={handleExport} className="export-img">
+                  <FaDownload className="p-icons" />
+                  Export Image
+                </button>
+              </div>
             </div>
           </aside>
         </div>
-
-        {/* Main canvas area */}
-        <main className="canvas-area">
-          <Stage width={600} height={600} ref={stageRef}>
-            <Layer>
-              <KonvaImage image={productImage} width={600} height={600} />
-              <Rect
-                x={boundaryX}
-                y={boundaryY}
-                width={boundaryWidth}
-                height={boundaryHeight}
-                stroke="transparent"
-                strokeWidth={2}
-                dash={[10, 5]}
-                listening={false}
-              />
-              {imageUrl && (
-                <KonvaImage
-                  image={customImage}
-                  x={boundaryX}
-                  y={boundaryY}
-                  width={150}
-                  height={150}
-                  draggable
-                  ref={(node) => setImage(node)}
-                  onDragMove={(e) => {
-                    const x = Math.max(
-                      boundaryX,
-                      Math.min(
-                        e.target.x(),
-                        boundaryX +
-                          boundaryWidth -
-                          e.target.width() * e.target.scaleX()
-                      )
-                    );
-                    const y = Math.max(
-                      boundaryY,
-                      Math.min(
-                        e.target.y(),
-                        boundaryY +
-                          boundaryHeight -
-                          e.target.height() * e.target.scaleY()
-                      )
-                    );
-                    e.target.position({ x, y });
-                  }}
-                  onTransformEnd={() => {
-                    const scaleX = image.scaleX();
-                    const scaleY = image.scaleY();
-                    image.scaleX(1);
-                    image.scaleY(1);
-                    image.width(image.width() * scaleX);
-                    image.height(image.height() * scaleY);
-                  }}
-                />
-              )}
-              {texts.map((textObj, index) => (
-                <KonvaText
-                  key={index}
-                  text={textObj.text}
-                  fontSize={textObj.size}
-                  fontFamily={textObj.fontFamily} // Use selected font family
-                  fill={textObj.color}
-                  fontWeight={textObj.fontWeight}
-                  x={boundaryX + 10}
-                  y={boundaryY + 10 + index * 40}
-                  draggable
-                  onDragMove={(e) => handleTextDragMove(e, textObj)}
-                />
-              ))}
-            </Layer>
-          </Stage>
-        </main>
       </div>
     </Wrapper>
   );
@@ -476,17 +584,16 @@ const Wrapper = styled.div`
   }
   .card {
     padding: 1.5rem 1rem;
-    border: 0.1px solid ${({ theme }) => theme.colors.border};
-    border-radius: 25px;
+    // border-right: 2px solid ${({ theme }) => theme.colors.border};
+    // border-radius: 25px;
     // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.bg};
   }
 
   .controls-sidebar-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
   }
   .controls-sidebar-container h2 {
     font-weight: bold;
@@ -495,11 +602,10 @@ const Wrapper = styled.div`
     margin: 2rem 0;
   }
   .controls-sidebar {
-    width: 300px;
-    height: 110vh;
+    width: 280px;
+    height: 88vh;
     overflow-y: auto;
     scrollbar-width: none;
-    // background-color: #f7f7f7;
     padding: 20px;
     border-top: 3.5px solid #ddd;
     border-bottom: 3.5px solid #ddd;
@@ -543,7 +649,6 @@ const Wrapper = styled.div`
     border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-
     background-color: black;
     font-weight: bold;
     font-size: 1.3rem;
@@ -555,7 +660,6 @@ const Wrapper = styled.div`
     border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-
     background-color: white;
     font-weight: bold;
     font-size: 1.3rem;
@@ -565,7 +669,8 @@ const Wrapper = styled.div`
 
   /*  Product Selector Styles  */
   .product-selector,
-  .prod-name-container {
+  .prod-name-container,
+  .pre-available-images {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -575,7 +680,8 @@ const Wrapper = styled.div`
   .product-selector h3,
   .card h3,
   .text-container h3,
-  .prod-name-container h3 {
+  .prod-name-container h3,
+  .pre-available-images h3 {
     margin-bottom: 7px;
     font-weight: bold;
     font-size: 1.6rem;
@@ -610,7 +716,7 @@ const Wrapper = styled.div`
 
   /*  Text Container Styles  */
   .text-container {
-    max-height: 50rem;
+    max-height: 60rem;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -670,6 +776,8 @@ const Wrapper = styled.div`
     color: rgb(13, 59, 102);
   }
   .export-img,
+  .deselect-img,
+  .export-container,
   .text-container .text-add-btn,
   .text-controls .delete-btn {
     display: flex;
@@ -678,6 +786,7 @@ const Wrapper = styled.div`
   }
   .export-img {
     font-weight: bold;
+    width: 90%;
   }
   .controls label {
     display: flex;
@@ -767,6 +876,49 @@ const Wrapper = styled.div`
   .file-upload .p-icons {
     margin-right: 8px; /* Space between icon and text */
     font-size: 18px;
+  }
+
+  .up-img-controls .deselect-img,
+  .up-img-controls .delete-img {
+    display: flex;
+    width: 80%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  .up-img-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .up-img-controls .delete-img {
+    background: rgb(231, 76, 60);
+    color: white;
+    border: 1px solid rgb(231, 76, 60);
+
+    &:hover {
+      background: #fff;
+      font-weight: bold;
+      color: rgb(231, 76, 60);
+      border: 1px solid rgb(231, 76, 60);
+    }
+  }
+
+  .up-img-controls .deselect-img {
+    background: #ddd;
+    color: black;
+    border: 1px solid #ddd;
+
+    &:hover {
+      background: #fff;
+      font-weight: bold;
+      color: rgb(13, 59, 102);
+      border: 1px solid rgb(13, 59, 102);
+    }
   }
 
   /*  Product Template Canvas Styles  */

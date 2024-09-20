@@ -72,7 +72,7 @@ const Wrapper = styled.section`
     // border: 1px solid ${({ theme }) => theme.colors.border};
     border-radius: 30px;
     // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.bg};
   }
 
   .view-toggle {
@@ -103,7 +103,7 @@ const Wrapper = styled.section`
 
   .product-count {
     p {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: 600;
       margin: 0;
     }

@@ -17,7 +17,7 @@ const ListView = ({ products }) => {
 
               <div className="card-data">
                 <h3>{name}</h3>
-                <p>
+                <p className="product-price">
                   <FormatPrice price={price} />
                 </p>
                 <p>{description.slice(0, 90)}.....</p>
@@ -52,26 +52,26 @@ const Wrapper = styled.section`
     position: relative;
     overflow: hidden;
     transition: all 0.5s linear;
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      transition: all 0.2s linear;
-      cursor: pointer;
-    }
+    // &::after {
+    //   content: "";
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   width: 0%;
+    //   height: 100%;
+    //   background-color: rgba(0, 0, 0, 0.5);
+    //   transition: all 0.2s linear;
+    //   cursor: pointer;
+    // }
     &:hover::after {
       width: 100%;
+      border-radius: 20px;
     }
     &:hover img {
-      transform: scale(1.5);
+      transform: scale(1.15);
     }
     img {
-      max-width: 90%;
-      margin-top: 1.5rem;
+      max-width: 80%;
       height: 20rem;
       transition: all 0.2s linear;
     }
@@ -79,12 +79,13 @@ const Wrapper = styled.section`
 
   .card {
     border: 0.1rem solid rgb(170 170 170 / 40%);
-    border-radius: 25px;
+    border-radius: 20px;
     padding: 1rem;
     width: 89.45rem;
+    background-color: rgb(234, 238, 241);
 
     img {
-      border-radius: 25px;
+      border-radius: 20px;
     }
     .card-data {
       padding: 0 2rem;
@@ -102,6 +103,11 @@ const Wrapper = styled.section`
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    .product-price {
+      color: #4caf50;
+      font-size: 2rem;
     }
   }
 `;
