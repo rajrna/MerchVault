@@ -18,6 +18,7 @@ import {
   FaDownload,
   FaTrash,
   FaPlus,
+  FaShoppingCart,
 } from "react-icons/fa";
 import { MdImage } from "react-icons/md";
 import { GiHoodie } from "react-icons/gi";
@@ -31,6 +32,7 @@ const CustomizeProduct = () => {
     { text: "Your Text 1", color: "black", size: 24, fontWeight: "normal" },
     { text: "Your Text 2", color: "black", size: 24, fontWeight: "normal" },
   ]);
+  const [collapsed, setCollapsed] = useState(Array(texts.length).fill(false));
 
   const [selectedShape, setSelectedShape] = useState(null);
   const [image, setImage] = useState(null);
@@ -42,12 +44,39 @@ const CustomizeProduct = () => {
   const transformerRef = useRef(null);
   const imageRef = useRef(null);
   const [productName, setProductName] = useState(""); // New state for product name
+  const [exportedImageUrl, setExportedImageUrl] = useState(null); // New state for exported image
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // Manage popup visibility
+  // State to store the selected size
+  const [selectedSize, setSelectedSize] = useState(null);
 
   // Boundary constants
-  const boundaryWidth = 290;
-  const boundaryHeight = 400;
-  const boundaryX = 160;
-  const boundaryY = 120;
+  let boundaryWidth = 290;
+  let boundaryHeight = 400;
+  let boundaryX = 160;
+  let boundaryY = 120;
+
+  // // Dynamic boundary assignment based on product
+  // if (selectedProduct === "tshirt") {
+  //   boundaryWidth = 300;
+  //   boundaryHeight = 350;
+  //   boundaryX = 150;
+  //   boundaryY = 100;
+  // } else if (selectedProduct === "hoodie") {
+  //   boundaryWidth = 350;
+  //   boundaryHeight = 450;
+  //   boundaryX = 140;
+  //   boundaryY = 90;
+  // } else if (selectedProduct === "poster") {
+  //   boundaryWidth = 400;
+  //   boundaryHeight = 500;
+  //   boundaryX = 100;
+  //   boundaryY = 50;
+  // } else if (selectedProduct === "hat") {
+  //   boundaryWidth = 200;
+  //   boundaryHeight = 250;
+  //   boundaryX = 180;
+  //   boundaryY = 120;
+  // }
 
   // Predefined images for selection
   const predefinedImages = [
@@ -80,7 +109,7 @@ const CustomizeProduct = () => {
     setImageUrl(imagePath);
   };
 
-  // Handle image deletion
+  // Handle image deseletion
   const handleDeleteImage = () => {
     setImageUrl(null);
     setSelectedShape(null);
@@ -151,7 +180,14 @@ const CustomizeProduct = () => {
           fontFamily: "Arial", // Default font family
         },
       ]);
+      setCollapsed([...collapsed, false]); // Update collapsed state
     }
+  };
+
+  const handleToggleCollapse = (index) => {
+    const newCollapsed = [...collapsed];
+    newCollapsed[index] = !newCollapsed[index];
+    setCollapsed(newCollapsed);
   };
 
   //Handle delete text
@@ -160,19 +196,79 @@ const CustomizeProduct = () => {
     setTexts(newTexts);
   };
 
-  // Handle export
+  // Generate the image for preview when the popup is opened
+  const generateImagePreview = () => {
+    if (stageRef.current) {
+      html2canvas(
+        stageRef.current.container().getElementsByTagName("canvas")[0],
+        {
+          scale: 3, // Increase resolution for preview
+        }
+      )
+        .then((canvas) => {
+          const imageUrl = canvas.toDataURL("image/png");
+          setExportedImageUrl(imageUrl); // Store the image for preview
+        })
+        .catch((error) => {
+          console.error("Error generating image preview: ", error);
+        });
+    }
+  };
+
+  // Example sizes for the size selection (you can replace them with dynamic sizes if available in the API)
+  const availableSizes = ["S", "M", "L", "XL", "XXL"];
+
+  // Function to handle size selection
+  const handleSizeClick = (size) => {
+    setSelectedSize(size);
+  };
+
+  // Open the popup and generate the image preview
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+    generateImagePreview();
+  };
+
+  // Handle Popup Close when clicking outside
+  const handleClosePopup = (e) => {
+    if (e.target.classList.contains("popup-overlay")) {
+      setIsPopupOpen(false);
+    }
+  };
+
+  // Function to handle placing the order
+  const handlePlaceOrder = () => {
+    if (!productName) {
+      alert("Please enter a name for your product!");
+      return;
+    }
+    alert("Placing Order...");
+    // Logic to place the order (e.g., send data to backend to process the order)
+  };
+
+  // Handle image export on button click
   const handleExport = () => {
+    if (!productName) {
+      alert("Please enter a name for your product!");
+      return;
+    }
     html2canvas(
       stageRef.current.container().getElementsByTagName("canvas")[0],
       {
-        scale: 3, // Increase the resolution for print
+        scale: 3, // Higher resolution for export
       }
-    ).then((canvas) => {
-      const link = document.createElement("a");
-      link.href = canvas.toDataURL("image/png");
-      link.download = `${productName || "custom-product"}.png`; // Use productName as the filename
-      link.click();
-    });
+    )
+      .then((canvas) => {
+        const imageUrl = canvas.toDataURL("image/png");
+
+        const link = document.createElement("a");
+        link.href = imageUrl;
+        link.download = `${productName || "custom-product"}.png`;
+        link.click();
+      })
+      .catch((error) => {
+        console.error("Error exporting image: ", error);
+      });
   };
 
   const handleTextDragMove = (e, text) => {
@@ -291,13 +387,11 @@ const CustomizeProduct = () => {
                 </span>
               </div>
 
-              <hr />
-
               <div className="controls">
                 <div className="up-img-controls">
                   {imageUrl && (
                     <button onClick={handleDeselect} className="deselect-img">
-                      <TbMouseOff className="p-icons" />
+                      <TbMouseOff className="t-icons" />
                       Deselect Image
                     </button>
                   )}
@@ -446,102 +540,104 @@ const CustomizeProduct = () => {
         <div className="controls-sidebar-container">
           <aside className="controls-sidebar">
             <div className="controls">
-              <div className="controls card">
-                <div className="prod-name-container">
-                  <h3>Enter Your Product Name:</h3>
-                  <label>
-                    <input
-                      type="text"
-                      value={productName}
-                      onChange={(e) => setProductName(e.target.value)}
-                      placeholder="Enter product name"
-                    />
-                  </label>
-                </div>
-              </div>
-
-              <hr />
-
               <div className="card">
                 <div className="text-container">
-                  <h3>Add Your Texts</h3>
+                  <div className="add-container">
+                    {" "}
+                    <h3>Add Your Texts</h3>
+                  </div>
                   <br />
                   <div className="text-scroll-handler">
                     {texts.map((textObj, index) => (
                       <div key={index} className="text-controls">
-                        <h4>Text No. {index + 1}</h4>
-                        <label>
-                          <span>Text:</span>
-                          <input
-                            type="text"
-                            value={textObj.text}
-                            onChange={(event) => handleTextChange(index, event)}
-                          />
-                        </label>
-
-                        <label>
-                          <span>Color:</span>
-                          <input
-                            type="color"
-                            value={textObj.color}
-                            onChange={(event) =>
-                              handleColorChange(index, event)
-                            }
-                          />
-                        </label>
-
-                        <label>
-                          <span>Size:</span>
-                          <input
-                            type="number"
-                            min="10"
-                            max="100"
-                            value={textObj.size}
-                            onChange={(event) => handleSizeChange(index, event)}
-                          />
-                        </label>
-
-                        <label>
-                          <span>Font Weight:</span>
-                          <select
-                            value={textObj.fontWeight}
-                            onChange={(event) =>
-                              handleFontWeightChange(index, event)
-                            }
-                          >
-                            <option value="normal">Normal</option>
-                            <option value="bold">Bold</option>
-                          </select>
-                        </label>
-
-                        <label>
-                          <span>Font Family:</span>
-                          <select
-                            value={textObj.fontFamily}
-                            onChange={(event) =>
-                              handleFontFamilyChange(index, event)
-                            }
-                          >
-                            <option value="Arial">Arial</option>
-                            <option value="Courier New">Courier New</option>
-                            <option value="Times New Roman">
-                              Times New Roman
-                            </option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Verdana">Verdana</option>
-                            <option value="Comic Sans MS">Comic Sans MS</option>
-                            <option value="Impact">Impact</option>
-                            <option value="Monospace">Monospace</option>
-                          </select>
-                        </label>
-
-                        <button
-                          onClick={() => handleDeleteText(index)}
-                          className="delete-btn"
+                        <h4
+                          onClick={() => handleToggleCollapse(index)}
+                          style={{ cursor: "pointer" }}
                         >
-                          <FaTrash className="d-icons" />
-                        </button>
-                        <hr />
+                          Text No. {index + 1}{" "}
+                          <button
+                            onClick={() => handleDeleteText(index)}
+                            className="delete-btn"
+                          >
+                            <FaTrash className="d-icons" />
+                          </button>
+                        </h4>
+                        {!collapsed[index] && ( // Show controls only if not collapsed
+                          <>
+                            <label>
+                              <span>Text:</span>
+                              <input
+                                type="text"
+                                value={textObj.text}
+                                onChange={(event) =>
+                                  handleTextChange(index, event)
+                                }
+                              />
+                            </label>
+
+                            <label>
+                              <span>Color:</span>
+                              <input
+                                type="color"
+                                value={textObj.color}
+                                onChange={(event) =>
+                                  handleColorChange(index, event)
+                                }
+                              />
+                            </label>
+
+                            <label>
+                              <span>Size:</span>
+                              <input
+                                type="number"
+                                min="10"
+                                max="100"
+                                value={textObj.size}
+                                onChange={(event) =>
+                                  handleSizeChange(index, event)
+                                }
+                              />
+                            </label>
+
+                            <label>
+                              <span>Font Weight:</span>
+                              <select
+                                value={textObj.fontWeight}
+                                onChange={(event) =>
+                                  handleFontWeightChange(index, event)
+                                }
+                              >
+                                <option value="normal">Normal</option>
+                                <option value="bold">Bold</option>
+                              </select>
+                            </label>
+
+                            <label>
+                              <span>Font Family:</span>
+                              <select
+                                value={textObj.fontFamily}
+                                onChange={(event) =>
+                                  handleFontFamilyChange(index, event)
+                                }
+                              >
+                                <option value="Arial">Arial</option>
+                                <option value="Courier New">Courier New</option>
+                                <option value="Times New Roman">
+                                  Times New Roman
+                                </option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Verdana">Verdana</option>
+                                <option value="Comic Sans MS">
+                                  Comic Sans MS
+                                </option>
+                                <option value="Impact">Impact</option>
+                                <option value="Monospace">Monospace</option>
+                              </select>
+                            </label>
+
+                            <hr />
+                          </>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -558,11 +654,87 @@ const CustomizeProduct = () => {
 
               <hr />
 
-              <div className="export-container">
-                <button onClick={handleExport} className="export-img">
-                  <FaDownload className="p-icons" />
-                  Export Image
+              <div className="finish-container">
+                <button onClick={handleOpenPopup} className="finish-img">
+                  Finish Customization
                 </button>
+
+                {isPopupOpen && (
+                  <div className="popup-overlay" onClick={handleClosePopup}>
+                    <div className="popup">
+                      <div className="popup-content">
+                        <h2>Customization Complete</h2>
+
+                        <div className="prod-name-container">
+                          <h3>Enter Your Product Name:</h3>
+                          <label>
+                            <input
+                              type="text"
+                              value={productName}
+                              onChange={(e) => setProductName(e.target.value)}
+                              placeholder="Enter product name"
+                            />
+                          </label>
+                        </div>
+
+                        <div className="popup-data-container">
+                          {" "}
+                          {/* Display the exported image */}
+                          {exportedImageUrl && (
+                            <div className="product-preview">
+                              <img
+                                src={exportedImageUrl}
+                                alt="Customized Product"
+                                width="100%"
+                              />
+                            </div>
+                          )}
+                          <div className="popup-options">
+                            {/* Size Selection */}
+                            <div className="size-selection">
+                              <h3>Select Size:</h3>
+                              <div className="size-options">
+                                {availableSizes.map((size) => (
+                                  <button
+                                    key={size}
+                                    className={`size-btn ${
+                                      selectedSize === size ? "active" : ""
+                                    }`}
+                                    onClick={() => handleSizeClick(size)}
+                                  >
+                                    {size}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+
+                            <button
+                              onClick={handleExport}
+                              className="export-btn"
+                            >
+                              <FaDownload className="p-icons" />
+                              Download Image
+                            </button>
+                            <button
+                              onClick={handlePlaceOrder}
+                              className="order-btn"
+                            >
+                              <FaShoppingCart className="p-icons" />
+                              Place Order
+                            </button>
+                          </div>
+                        </div>
+
+                        <button
+                          className="close-popup"
+                          onClick={() => setIsPopupOpen(false)}
+                        >
+                          X
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </aside>
@@ -577,13 +749,17 @@ const Wrapper = styled.div`
   flex-direction: column;
   min-height: 100vh; /* Ensures the component takes the full height of the viewport */
 
+  .customize-product {
+    text-align: center;
+  }
+
   .container {
     display: flex;
     flex: 1;
     width: 100%;
   }
   .card {
-    padding: 1.5rem 1rem;
+    padding: 0.5rem 1rem;
     // border-right: 2px solid ${({ theme }) => theme.colors.border};
     // border-radius: 25px;
     // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -718,26 +894,36 @@ const Wrapper = styled.div`
   .text-container {
     max-height: 60rem;
     display: flex;
-    align-items: center;
     flex-direction: column;
   }
+  .add-container{ 
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+  }
+  .add-container h3{
+    font-size:2rem;
+  }
+
   .text-scroll-handler {
-    max-height: 33rem;
-    border-top: 2px solid #ddd;
-    border-bottom: 2px solid #ddd;
+    max-height: 40rem;
     overflow-y: auto;
     scrollbar-width: none;
   }
   .text-add-btn {
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
 
   .p-icons {
+    font-size: 1.2rem;
+    margin-right: 10px;
+  }
+  .t-icons {
     font-size: 2rem;
     margin-right: 10px;
   }
   d-icons {
-    font-size: 2rem;
+    font-size: 1.2rem;
   }
   .controls {
     display: flex;
@@ -752,12 +938,23 @@ const Wrapper = styled.div`
     gap: 2rem;
   }
   .text-controls h4 {
+    display: flex;
+    flex-direction: row;
+    gap:10rem;
+    align-items:center;
+    justify-content:center;
     margin-top: 1rem;
     font-weight: bold;
+    font-size: 1.3rem;
   }
+     .text-controls h4:hover{
+     color:#007bff;
+     }
+
 
   .text-controls .delete-btn {
-    width: 100%;
+    font-size:1.2rem;
+    padding:8px;
     background-color: rgb(231, 76, 60);
     border: 1px solid rgb(231, 76, 60);
   }
@@ -769,22 +966,24 @@ const Wrapper = styled.div`
   .text-container .text-add-btn {
     border: 1px solid rgb(13, 59, 102);
     background-color: rgb(13, 59, 102);
+    font-size:1.2rem;
     font-weight: bold;
   }
   .text-container .text-add-btn:hover {
     border: 1px solid rgb(13, 59, 102);
     color: rgb(13, 59, 102);
   }
-  .export-img,
+  .finish-img,
   .deselect-img,
-  .export-container,
+  .finish-container,
   .text-container .text-add-btn,
   .text-controls .delete-btn {
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .export-img {
+  .finish-img {
+  font-size:2rem;
     font-weight: bold;
     width: 90%;
   }
@@ -792,7 +991,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     font-size: 1.4rem;
-    gap: 2rem;
+    gap: 1rem;
   }
 
   .controls label span {
@@ -804,7 +1003,7 @@ const Wrapper = styled.div`
   .controls input[type="number"],
   .controls select {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 13px;
     border: 1px solid #ddd;
     border-radius: 30px;
     margin-right: 10px;
@@ -885,6 +1084,7 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    font-size:1.3rem;
   }
 
   .up-img-controls {
@@ -931,6 +1131,147 @@ const Wrapper = styled.div`
     align-items: center;
     background-color: rgb(246, 248, 250);
     padding-bottom: 40px; /* Adds spacing at the bottom */
+  }
+
+  /* Dark overlay background when the popup is open */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7); /* Darker background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .popup {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 600px; /* Increase width of the popup */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .popup-content h2 {
+    margin-bottom: 20px;
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  .prod-name-container {
+    margin-bottom: 15px;
+  }
+
+  .popup-data-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .product-preview {
+    flex: 2; /* Image section takes more space */
+  }
+
+  .popup-options {
+    flex: 1; /* Button section */
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between buttons */
+  }
+
+  .popup-content .export-btn,
+  .popup-content .order-btn {
+    background-color: #007bff; /* Button color */
+    color: white;
+    border: 1px solid #007bff;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .popup-content .export-btn:hover,
+  .popup-content .order-btn:hover {
+    background-color: #fff; /* Darker shade on hover */
+    color: #007bff;
+    border: 1px solid #007bff;
+  }
+
+  .popup-content .close-popup {
+    margin-top: 10px;
+    background: rgb(231, 76, 60);
+    color: #fff; /* Red color for the close button */
+    border: 1px solid rgb(231, 76, 60);
+    cursor: pointer;
+    border-radius: 50%; /* Circular button */
+    width: 40px; /* Width of the button */
+    height: 40px; /* Height of the button */
+    font-weight: bold;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s; /* Smooth transition */
+  }
+
+  .popup-content .close-popup:hover {
+    border: 1px solid rgb(231, 76, 60);
+    color: rgb(231, 76, 60); /* Darker shade on hover */
+  }
+
+ /* Updated Size Selection Styles */
+    .size-selection {
+      margin-top: 1.5rem;
+
+      h3 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #333;
+      }
+
+      .size-options {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom:10px;
+
+        .size-btn {
+          padding: 0.8rem 1.5rem;
+          border-radius: 25px;
+          border: 2px solid #ddd;
+          background-color: #f5f5f5;
+          cursor: pointer;
+           color:#000;
+          font-size: 1.1rem;
+          font-weight: 500;
+          transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+
+          &:hover {
+            background-color: #ddd;
+            color:#000;
+          }
+
+          &.active {
+            background-color: #333;
+            color: #fff;
+            border-color: #333;
+          }
+        }
+      }
+    }
   }
 
   /* Adds space between CustomizeProduct component and footer */
