@@ -102,7 +102,7 @@ const Wrapper = styled.section`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 550px;
+    height: 600px;
     overflow: hidden;
     background-color: #000;
   }

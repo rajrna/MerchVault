@@ -13,9 +13,8 @@ const Product = (curElem) => {
 
           <div className="product-info">
             <h2 className="product-name">{name}</h2>
-            <p className="product-price">{<FormatPrice price={price} />}</p>
-
-            <button className="btn-cart">Add to Cart</button>
+            {/* <p className="product-price">{<FormatPrice price={price} />}</p> */}
+            <p className="product-price">{price}</p>
           </div>
         </div>
       </NavLink>
@@ -31,10 +30,9 @@ const Wrapper = styled.section`
     margin: 20px;
     padding: 10px;
     background-color: rgb(234, 238, 241);
-    border-radius: 20px;
+    border-radius: 8px;
     overflow: hidden;
-    border: 0.5px solid ${({ theme }) => theme.colors.border};
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
   }
@@ -52,7 +50,7 @@ const Wrapper = styled.section`
   .product-image {
     width: 100%;
     height: 160px;
-    border-radius: 20px;
+    border-radius: 8px;
     object-fit: cover;
     transition: transform 0.3s ease;
   }
@@ -72,24 +70,6 @@ const Wrapper = styled.section`
     color: #4caf50;
     font-size: 17px;
     margin: 10px 0;
-  }
-
-  /* Add to Cart Button */
-  .btn-cart {
-    padding: 10px 20px;
-    background-color: rgb(13, 59, 102);
-    color: white;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-  }
-
-  .btn-cart:hover {
-    background-color: white;
-    color: rgb(13, 59, 102);
-    border: 1px solid rgb(13, 59, 102);
   }
 `;
 

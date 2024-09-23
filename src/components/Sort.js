@@ -83,6 +83,8 @@ const Wrapper = styled.section`
       padding: 0.6rem 0.8rem;
       border: 1px solid ${({ theme }) => theme.colors.black};
       border-radius: 10px;
+      height: fit-content;
+      padding: 1rem;
       background-color: ${({ theme }) => theme.colors.white};
       display: flex;
       justify-content: center;
@@ -92,6 +94,7 @@ const Wrapper = styled.section`
 
       .icon {
         font-size: 1.4rem; /* Adjusted font size */
+        font-weigth: bold;
       }
 
       &.active {

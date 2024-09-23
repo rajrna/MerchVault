@@ -3,6 +3,7 @@ import HeroSection from "./components/HeroSection";
 import Services from "./components/Services";
 import FeatureProduct from "./components/FeatureProduct";
 import ImageSlider from "./components/ImageSlider";
+import ArtistSignup from "./components/ArtistSignup";
 
 const Home = () => {
   const data = {
@@ -14,6 +15,7 @@ const Home = () => {
       <HeroSection myData={data} />;
       <ImageSlider />;
       <FeatureProduct />;
+      <ArtistSignup />;
     </>
   );
 };

@@ -105,7 +105,6 @@ const FilterSection = () => {
 
       <div className="card">
         <div className="filter-price">
-          <h3>Filter by Price</h3>
           <p>
             <span>Price : </span>$0 - <FormatPrice price={price} />
           </p>

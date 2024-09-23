@@ -23,7 +23,7 @@ const ListView = ({ products }) => {
                 <p>{description.slice(0, 90)}.....</p>
 
                 <NavLink to={`/singleproduct/${id}`} className="btn-main">
-                  <Button className="btn">Read More</Button>
+                  <Button className="btn">Add to Cart</Button>
                 </NavLink>
               </div>
             </div>
@@ -79,13 +79,13 @@ const Wrapper = styled.section`
 
   .card {
     border: 0.1rem solid rgb(170 170 170 / 40%);
-    border-radius: 20px;
+    border-radius: 8px;
     padding: 1rem;
     width: 89.45rem;
     background-color: rgb(234, 238, 241);
 
     img {
-      border-radius: 20px;
+      border-radius: 8px;
     }
     .card-data {
       padding: 0 2rem;

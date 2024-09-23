@@ -58,7 +58,7 @@ const SingleProduct = () => {
   };
 
   // Calculate old price based on 20% markup
-  const oldPrice = price * 1.2;
+  const oldPrice = price * 1;
   //Function to switch between tabs
   const handleTabClick = (index) => {
     setActiveTabs(index);
@@ -106,7 +106,8 @@ const SingleProduct = () => {
                 <FormatPrice price={oldPrice} />
               </p>
               <p className="current-price">
-                <FormatPrice price={price} />
+                {/* <FormatPrice price={price} /> */}
+                {price}
               </p>
             </div>
             <p className="product-description">{description}</p>

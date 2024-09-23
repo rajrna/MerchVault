@@ -23,7 +23,7 @@ const Nav = () => {
           display: inline-block;
           text-decoration: none;
           font-size: 1.5rem;
-          font-weight: 500;
+          font-weight: bold;
           text-transform: uppercase;
           color: ${({ theme }) => theme.colors.black};
           transition: color 0.3s linear;
