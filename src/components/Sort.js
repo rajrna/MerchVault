@@ -72,7 +72,7 @@ const Wrapper = styled.section`
     // border: 1px solid ${({ theme }) => theme.colors.border};
     border-radius: 30px;
     // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.bg};
   }
 
   .view-toggle {
@@ -83,6 +83,8 @@ const Wrapper = styled.section`
       padding: 0.6rem 0.8rem;
       border: 1px solid ${({ theme }) => theme.colors.black};
       border-radius: 10px;
+      height: fit-content;
+      padding: 1rem;
       background-color: ${({ theme }) => theme.colors.white};
       display: flex;
       justify-content: center;
@@ -92,6 +94,7 @@ const Wrapper = styled.section`
 
       .icon {
         font-size: 1.4rem; /* Adjusted font size */
+        font-weigth: bold;
       }
 
       &.active {
@@ -103,7 +106,7 @@ const Wrapper = styled.section`
 
   .product-count {
     p {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: 600;
       margin: 0;
     }

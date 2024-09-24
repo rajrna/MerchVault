@@ -19,7 +19,7 @@ const HeroSection = ({ myData }) => {
               make something special today!
             </p>
             <NavLink to="/products">
-              <Button>Show Now</Button>
+              <Button>Shop Now</Button>
             </NavLink>
           </div>
 
@@ -41,7 +41,7 @@ const HeroSection = ({ myData }) => {
 
 const Wrapper = styled.section`
   padding: 5rem 0;
-  background: #fff;
+  background-color: ${({ theme }) => theme.colors.bg};
 
   .grid {
     display: grid;

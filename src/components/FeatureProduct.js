@@ -155,6 +155,7 @@ const Wrapper = styled.section`
     align-items: center;
     justify-content: center;
     width: 100%;
+    font-weight: bold;
     padding: 15px;
   }
 `;

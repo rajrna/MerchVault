@@ -58,7 +58,7 @@ const SingleProduct = () => {
   };
 
   // Calculate old price based on 20% markup
-  const oldPrice = price * 1.2;
+  const oldPrice = price * 1;
   //Function to switch between tabs
   const handleTabClick = (index) => {
     setActiveTabs(index);
@@ -106,7 +106,8 @@ const SingleProduct = () => {
                 <FormatPrice price={oldPrice} />
               </p>
               <p className="current-price">
-                <FormatPrice price={price} />
+                {/* <FormatPrice price={price} /> */}
+                {price}
               </p>
             </div>
             <p className="product-description">{description}</p>
@@ -178,7 +179,10 @@ const SingleProduct = () => {
 
               // Add this inside the Reviews tab content
               <div className="reviews-content">
-                <h2>Customer Reviews</h2>
+                <h2>
+                  Customer Reviews{" "}
+                  {reviews ? <p>Reviews: {reviews}</p> : <p>No reviews yet.</p>}
+                </h2>
 
                 {/* List of existing reviews (if any) */}
                 <div className="existing-reviews">
@@ -257,7 +261,7 @@ const SingleProduct = () => {
 };
 
 const Wrapper = styled.section`
-  background: #fff;
+  background: rgb(246, 248, 250);
 
   .product-wrapper {
     display: flex;
@@ -265,7 +269,7 @@ const Wrapper = styled.section`
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
-    background: #fff;
+    background: rgb(246, 248, 250);
     // border-radius: 8px;
     // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 1rem;
@@ -286,8 +290,15 @@ const Wrapper = styled.section`
     gap: 1.5rem;
     padding: 1rem;
 
+    h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
     .product-name {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 700;
       color: #333;
     }
@@ -353,26 +364,41 @@ const Wrapper = styled.section`
       margin-top: 1.5rem;
     }
 
-    .size-options {
-      display: flex;
-      gap: 0.5rem;
+    /* Updated Size Selection Styles */
+    .size-selection {
+      margin-top: 1.5rem;
 
-      .size-btn {
-        padding: 0.6rem 1.2rem;
-        border-radius: 20px;
-        border: 1px solid #ccc;
-        background-color: #f9f9f9;
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
+      h3 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #333;
+      }
 
-        &:hover {
-          background-color: #ddd;
-        }
+      .size-options {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
 
-        &.active {
-          background-color: #333;
-          color: #fff;
-          border-color: #333;
+        .size-btn {
+          padding: 0.8rem 1.5rem;
+          border-radius: 25px;
+          border: 2px solid #ddd;
+          background-color: #f5f5f5;
+          cursor: pointer;
+          font-size: 1.1rem;
+          font-weight: 500;
+          transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+
+          &:hover {
+            background-color: #ddd;
+          }
+
+          &.active {
+            background-color: #333;
+            color: #fff;
+            border-color: #333;
+          }
         }
       }
     }

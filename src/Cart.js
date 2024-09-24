@@ -163,9 +163,13 @@ const Wrapper = styled.section`
       justify-content: flex-start;
       gap: 1rem;
 
+      p {
+        font-size: 1.2rem;
+      }
+
       .color-style {
-        width: 1.9rem;
-        height: 1.9rem;
+        width: 1.5rem;
+        height: 1.5rem;
         border-radius: 50%;
       }
     }
@@ -201,10 +205,10 @@ const Wrapper = styled.section`
 
     button {
       border: none;
-      background-color: #f0f0f0;
+      background-color: rgb(205, 208, 208);
       border-radius: 50%;
-      width: 2rem;
-      height: 2rem;
+      width: 2.5rem;
+      height: 2.5rem;
       font-size: 1.2rem;
       font-weight: bold;
       color: #333;

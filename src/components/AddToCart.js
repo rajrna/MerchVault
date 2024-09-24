@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaCheck } from "react-icons/fa";
+import { FaPlus, FaMinus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { Button } from "../styles/Button";
 import { useCartContext } from "../context/cart_context";
@@ -42,11 +43,11 @@ const AddToCart = ({ product }) => {
       <div className="amount-cart">
         <div className="amount-toggle">
           <button className="amount-btn" onClick={setDecrease}>
-            -
+            <FaMinus />
           </button>
           <span className="amount-style">{amount}</span>
           <button className="amount-btn" onClick={setIncrease}>
-            +
+            <FaPlus />
           </button>
         </div>
 
@@ -120,11 +121,11 @@ const Wrapper = styled.section`
 
     .amount-btn {
       border: none;
-      background-color: #f0f0f0;
+      background-color: rgb(205, 208, 208);
       border-radius: 50%;
       width: 3rem;
       height: 3rem;
-      font-size: 2rem;
+      font-size: 1.4rem;
       font-weight: bold;
       color: #333;
       cursor: pointer;
