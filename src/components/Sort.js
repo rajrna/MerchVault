@@ -59,7 +59,7 @@ const Sort = () => {
 
 const Wrapper = styled.section`
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: center;
   margin-top: 2rem; /* Adjusted margin for better spacing */
 
@@ -67,7 +67,7 @@ const Wrapper = styled.section`
     width: 100%;
     display: flex;
     flex-direction: row;
-    gap: 24rem;
+    gap: 37rem;
     padding: 1.5rem;
     // border: 1px solid ${({ theme }) => theme.colors.border};
     border-radius: 30px;

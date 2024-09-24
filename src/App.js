@@ -15,6 +15,9 @@ import Footer from "./components/Footer";
 import CustomizeProduct from "./CustomizeProduct";
 import { createContext } from "react";
 import axios from "axios";
+import Dashboard from "./components/dashboard/Dashboard";
+import ArtistInfo from "./components/dashboard/ArtistInfo";
+import ProductSection from "./components/dashboard/ProductSection";
 
 const MyContext = createContext();
 
@@ -64,6 +67,9 @@ const App = () => {
             <Route path="/login" element={<LogIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/artistdash" element={<Dashboard />} />
+            <Route path="/artistinfo" element={<ArtistInfo />} />
+            <Route path="/productsection" element={<ProductSection />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
           {isHeaderFooterShow === true && <Footer />}
