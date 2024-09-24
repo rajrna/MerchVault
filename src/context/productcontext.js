@@ -4,7 +4,8 @@ import reducer from "../reducer/productReducer";
 
 const AppContext = createContext();
 
-const API = "https://api.pujakaitem.com/api/products";
+// const API = "https://api.pujakaitem.com/api/products";
+const API = "http://localhost:8080/products";
 
 const initialState = {
   isLoading: false,
@@ -29,7 +30,7 @@ const AppProvider = ({ children }) => {
     }
   };
 
-  // my 2nd api call for single product
+  // my 2nd api call for single
 
   const getSingleProduct = async (url) => {
     dispatch({ type: "SET_SINGLE_LOADING" });
