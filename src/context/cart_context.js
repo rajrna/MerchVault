@@ -1,56 +1,76 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import reducer from "../reducer/cartReducer";
-import { type } from "@testing-library/user-event/dist/type";
+import axios from "axios"; // Using axios for API requests
 
 const CartContext = createContext();
 
-const getLocalCartData = () => {
-  let localCartData = localStorage.getItem("thapaCart");
-  if (localCartData == []) {
-    return [];
-  } else {
-    return JSON.parse(localCartData);
-  }
-};
-
 const initialState = {
-  cart: getLocalCartData(),
+  cart: [],
   total_item: "",
   total_price: "",
   shipping_fee: 5000,
+  shipping: false,
+  delivery_address: {},
 };
 
 const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const addToCart = (id, color, amount, product) => {
-    dispatch({ type: "ADD_TO_CART", payload: { id, color, amount, product } });
+  const addToCart = async (id, color, amount, product) => {
+    try {
+      const userId = "12345"; // Assuming you have a way to identify the user
+      const response = await axios.post("/api/cart/add", {
+        userId,
+        productId: id,
+        color,
+        amount,
+      });
+      dispatch({ type: "ADD_TO_CART", payload: response.data });
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
   };
 
-  //increment and decrement
-  const setDecrement = (id) => {
+  const setDecrement = async (id) => {
     dispatch({ type: "SET_DECREMENT", payload: id });
+    // Add API call for decrementing the quantity on MongoDB
   };
-  const setIncrement = (id) => {
+
+  const setIncrement = async (id) => {
     dispatch({ type: "SET_INCREMENT", payload: id });
+    // Add API call for incrementing the quantity on MongoDB
   };
 
-  const removeItem = (id) => {
-    dispatch({ type: "REMOVE_ITEM", payload: id });
+  const removeItem = async (id) => {
+    try {
+      const response = await axios.delete(`/api/cart/remove/${id}`);
+      dispatch({ type: "REMOVE_ITEM", payload: id });
+    } catch (error) {
+      console.error("Error removing item from cart:", error);
+    }
   };
 
-  //to clear the cart
-  const clearCart = () => {
-    dispatch({ type: "CLEAR_CART" });
+  const clearCart = async () => {
+    try {
+      await axios.delete("/api/cart/clear", { userId: "12345" });
+      dispatch({ type: "CLEAR_CART" });
+    } catch (error) {
+      console.error("Error clearing cart:", error);
+    }
   };
 
-  //to add the data in localstorage
   useEffect(() => {
-    // dispatch({ type: "CART_TOTAL_ITEM" });
-    // dispatch({ type: "CART_TOTAL_PRICE" });
-    dispatch({ type: "CART_ITEM_PRICE_TOTAL" });
-    localStorage.setItem("thapaCart", JSON.stringify(state.cart));
-  }, [state.cart]);
+    const fetchCart = async () => {
+      try {
+        const response = await axios.get("/api/cart", { userId: "12345" });
+        dispatch({ type: "LOAD_CART", payload: response.data });
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+      }
+    };
+
+    fetchCart();
+  }, []);
 
   return (
     <CartContext.Provider

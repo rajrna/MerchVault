@@ -24,7 +24,7 @@ exports.user_signup = (req, res, next) => {
               email: req.body.email,
               password: hash,
               fname: req.body.fname,
-              lname: req.name.lname,
+              lname: req.body.lname,
               admin: req.body.admin || false,
               artist: req.body.artist || false,
             });

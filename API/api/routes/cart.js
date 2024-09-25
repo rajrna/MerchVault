@@ -1,9 +1,13 @@
+const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
+const checkAuth = require("../middleware/check-auth");
+const CartController = require("../controllers/cart");
+
 const Cart = require("../models/cart");
 const Order = require("../models/order");
 
-// Handle Order creation from cart
+// router.post("/add", CartController);
 router.post("/create-order", async (req, res) => {
   const { userId, delivery_address } = req.body;
 
