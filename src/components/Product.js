@@ -14,7 +14,7 @@ const Product = (curElem) => {
           <div className="product-info">
             <h2 className="product-name">{name}</h2>
             {/* <p className="product-price">{<FormatPrice price={price} />}</p> */}
-            <p className="product-price">{price}</p>
+            <p className="product-price">${price}</p>
           </div>
         </div>
       </NavLink>
