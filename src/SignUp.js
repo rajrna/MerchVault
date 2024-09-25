@@ -8,6 +8,10 @@ const SignUp = () => {
 
   useEffect(() => {
     context.setisHeaderFooterShow(false);
+    return () => {
+      // Ensure the header and footer are shown again when navigating away
+      context.setisHeaderFooterShow(true);
+    };
   }, []);
 
   const handleLogoClick = () => {

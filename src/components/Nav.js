@@ -240,13 +240,13 @@ const Nav = () => {
               </NavLink>
             </div>
           </li>
-          {/* <li>
+          <li>
             <div className="circle ml-auto">
-              <NavLink to="/profile" className="navbar-link profile--link">
+              <NavLink to="/userdash" className="navbar-link profile--link">
                 <FiUser className="profile" />
               </NavLink>
             </div>
-          </li> */}
+          </li>
 
           <li>
             <NavLink to="/cart" className="navbar-link cart-trolley--link">

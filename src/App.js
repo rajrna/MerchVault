@@ -15,9 +15,12 @@ import Footer from "./components/Footer";
 import CustomizeProduct from "./CustomizeProduct";
 import { createContext } from "react";
 import axios from "axios";
-import Dashboard from "./components/dashboard/Dashboard";
-import ArtistInfo from "./components/dashboard/ArtistInfo";
-import ProductSection from "./components/dashboard/ProductSection";
+import ArtistDashboard from "./components/artistdashboard/Dashboard";
+import UserDashboard from "./components/userdashboard/Dashboard";
+import ArtistInfo from "./components/artistdashboard/ArtistInfo";
+import ProductSection from "./components/artistdashboard/ProductSection";
+import UserProfile from "./components/userdashboard/UserProfile";
+import UserOrder from "./components/userdashboard/UserOrder";
 
 const MyContext = createContext();
 
@@ -67,9 +70,14 @@ const App = () => {
             <Route path="/login" element={<LogIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/artistdash" element={<Dashboard />} />
+            <Route path="/userprofile" element={<UserProfile />} />
+            <Route path="/artistdash" element={<ArtistDashboard />} />
             <Route path="/artistinfo" element={<ArtistInfo />} />
             <Route path="/productsection" element={<ProductSection />} />
+
+            <Route path="/userdash" element={<UserDashboard />} />
+            <Route path="/userprofile" element={<UserProfile />} />
+            <Route path="/orderlist" element={<UserOrder />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
           {isHeaderFooterShow === true && <Footer />}

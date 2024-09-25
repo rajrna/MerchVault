@@ -98,6 +98,10 @@ const EmptyDiv = styled.div`
 const Wrapper = styled.section`
   padding: 9rem 0;
 
+  .container {
+    max-width: 150rem;
+    margin: 0 auto;
+  }
   .grid-four-column {
     grid-template-columns: repeat(4, 1fr);
   }

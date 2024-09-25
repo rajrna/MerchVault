@@ -1,18 +1,30 @@
 import { useContext, useEffect } from "react";
 import { MyContext } from "./App";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom"; // Import useNavigate
 
 const LogIn = () => {
   const context = useContext(MyContext);
+  // const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     context.setisHeaderFooterShow(false);
+
+    return () => {
+      // Ensure the header and footer are shown again when navigating away
+      context.setisHeaderFooterShow(true);
+    };
   }, []);
 
   const handleLogoClick = () => {
     context.setisHeaderFooterShow(true);
   };
+
+  // const handleLogin = () => {
+  //   // Simulate successful login, then navigate to the home page
+  //   context.setisHeaderFooterShow(true); // Show header and footer again
+  //   navigate("/"); // Redirect to home or another page
+  // };
 
   return (
     <Wrapper>
@@ -25,22 +37,21 @@ const LogIn = () => {
               </NavLink>
             </div>
             <header>Log In</header>
+
             <form action="#">
+              {/* <form onSubmit={handleLogin}> Call handleLogin on form submit */}
               <label htmlFor="email">Email</label>
               <input type="text" id="email" placeholder="Enter your email" />
-
               <label htmlFor="password">Password</label>
               <input
                 type="password"
                 id="password"
                 placeholder="Enter your password"
               />
-
               <a href="#" className="forgot-password">
                 Forgot password?
               </a>
-
-              <input type="button" className="button" value="Log in" />
+              <input type="submit" className="button" value="Log in" />
             </form>
             <div className="signup">
               <span>
