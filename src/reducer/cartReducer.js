@@ -162,8 +162,4 @@ const cartReducer = (state, action) => {
   return state;
 };
 
-// export default cartReducer;
-// function cartReducer() {
-//   return <></>;
-// }
-// export default cartReducer;
+export default cartReducer;

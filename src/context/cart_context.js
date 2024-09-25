@@ -1,19 +1,15 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import reducer from "../reducer/cartReducer";
+import { type } from "@testing-library/user-event/dist/type";
 
 const CartContext = createContext();
 
 const getLocalCartData = () => {
-  const localCartData = localStorage.getItem("thapaCart");
-  if (!localCartData) {
-    return []; // Return an empty array if no data in localStorage
-  }
-
-  try {
-    return JSON.parse(localCartData); // Safely parse the data if it exists
-  } catch (error) {
-    console.error("Error parsing local storage data:", error);
-    return []; // Return an empty array if parsing fails
+  let localCartData = localStorage.getItem("thapaCart");
+  if (localCartData == []) {
+    return [];
+  } else {
+    return JSON.parse(localCartData);
   }
 };
 
@@ -31,11 +27,10 @@ const CartProvider = ({ children }) => {
     dispatch({ type: "ADD_TO_CART", payload: { id, color, amount, product } });
   };
 
-  // Increment and decrement
+  //increment and decrement
   const setDecrement = (id) => {
     dispatch({ type: "SET_DECREMENT", payload: id });
   };
-
   const setIncrement = (id) => {
     dispatch({ type: "SET_INCREMENT", payload: id });
   };
@@ -44,17 +39,17 @@ const CartProvider = ({ children }) => {
     dispatch({ type: "REMOVE_ITEM", payload: id });
   };
 
-  // Clear the cart
+  //to clear the cart
   const clearCart = () => {
     dispatch({ type: "CLEAR_CART" });
   };
 
-  // Add the data in local storage
+  //to add the data in localstorage
   useEffect(() => {
-    // Ensure local storage only gets updated with valid data
-    if (state.cart.length > 0) {
-      localStorage.setItem("thapaCart", JSON.stringify(state.cart));
-    }
+    // dispatch({ type: "CART_TOTAL_ITEM" });
+    // dispatch({ type: "CART_TOTAL_PRICE" });
+    dispatch({ type: "CART_ITEM_PRICE_TOTAL" });
+    localStorage.setItem("thapaCart", JSON.stringify(state.cart));
   }, [state.cart]);
 
   return (

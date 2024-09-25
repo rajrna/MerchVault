@@ -10,7 +10,7 @@ import Star from "./components/Star";
 import AddToCart from "./components/AddToCart";
 import RelatedProducts from "./components/RelatedProducts";
 
-const API = "https://api.pujakaitem.com/api/products";
+const API = "http://localhost:8080/products";
 
 const SingleProduct = () => {
   const { getSingleProduct, isSingleLoading, singleProduct } =
@@ -42,12 +42,14 @@ const SingleProduct = () => {
   } = singleProduct;
 
   useEffect(() => {
-    getSingleProduct(`${API}?id=${id}`);
+    getSingleProduct(`${API}/${id}`); // Corrected API call
   }, [id]);
 
   if (isSingleLoading) {
     return <div className="page_loading">Loading.....</div>;
   }
+
+  // Render product details below (not shown)
 
   // Example sizes for the size selection (you can replace them with dynamic sizes if available in the API)
   const availableSizes = ["S", "M", "L", "XL", "XXL"];

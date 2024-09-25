@@ -1,17 +1,46 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MyContext } from "./App";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const LogIn = () => {
   const context = useContext(MyContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate(); // For programmatic navigation
 
   useEffect(() => {
     context.setisHeaderFooterShow(false);
-  }, []);
+  }, [context]);
 
   const handleLogoClick = () => {
     context.setisHeaderFooterShow(true);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:8080/user/login", {
+        // Replace with your API endpoint
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const result = await response.json();
+      // Handle success, e.g., store token, update context, redirect
+      console.log(result);
+      navigate("/"); // Redirect on successful login
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -20,27 +49,41 @@ const LogIn = () => {
         <div className="container">
           <div className="login form">
             <div className="logo-container">
-              <NavLink to="/" className="navbar-link" onClick={handleLogoClick}>
+              <NavLink
+                to="/cart"
+                className="navbar-link"
+                onClick={handleLogoClick}
+              >
                 <img src="./images/logo.png" alt="Logo" className="logo" />
               </NavLink>
             </div>
             <header>Log In</header>
-            <form action="#">
+            <form onSubmit={handleSubmit}>
               <label htmlFor="email">Email</label>
-              <input type="text" id="email" placeholder="Enter your email" />
+              <input
+                type="text"
+                id="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
 
               <label htmlFor="password">Password</label>
               <input
                 type="password"
                 id="password"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
 
-              <a href="#" className="forgot-password">
-                Forgot password?
-              </a>
+              {error && <p className="error-message">{error}</p>}
 
-              <input type="button" className="button" value="Log in" />
+              <button type="submit" className="button">
+                Log in
+              </button>
             </form>
             <div className="signup">
               <span>
@@ -181,6 +224,11 @@ const Wrapper = styled.section`
 
   .navbar-link:hover {
     text-decoration: underline;
+  }
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 1rem;
   }
 `;
 

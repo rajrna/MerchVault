@@ -27,7 +27,7 @@ const Services = () => {
             <div className="services-colum-2">
               <div>
                 <GiReceiveMoney className="icon" />
-                <h3>Mpney-back Guanranteed</h3>
+                <h3>Money-back Guaranteed</h3>
               </div>
             </div>
           </div>
@@ -35,7 +35,7 @@ const Services = () => {
           <div className="services-3">
             <div>
               <RiSecurePaymentLine className="icon" />
-              <h3>SUper Secure payment System</h3>
+              <h3>Secure Payment System</h3>
             </div>
           </div>
         </div>
