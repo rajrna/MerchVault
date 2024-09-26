@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaEye, FaEyeSlash } from "react-icons/fa";
 
-const ArtistInfo = () => {
+const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [artistData, setArtistData] = useState({
     name: "John Doe", // Replace with actual artist name
     email: "johndoe@example.com", // Replace with actual email
-    description: "A brief description about the artist.", // Replace with actual description
+    password: "johndoe123.", // Replace with actual description
   });
 
   const [formData, setFormData] = useState(artistData);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   // Handle input change
   const handleChange = (e) => {
@@ -27,16 +28,27 @@ const ArtistInfo = () => {
 
   return (
     <SectionContainer>
-      <h2>Artist Information</h2>
+      <h2>My Personal Information</h2>
       <InfoContainer>
         <div>
-          <strong>Artist Name:</strong> {artistData.name}
+          <strong>
+            Full Name: <br />
+          </strong>{" "}
+          {artistData.name}
+        </div>
+
+        <div>
+          <strong>
+            Email: <br />
+          </strong>{" "}
+          {artistData.email}
         </div>
         <div>
-          <strong>Email:</strong> {artistData.email}
-        </div>
-        <div>
-          <strong>Description:</strong> {artistData.description}
+          <strong>
+            Password:
+            <br />
+          </strong>{" "}
+          {artistData.password}
         </div>
         <EditButton onClick={() => setIsEditing(true)}>
           Edit
@@ -50,7 +62,7 @@ const ArtistInfo = () => {
             <h3>Edit Info</h3>
             <div className="data-container">
               <div>
-                <label>Artist Name:</label>
+                <label>Full Name: </label>
                 <input
                   type="text"
                   name="name"
@@ -60,7 +72,7 @@ const ArtistInfo = () => {
                 />
               </div>
               <div>
-                <label>Email:</label>
+                <label>Email: </label>
                 <input
                   type="email"
                   name="email"
@@ -72,13 +84,22 @@ const ArtistInfo = () => {
             </div>
 
             <div>
-              <label>Description:</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                required
-              />
+              <label>Password: </label>
+              <PasswordInputContainer>
+                <input
+                  type={showPassword ? "text" : "password"} // Toggle input type
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+                <ToggleButton
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </ToggleButton>
+              </PasswordInputContainer>
             </div>
 
             <div className="btn-container">
@@ -96,7 +117,7 @@ const ArtistInfo = () => {
   );
 };
 
-export default ArtistInfo;
+export default UserProfile;
 
 const SectionContainer = styled.div`
   padding: 5rem 10rem;
@@ -216,6 +237,33 @@ const Form = styled.form`
       color: #c82333;
       border: 1px solid #c82333;
     }
+  }
+`;
+
+const PasswordInputContainer = styled.div`
+  display: flex;
+  position: relative;
+
+  input {
+    flex: 1;
+  }
+`;
+
+const ToggleButton = styled.button`
+  position: absolute;
+  right: 22rem;
+  top: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+
+  &:focus {
+    outline: none;
+  }
+
+  svg {
+    color: #6c757d;
   }
 `;
 

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { MyContext } from "./App";
 import styled from "styled-components";
+
 import { NavLink, useNavigate } from "react-router-dom";
 
 const LogIn = () => {
@@ -14,6 +15,7 @@ const LogIn = () => {
   //   context.setisHeaderFooterShow(false);
   // }, [context]);
 
+
   useEffect(() => {
     context.setisHeaderFooterShow(false);
 
@@ -26,6 +28,7 @@ const LogIn = () => {
   const handleLogoClick = () => {
     context.setisHeaderFooterShow(true);
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,6 +70,7 @@ const LogIn = () => {
               </NavLink>
             </div>
             <header>Log In</header>
+
             <form onSubmit={handleSubmit}>
               <label htmlFor="email">Email</label>
               <input
@@ -78,6 +82,7 @@ const LogIn = () => {
                 required
               />
 
+
               <label htmlFor="password">Password</label>
               <input
                 type="password"
@@ -88,11 +93,16 @@ const LogIn = () => {
                 required
               />
 
+              <a href="#" className="forgot-password">
+                Forgot password?
+              </a>
+              //<input type="submit" className="button" value="Log in" />
               {error && <p className="error-message">{error}</p>}
 
               <button type="submit" className="button">
                 Log in
               </button>
+
             </form>
             <div className="signup">
               <span>

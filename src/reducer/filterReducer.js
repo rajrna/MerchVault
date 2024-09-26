@@ -90,6 +90,12 @@ const filterReducer = (state, action) => {
         );
       }
 
+      // if (artist !== "all") {
+      //   tempFilterProduct = tempFilterProduct.filter(
+      //     (curElem) => curElem.company.toLowerCase() === artist.toLowerCase()
+      //   );
+      // }
+
       if (color !== "all") {
         tempFilterProduct = tempFilterProduct.filter((curElem) =>
           curElem.colors.includes(color)

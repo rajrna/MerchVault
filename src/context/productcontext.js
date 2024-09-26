@@ -6,6 +6,7 @@ const AppContext = createContext();
 
 const API = "http://localhost:8080/products";
 
+
 const initialState = {
   isLoading: false,
   isError: false,

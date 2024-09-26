@@ -14,6 +14,7 @@ const initialState = {
     text: "",
     category: "all",
     company: "all",
+    // artist: "all",
     color: "all",
     maxPrice: 0,
     price: 0,
