@@ -271,6 +271,7 @@ const CustomizeProduct = () => {
       });
   };
 
+  //handle text draggable
   const handleTextDragMove = (e, text) => {
     const { width, height } = e.target.getClientRect();
     const x = Math.max(
@@ -464,25 +465,30 @@ const CustomizeProduct = () => {
                     ref={imageRef}
                     onClick={handleSelectImage} // Select the image when clicked
                     onDragMove={(e) => {
+                      const target = e.target; // Caching the target for cleaner code
+                      const scaledWidth = target.width() * target.scaleX();
+                      const scaledHeight = target.height() * target.scaleY();
+
+                      // Constrain X position
                       const x = Math.max(
                         boundaryX,
                         Math.min(
-                          e.target.x(),
-                          boundaryX +
-                            boundaryWidth -
-                            e.target.width() * e.target.scaleX()
+                          target.x(),
+                          boundaryX + boundaryWidth - scaledWidth
                         )
                       );
+
+                      // Constrain Y position
                       const y = Math.max(
                         boundaryY,
                         Math.min(
-                          e.target.y(),
-                          boundaryY +
-                            boundaryHeight -
-                            e.target.height() * e.target.scaleY()
+                          target.y(),
+                          boundaryY + boundaryHeight - scaledHeight
                         )
                       );
-                      e.target.position({ x, y });
+
+                      // Set the new position
+                      target.position({ x, y });
                     }}
                     onTransformEnd={() => {
                       const node = imageRef.current;
@@ -554,7 +560,8 @@ const CustomizeProduct = () => {
                           onClick={() => handleToggleCollapse(index)}
                           style={{ cursor: "pointer" }}
                         >
-                          Text No. {index + 1}{" "}
+                          {/* Text No. {index + 1}{" "} */}
+                          {textObj.text}
                           <button
                             onClick={() => handleDeleteText(index)}
                             className="delete-btn"
@@ -562,6 +569,7 @@ const CustomizeProduct = () => {
                             <FaTrash className="d-icons" />
                           </button>
                         </h4>
+                        <hr />
                         {!collapsed[index] && ( // Show controls only if not collapsed
                           <>
                             <label>

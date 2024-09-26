@@ -45,6 +45,9 @@ const Wrapper = styled.section`
   .container {
     max-width: 120rem;
   }
+  .grid {
+    gap: 2rem;
+  }
 
   figure {
     width: auto;

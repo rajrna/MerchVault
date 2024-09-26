@@ -45,9 +45,9 @@ const Wrapper = styled.section`
   }
 
   figure {
-    width: auto;
+    width: 25%;
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
     position: relative;
     overflow: hidden;
@@ -68,27 +68,28 @@ const Wrapper = styled.section`
       border-radius: 20px;
     }
     &:hover img {
-      transform: scale(1.15);
+      transform: scale(1.1);
     }
     img {
-      max-width: 80%;
+      max-width: 90%;
       height: 20rem;
+      margin-left: 1.8rem;
       transition: all 0.2s linear;
+      border-radius: 8px;
     }
   }
 
   .card {
+    display: flex;
     border: 0.1rem solid rgb(170 170 170 / 40%);
     border-radius: 8px;
     padding: 1rem;
-    width: 89.45rem;
+    width: 100%;
     background-color: rgb(234, 238, 241);
 
-    img {
-      border-radius: 8px;
-    }
     .card-data {
-      padding: 0 2rem;
+      width: 75%;
+      padding: 0 1.5rem;
     }
 
     h3 {
