@@ -42,7 +42,10 @@ const HeroSection = ({ myData }) => {
 const Wrapper = styled.section`
   padding: 5rem 0;
   background-color: ${({ theme }) => theme.colors.bg};
-
+  .container {
+    max-width: 140rem;
+    margin: 0 auto;
+  }
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

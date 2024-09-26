@@ -59,6 +59,10 @@ const Footer = () => {
 };
 
 const Wrapper = styled.section`
+  .container {
+    max-width: 140rem;
+    margin: 0 auto;
+  }
   footer {
     padding: 10rem 0 2rem 0;
     background-color: #0d3b66;

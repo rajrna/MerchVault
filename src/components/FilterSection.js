@@ -24,6 +24,7 @@ const FilterSection = () => {
 
   const categoryOnlyData = getUniqueData(all_products, "category");
   const companyOnlyData = getUniqueData(all_products, "company");
+  const artistOnlyData = getUniqueData(all_products, "artist");
   const colorsData = getUniqueData(all_products, "colors");
 
   return (
@@ -70,6 +71,26 @@ const FilterSection = () => {
             className="filter-company--select"
           >
             {companyOnlyData.map((item, index) => (
+              <option key={index} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <hr />
+
+      <div className="card">
+        <div className="filter-company">
+          <h3>Artist</h3>
+          <select
+            name="artist"
+            id="artist"
+            onChange={updateFilterValue}
+            className="filter-company--select"
+          >
+            {artistOnlyData.map((item, index) => (
               <option key={index} value={item}>
                 {item}
               </option>

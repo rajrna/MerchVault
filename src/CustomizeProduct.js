@@ -293,7 +293,7 @@ const CustomizeProduct = () => {
   return (
     <Wrapper>
       <div className="container">
-        {/* Right Side Controls */}
+        {/* Left Side Controls */}
         <div className="controls-sidebar-container">
           <aside className="controls-sidebar">
             <div className="card">
@@ -536,7 +536,7 @@ const CustomizeProduct = () => {
           </Stage>
         </main>
 
-        {/* Left Side Controls */}
+        {/* Right Side Controls */}
         <div className="controls-sidebar-container">
           <aside className="controls-sidebar">
             <div className="controls">

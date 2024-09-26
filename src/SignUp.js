@@ -1,19 +1,65 @@
-import { useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { MyContext } from "./App";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignUp = () => {
   const context = useContext(MyContext);
+  const [formData, setFormData] = useState({
+    fname: "",
+    lname: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     context.setisHeaderFooterShow(false);
+    return () => {
+      // Ensure the header and footer are shown again when navigating away
+      context.setisHeaderFooterShow(true);
+    };
   }, []);
 
   const handleLogoClick = () => {
     context.setisHeaderFooterShow(true);
   };
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8080/user/signup", {
+        fname: formData.fname,
+        lname: formData.lname,
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (response.status === 201) {
+        alert(response.data.message);
+        navigate("/login"); // Redirect to login or desired route
+      }
+    } catch (error) {
+      console.error("There was an error creating the user:", error);
+      alert("Failed to sign up. Please try again.");
+    }
+  };
+
+  // http://localhost:8080/user/signup
   return (
     <Wrapper>
       <section className="section signup-page">
@@ -26,22 +72,28 @@ const SignUp = () => {
             </div>
             <header>Sign Up</header>
 
-            <form action="#">
+            <form onSubmit={handleSubmit}>
               <div className="input-group">
                 <div className="input-column">
                   <label htmlFor="first-name">First Name</label>
                   <input
                     type="text"
-                    id="first-name"
+                    id="fname"
                     placeholder="Enter your first name"
+                    value={formData.fname}
+                    onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="input-column">
                   <label htmlFor="last-name">Last Name</label>
                   <input
                     type="text"
-                    id="last-name"
+                    id="lname"
                     placeholder="Enter your last name"
+                    value={formData.lname}
+                    onChange={handleChange}
+                    required
                   />
                 </div>
               </div>
@@ -53,6 +105,9 @@ const SignUp = () => {
                     type="text"
                     id="username"
                     placeholder="Enter your username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="input-column">
@@ -61,6 +116,9 @@ const SignUp = () => {
                     type="email"
                     id="email"
                     placeholder="Enter your email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
                   />
                 </div>
               </div>
@@ -72,19 +130,25 @@ const SignUp = () => {
                     type="password"
                     id="password"
                     placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="input-column">
                   <label htmlFor="confirm-password">Confirm Password</label>
                   <input
                     type="password"
-                    id="confirm-password"
+                    id="confirmPassword"
                     placeholder="Confirm your password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
                   />
                 </div>
               </div>
 
-              <input type="button" className="button" value="Sign Up" />
+              <input type="submit" className="button" value="Sign Up" />
             </form>
 
             <div className="login">
