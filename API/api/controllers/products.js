@@ -1,41 +1,6 @@
 const mongoose = require("mongoose");
 const Product = require("../models/product");
 
-// exports.products_get_all = (req, res, next) => {
-//   Product.find()
-//     .select("name price _id productImage")
-//     .exec()
-//     .then((docs) => {
-//       const response = {
-//         count: docs.length,
-//         products: docs.map((doc) => {
-//           return {
-//             name: doc.name,
-//             price: doc.price,
-//             productImage: doc.productImage,
-//             _id: doc.id,
-//             request: {
-//               type: "GET",
-//               url: "http://localhost:3000/products/" + doc.id,
-//             },
-//           };
-//         }),
-//       };
-//       // if (docs.length >= 0) {
-//       res.status(200).json(response);
-//       // } else {
-//       //   res.status(404).json({
-//       //     message: "No entries found",
-//       //   });
-//       // }
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).json({
-//         error: err,
-//       });
-//     });
-// };
 exports.products_get_all = (req, res, next) => {
   Product.find()
     .select(
@@ -74,44 +39,7 @@ exports.products_get_all = (req, res, next) => {
     });
 };
 ///////////////SINGLE PRODUCT
-// exports.products_get_product = (req, res, next) => {
-//   const id = req.params.productId;
 
-//   Product.findById(id)
-//     .select(
-//       "name price _id productImages description category stock stars reviews company colors"
-//     )
-//     .exec()
-//     .then((doc) => {
-//       if (!doc) {
-//         return res.status(404).json({ message: "Product not found" });
-//       }
-
-//       // Construct the response object
-//       const response = {
-//         id: doc._id, // Rename _id to id
-//         name: doc.name,
-//         company: doc.company, // Make sure company is selected and returned
-//         price: doc.price,
-//         colors: doc.colors, // Ensure colors exist in your model
-//         image:
-//           doc.productImages && doc.productImages.length > 0
-//             ? `${req.protocol}://${req.get("host")}/${doc.productImages[0]}`
-//             : null, // Construct full URL for the image
-//         description: doc.description,
-//         category: doc.category,
-//         stock: doc.stock,
-//         stars: doc.stars,
-//         reviews: doc.reviews,
-//       };
-
-//       res.status(200).json(response); // Return single product object
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).json({ error: err });
-//     });
-// };
 exports.products_get_product = (req, res, next) => {
   const id = req.params.productId;
 

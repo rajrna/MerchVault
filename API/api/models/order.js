@@ -44,7 +44,14 @@ const orderSchema = new mongoose.Schema({
     required: true, // Total cost of the order
   },
 });
-
+// Pre-save hook to calculate the totalAmount
+orderSchema.pre("save", function (next) {
+  this.totalAmount = this.cartItems.reduce((total, item) => {
+    // Assuming the product price is available here
+    return total + item.quantity * item.productId.price;
+  }, 0);
+  next();
+});
 const Order = mongoose.model("Order", orderSchema);
 
 module.exports = Order;

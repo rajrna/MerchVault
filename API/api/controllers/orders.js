@@ -1,124 +1,97 @@
-const mongoose = require("mongoose");
-
 const Order = require("../models/order");
-const Product = require("../models/product");
+const Cart = require("../models/cart");
 
-////////////////////////GET ORDERS
-exports.orders_get_all = (req, res, next) => {
-  Order.find()
-    .select("product quantity _id")
-    .populate("product")
-    // .populate("product", "name") if you only want the names
-    .exec()
-    .then((docs) => {
-      res.status(200).json({
-        count: docs.length,
-        orders: docs.map((doc) => {
-          return {
-            _id: doc._id,
-            product: doc.product,
-            quantity: doc.quantity,
-            request: {
-              type: "GET",
-              url: "http://localhost:3000/orders/" + doc._id,
-            },
-          };
-        }),
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
-      });
+// Place a new order
+exports.createOrder = async (req, res) => {
+  const userId = req.userData.userId; // Get userId from JWT
+  const { delivery_address, totalAmount } = req.body;
+
+  try {
+    // Find the user's cart
+    const cart = await Cart.findOne({ userId });
+
+    if (!cart) {
+      return res.status(404).json({ message: "Cart not found" });
+    }
+
+    // Create a new order
+    const newOrder = new Order({
+      userId,
+      cartItems: cart.cartItems,
+      delivery_address,
+      totalAmount,
+      paymentMethod: "Cash on Delivery", // Assuming cash on delivery
     });
+
+    // Save the order to the database
+    await newOrder.save();
+
+    // Clear the user's cart after placing the order
+    await Cart.findOneAndDelete({ userId });
+
+    res.status(201).json(newOrder);
+  } catch (error) {
+    res.status(500).json({ message: "Error creating order", error });
+  }
 };
 
-exports.orders_get_order = (req, res, next) => {
-  Order.findById(req.params.orderId)
-    .populate("product", "name")
-    .exec()
-    .then((order) => {
-      if (!order) {
-        return res.status(404).json({
-          message: "Order not found",
-        });
-      }
-      res.status(200).json({
-        order: order,
-        request: {
-          type: "GET",
-          url: "http://localhost:3000/orders",
-        },
-      });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
-      });
-    });
+// Get orders for a user
+exports.getUserOrders = async (req, res) => {
+  const userId = req.userData.userId; // Get userId from JWT
+
+  try {
+    const orders = await Order.find({ userId }).populate("cartItems.productId");
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching orders", error });
+  }
+};
+// Get a single order by orderId
+exports.getOrderById = async (req, res) => {
+  const userId = req.userData.userId; // Get userId from JWT
+  const { orderId } = req.params;
+
+  try {
+    const order = await Order.findOne({ _id: orderId, userId }).populate(
+      "cartItems.productId"
+    );
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching order", error });
+  }
 };
 
-/////////////////CREATING ORDERS
+// Update order status and shipping status
+exports.updateOrderStatus = async (req, res) => {
+  const { orderId } = req.params;
+  const { orderStatus, shipping } = req.body;
 
-exports.orders_create_order = (req, res, next) => {
-  Product.findById(req.body.productId)
-    .then((product) => {
-      if (!product) {
-        return res.status(404).json({
-          message: "Product not found",
-        });
-      }
-      const order = new Order({
-        _id: new mongoose.Types.ObjectId(),
-        quantity: req.body.quantity,
-        product: req.body.productId,
-      });
-      return order.save();
-    })
-    .then((result) => {
-      console.log(result);
-      res.status(201).json({
-        message: "Order stored",
-        createdOrder: {
-          _id: result._id,
-          product: result.product,
-          quantity: result.quantity,
-        },
-        request: {
-          type: "GET",
-          url: "http://localhost:3000/orders/" + result._id,
-        },
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
-};
+  try {
+    // Find the order by ID
+    const order = await Order.findById(orderId);
 
-////////////DELETE ORDER
-exports.orders_delete_order = (req, res, next) => {
-  Order.deleteOne({ _id: req.params.orderId })
-    .exec()
-    .then((result) => {
-      res.status(200).json({
-        message: "Order deleted",
-        request: {
-          type: "POST",
-          url: "http://localhost:3000/orders",
-          body: {
-            product: "ID",
-            quantity: "Number",
-          },
-        },
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Update order status and shipping status
+    if (orderStatus !== undefined) {
+      order.orderStatus = orderStatus;
+    }
+
+    if (shipping !== undefined) {
+      order.shipping = shipping;
+    }
+
+    await order.save();
+
+    res.status(200).json({ message: "Order updated", order });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating order", error });
+  }
 };

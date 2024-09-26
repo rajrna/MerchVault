@@ -1,44 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const Cart = require("../models/cart");
-const Order = require("../models/order");
 
-// Handle Order creation from cart
-router.post("/create-order", async (req, res) => {
-  const { userId, delivery_address } = req.body;
+const OrderController = require("../controllers/orders");
+const checkAuth = require("../middleware/check-auth");
 
-  try {
-    // Fetch the user's cart
-    const cart = await Cart.findOne({ userId });
+router.post("/place-order/", checkAuth, OrderController.createOrder);
 
-    if (!cart || cart.cartItems.length === 0) {
-      return res.status(400).json({ message: "Cart is empty" });
-    }
+router.get("/get-my-orders/", checkAuth, OrderController.getUserOrders);
 
-    // Calculate the total price
-    const totalAmount = cart.cartItems.reduce((acc, item) => {
-      return acc + item.quantity * item.productId.price; // Assuming product model has price
-    }, 0);
+router.get("/order-by-id/:orderId", checkAuth, OrderController.getOrderById);
 
-    // Create a new Order
-    const order = new Order({
-      userId: cart.userId,
-      cartItems: cart.cartItems, // Transfer cart items
-      delivery_address, // Transfer delivery address
-      shipping: true, // Cash on delivery implies confirmed order
-      totalAmount, // Total amount of the order
-    });
-
-    // Save the order
-    const savedOrder = await order.save();
-
-    // Clear the cart after placing the order
-    await Cart.findOneAndDelete({ userId });
-
-    res.status(201).json(savedOrder);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+router.patch(
+  "/update-order-status/:orderId",
+  checkAuth,
+  OrderController.updateOrderStatus
+);
 
 module.exports = router;
