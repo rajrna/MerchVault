@@ -10,9 +10,18 @@ const LogIn = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate(); // For programmatic navigation
 
+  // useEffect(() => {
+  //   context.setisHeaderFooterShow(false);
+  // }, [context]);
+
   useEffect(() => {
     context.setisHeaderFooterShow(false);
-  }, [context]);
+
+    return () => {
+      // Ensure the header and footer are shown again when navigating away
+      context.setisHeaderFooterShow(true);
+    };
+  }, []);
 
   const handleLogoClick = () => {
     context.setisHeaderFooterShow(true);
