@@ -96,11 +96,11 @@ const LogIn = () => {
               <a href="#" className="forgot-password">
                 Forgot password?
               </a>
-              //<input type="submit" className="button" value="Log in" />
+              <input type="submit" className="button" value="Log in" />
               {error && <p className="error-message">{error}</p>}
 
               <button type="submit" className="button">
-                Log in
+                {/* Log in */}
               </button>
 
             </form>
