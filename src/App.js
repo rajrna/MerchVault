@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
@@ -13,8 +13,6 @@ import { ThemeProvider } from "styled-components";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CustomizeProduct from "./CustomizeProduct";
-import { createContext } from "react";
-import axios from "axios";
 import ArtistDashboard from "./components/artistdashboard/Dashboard";
 import UserDashboard from "./components/userdashboard/Dashboard";
 import ArtistInfo from "./components/artistdashboard/ArtistInfo";
@@ -22,10 +20,13 @@ import ProductSection from "./components/artistdashboard/ProductSection";
 import UserProfile from "./components/userdashboard/UserProfile";
 import UserOrder from "./components/userdashboard/UserOrder";
 
+// Create context
 const MyContext = createContext();
 
 const App = () => {
   const [isHeaderFooterShow, setisHeaderFooterShow] = useState(true);
+  const [user, setUser] = useState(null); // Adding user state
+  const [isLoggedIn, setisLoggedIn] = useState(false); // Track if user is logged in
 
   const theme = {
     colors: {
@@ -34,7 +35,6 @@ const App = () => {
       white: "#fff",
       black: " #212529",
       helper: "#8490ff",
-
       bg: "#F6F8FA",
       footer_bg: "#0a1435",
       btn: "rgb(98 84 243)",
@@ -52,7 +52,15 @@ const App = () => {
     },
   };
 
-  const values = { isHeaderFooterShow, setisHeaderFooterShow };
+  // Include user, setUser, and isLoggedIn in the context
+  const values = {
+    isHeaderFooterShow,
+    setisHeaderFooterShow,
+    user,
+    setUser, // Provide setUser to update user state
+    isLoggedIn,
+    setisLoggedIn,
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -88,5 +96,4 @@ const App = () => {
 };
 
 export default App;
-
 export { MyContext };

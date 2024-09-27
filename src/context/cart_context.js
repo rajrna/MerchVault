@@ -31,7 +31,7 @@ const CartProvider = ({ children }) => {
       const response = await axiosInstance.post("/cart/add-to-cart", {
         productId: id,
         color,
-        quantity: amount, // Adjust key to match backend
+        quantity: amount,
       });
       dispatch({ type: "ADD_TO_CART", payload: response.data });
     } catch (error) {
@@ -39,12 +39,12 @@ const CartProvider = ({ children }) => {
     }
   };
 
-  const setDecrement = async (id) => {
+  const setDecrement = (id) => {
     dispatch({ type: "SET_DECREMENT", payload: id });
     // Add API call for decrementing the quantity on MongoDB if needed
   };
 
-  const setIncrement = async (id) => {
+  const setIncrement = (id) => {
     dispatch({ type: "SET_INCREMENT", payload: id });
     // Add API call for incrementing the quantity on MongoDB if needed
   };
@@ -78,7 +78,7 @@ const CartProvider = ({ children }) => {
     };
 
     fetchCart();
-  }, [token]); // Include token in dependency array
+  }, [token]);
 
   return (
     <CartContext.Provider

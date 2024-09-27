@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
         const token = localStorage.getItem("token");
         if (token) {
           // Example endpoint to check user authentication
-          const response = await axios.get("/api/auth/check", {
+          const response = await axios.get("http://localhost:8080/user/check", {
             headers: { Authorization: `Bearer ${token}` },
           });
           setUser(response.data.user);
@@ -35,7 +35,10 @@ const AuthProvider = ({ children }) => {
   // Login Function
   const login = async (credentials) => {
     try {
-      const response = await axios.post("/api/auth/login", credentials);
+      const response = await axios.post(
+        "http://localhost:8080/user/login",
+        credentials
+      );
       setUser(response.data.user);
       localStorage.setItem("token", response.data.token);
     } catch (error) {
@@ -50,7 +53,15 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token: localStorage.getItem("token"),
+        login,
+        logout,
+        loading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
