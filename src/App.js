@@ -21,6 +21,10 @@ import ArtistInfo from "./components/artistdashboard/ArtistInfo";
 import ProductSection from "./components/artistdashboard/ProductSection";
 import UserProfile from "./components/userdashboard/UserProfile";
 import UserOrder from "./components/userdashboard/UserOrder";
+import Dashdetails from "./components/admin_dash/dashdetails";
+import AdminDashboard from "./components/admin_dash/admindashboard";
+import DashProfile from "./components/admin_dash/dashprofile";
+import DashProduct from "./components/admin_dash/dashproduct";
 
 const MyContext = createContext();
 
@@ -79,6 +83,12 @@ const App = () => {
             <Route path="/userprofile" element={<UserProfile />} />
             <Route path="/orderlist" element={<UserOrder />} />
             <Route path="*" element={<ErrorPage />} />
+            <Route path="/admindash" element={<AdminDashboard/>} />
+            <Route path="/dashdetails" element={<Dashdetails/>} />
+            <Route path="/adminprofile" element={<DashProfile/>} />
+            <Route path="/dashproduct" element={<DashProduct/>} />
+            
+
           </Routes>
           {isHeaderFooterShow === true && <Footer />}
         </MyContext.Provider>
