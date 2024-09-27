@@ -40,7 +40,7 @@ const SignUp = () => {
                     placeholder="Enter your first name"
                   />
                 </div>
-                <div className="input-column">
+                {/* <div className="input-column">
                   <label htmlFor="last-name">Last Name</label>
                   <input
                     type="text"
@@ -58,7 +58,7 @@ const SignUp = () => {
                     id="username"
                     placeholder="Enter your username"
                   />
-                </div>
+                </div> */}
                 <div className="input-column">
                   <label htmlFor="email">Email</label>
                   <input
