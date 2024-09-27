@@ -28,7 +28,7 @@ const FeatureProduct = () => {
           </NavLink>
         </div>
 
-        <div className="grid grid-three-column">
+        <div className="grid grid-four-column">
           {featureProducts.map((curElem) => {
             return <Product key={curElem.id} {...curElem} />;
           })}
@@ -152,7 +152,9 @@ const Wrapper = styled.section`
   .fp-header {
     width: 89%;
   }
-
+  .grid {
+    gap: 2rem;
+  }
   .viewall-btn {
     display: flex;
     align-items: center;

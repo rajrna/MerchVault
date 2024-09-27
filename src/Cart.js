@@ -52,14 +52,18 @@ const Cart = () => {
         <hr />
 
         <div className="cart-item">
-          {cart.map((curElem) => {
-            return (
-              <div>
-                <CartItem key={curElem.id} {...curElem} />
-                <hr />
-              </div>
-            );
-          })}
+          {cart.map((curElem) => (
+            <div key={curElem.id}>
+              <CartItem
+                name={curElem.name}
+                price={curElem.price}
+                amount={curElem.amount}
+                image={curElem.image}
+                color={curElem.color}
+              />
+              <hr />
+            </div>
+          ))}
         </div>
 
         <div className="cart-two-button">

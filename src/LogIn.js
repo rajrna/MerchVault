@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { MyContext } from "./App";
 import styled from "styled-components";
-
 import { NavLink, useNavigate } from "react-router-dom";
 
 const LogIn = () => {
@@ -15,7 +14,6 @@ const LogIn = () => {
   //   context.setisHeaderFooterShow(false);
   // }, [context]);
 
-
   useEffect(() => {
     context.setisHeaderFooterShow(false);
 
@@ -28,7 +26,6 @@ const LogIn = () => {
   const handleLogoClick = () => {
     context.setisHeaderFooterShow(true);
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +44,12 @@ const LogIn = () => {
       }
 
       const result = await response.json();
+
       // Handle success, e.g., store token, update context, redirect
+      localStorage.setItem("token", result.token); // Store token
+      context.setUser(result.user); // Set user in context
+      context.setisLoggedIn(true); // Update login status
+      navigate("/"); // Redirect to homepage
       console.log(result);
       navigate("/"); // Redirect on successful login
     } catch (err) {
@@ -70,7 +72,6 @@ const LogIn = () => {
               </NavLink>
             </div>
             <header>Log In</header>
-
             <form onSubmit={handleSubmit}>
               <label htmlFor="email">Email</label>
               <input
@@ -81,8 +82,6 @@ const LogIn = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-
-
               <label htmlFor="password">Password</label>
               <input
                 type="password"
@@ -92,17 +91,16 @@ const LogIn = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-
               <a href="#" className="forgot-password">
                 Forgot password?
               </a>
+
               //<input type="submit" className="button" value="Log in" />
+
               {error && <p className="error-message">{error}</p>}
-
               <button type="submit" className="button">
-                Log in
+                {/* Log in */}
               </button>
-
             </form>
             <div className="signup">
               <span>
