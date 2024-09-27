@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FaCheck } from "react-icons/fa";
 import { FaPlus, FaMinus } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { Button } from "../styles/Button";
 import { useCartContext } from "../context/cart_context";
 
 const AddToCart = ({ product }) => {
   const { addToCart } = useCartContext();
+  const navigate = useNavigate(); // useNavigate hook for navigation
 
   const { id, colors, stock } = product;
 
@@ -20,6 +21,11 @@ const AddToCart = ({ product }) => {
 
   const setIncrease = () => {
     amount < stock ? setAmount(amount + 1) : setAmount(stock);
+  };
+
+  const handleAddToCart = () => {
+    addToCart(id, color, amount, product);
+    navigate("/cart"); // Navigate after adding to cart
   };
 
   return (
@@ -51,12 +57,9 @@ const AddToCart = ({ product }) => {
           </button>
         </div>
 
-        <NavLink
-          to="/cart"
-          onClick={() => addToCart(id, color, amount, product)}
-        >
-          <Button className="add-to-cart-btn">Add to Cart</Button>
-        </NavLink>
+        <Button className="add-to-cart-btn" onClick={handleAddToCart}>
+          Add to Cart
+        </Button>
       </div>
     </Wrapper>
   );

@@ -9,7 +9,7 @@ const Header = () => {
       <AnnouncementBar>
         <p>
           Interested in showcasing your art?{" "}
-          <a href="#artist-signup">Join as an artist!</a>
+          <a href="/#artist-signup">Join as an artist!</a>
         </p>
       </AnnouncementBar>
       <MainHeader>
@@ -52,7 +52,8 @@ const AnnouncementBar = styled.div`
 const MainHeader = styled.header`
   padding: 0 4.8rem;
   height: 8rem;
-  background-color: ${({ theme }) => theme.colors.bg};
+  background-color: ${({ theme }) =>
+    theme.colors.bg}; /* Ensures background color stays visible */
   display: flex;
   justify-content: space-between;
   align-items: center;

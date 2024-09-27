@@ -44,7 +44,12 @@ const LogIn = () => {
       }
 
       const result = await response.json();
+
       // Handle success, e.g., store token, update context, redirect
+      localStorage.setItem("token", result.token); // Store token
+      context.setUser(result.user); // Set user in context
+      context.setisLoggedIn(true); // Update login status
+      navigate("/"); // Redirect to homepage
       console.log(result);
       navigate("/"); // Redirect on successful login
     } catch (err) {
@@ -77,7 +82,6 @@ const LogIn = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-
               <label htmlFor="password">Password</label>
               <input
                 type="password"
@@ -87,9 +91,10 @@ const LogIn = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-
+              <a href="#" className="forgot-password">
+                Forgot password?
+              </a>
               {error && <p className="error-message">{error}</p>}
-
               <button type="submit" className="button">
                 Log in
               </button>

@@ -29,14 +29,18 @@ const Cart = () => {
         <hr />
 
         <div className="cart-item">
-          {cart.map((curElem) => {
-            return (
-              <div>
-                <CartItem key={curElem.id} {...curElem} />
-                <hr />
-              </div>
-            );
-          })}
+          {cart.map((curElem) => (
+            <div key={curElem.id}>
+              <CartItem
+                name={curElem.name}
+                price={curElem.price}
+                amount={curElem.amount}
+                image={curElem.image}
+                color={curElem.color}
+              />
+              <hr />
+            </div>
+          ))}
         </div>
 
         <div className="cart-two-button">
@@ -98,6 +102,10 @@ const EmptyDiv = styled.div`
 const Wrapper = styled.section`
   padding: 9rem 0;
 
+  .container {
+    max-width: 150rem;
+    margin: 0 auto;
+  }
   .grid-four-column {
     grid-template-columns: repeat(4, 1fr);
   }

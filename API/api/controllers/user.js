@@ -24,7 +24,7 @@ exports.user_signup = (req, res, next) => {
               email: req.body.email,
               password: hash,
               fname: req.body.fname,
-              lname: req.body.lname,
+              address: req.body.address,
               admin: req.body.admin || false,
               artist: req.body.artist || false,
             });
@@ -106,4 +106,27 @@ exports.user_delete = (req, res, next) => {
         error: err,
       });
     });
+};
+exports.getUserInfo = async (req, res) => {
+  try {
+    // Find the user based on the authenticated user's ID
+    const user = await User.findById(
+      req.userData.userId,
+      "fname email address"
+    ); // Only select username and email
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Send only the username and email in the response
+    return res.status(200).json({
+      name: user.fname,
+      email: user.email,
+      address: user.address,
+    });
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
 };
