@@ -5,25 +5,33 @@ const DashOrder = () => {
   const [orders, setOrders] = useState([
     {
       id: 1,
-      product: "T-shirt",
-      quantity: 2,
-      price: "$20",
+      user: "John Doe",
+      email: "john@example.com",
+      products: [
+        { name: "T-shirt", size: "L", quantity: 2 },
+        { name: "Hoodie", size: "M", quantity: 1 },
+      ],
+      price: "$70",
       status: "Shipped",
-      street: "Fulbari",
-      city: "Pokhara",
+      address: "Fulbari, Pokhara",
       date: "2024-09-27",
     },
     {
       id: 2,
-      product: "Banner",
-      quantity: 1,
+      user: "Jane Smith",
+      email: "jane@example.com",
+      products: [{ name: "Banner", size: "One Size", quantity: 1 }],
       price: "$35",
       status: "Processing",
-      street: "Ranipauwa",
-      city: "Pokhara",
+      address: "Ranipauwa, Pokhara",
       date: "2024-09-27",
     },
   ]);
+
+  // Function to calculate total quantity of products in an order
+  const calculateTotalQuantity = (products) => {
+    return products.reduce((total, product) => total + product.quantity, 0);
+  };
 
   return (
     <SectionContainer>
@@ -35,12 +43,13 @@ const DashOrder = () => {
             <thead>
               <tr>
                 <th>Order ID</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
+                <th>User</th>
+                <th>Email</th>
+                <th>Products</th>
+                <th>Total Quantity</th> {/* New Total Quantity column */}
+                <th>Total Price</th>
                 <th>Status</th>
-                <th>Street</th>
-                <th>City</th>
+                <th>Address</th>
                 <th>Date</th>
               </tr>
             </thead>
@@ -49,18 +58,29 @@ const DashOrder = () => {
                 orders.map((order) => (
                   <tr key={order.id}>
                     <td>{order.id}</td>
-                    <td>{order.product}</td>
-                    <td>{order.quantity}</td>
+                    <td>{order.user}</td>
+                    <td>{order.email}</td>
+                    <td>
+                      <ul>
+                        {order.products.map((product, index) => (
+                          <li key={index}>
+                            {product.name} (Size: {product.size}, Quantity:{" "}
+                            {product.quantity})
+                          </li>
+                        ))}
+                      </ul>
+                    </td>
+                    <td>{calculateTotalQuantity(order.products)}</td>{" "}
+                    {/* Display total quantity */}
                     <td>{order.price}</td>
                     <td>{order.status}</td>
-                    <td>{order.street}</td>
-                    <td>{order.city}</td>
+                    <td>{order.address}</td>
                     <td>{order.date}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="8">No orders yet.</td>
+                  <td colSpan="9">No orders yet.</td>
                 </tr>
               )}
             </tbody>
@@ -71,13 +91,14 @@ const DashOrder = () => {
   );
 };
 
+// Styled Components (same as before)
 const SectionContainer = styled.div`
   padding: 5rem 10rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
   margin-bottom: 10rem;
   height: 600px;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 const InfoContainer = styled.div`
@@ -128,6 +149,16 @@ const ProductTable = styled.table`
     td {
       padding: 1rem;
       font-size: 1.5rem;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
     }
   }
 `;

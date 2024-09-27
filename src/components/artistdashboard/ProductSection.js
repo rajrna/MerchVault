@@ -32,46 +32,6 @@ const ProductSection = () => {
     <SectionContainer>
       <h2>Product Section</h2>
       <InfoContainer>
-        {/* Display the list of submitted products in a table */}
-        <ProductsSection>
-          <h3>Artist's Designed Products</h3>
-          <ProductTable>
-            <thead>
-              <tr>
-                <th>Design Image</th>
-                <th>Product Name</th>
-                <th>Description</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.length > 0 ? (
-                products.map((product, index) => (
-                  <tr key={index}>
-                    <td>
-                      {/* Wrap the image in an anchor tag to open it in a new window */}
-                      <a
-                        href={product.image}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <img src={product.image} alt={product.name} />
-                      </a>
-                    </td>
-                    <td>{product.name}</td>
-                    <td>{product.description}</td>
-                    <td>{product.status}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="4">No products submitted yet.</td>
-                </tr>
-              )}
-            </tbody>
-          </ProductTable>
-        </ProductsSection>
-
         <Form onSubmit={handleSubmit}>
           <h3>Submit New Design</h3>
           <FormLayout>
@@ -117,6 +77,48 @@ const ProductSection = () => {
           </FormLayout>
           <button type="submit">Submit Your Design</button>
         </Form>
+
+        <hr />
+
+        {/* Display the list of submitted products in a table */}
+        <ProductsSection>
+          <h3>Artist's Designed Products</h3>
+          <ProductTable>
+            <thead>
+              <tr>
+                <th>Design Image</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.length > 0 ? (
+                products.map((product, index) => (
+                  <tr key={index}>
+                    <td>
+                      {/* Wrap the image in an anchor tag to open it in a new window */}
+                      <a
+                        href={product.image}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <img src={product.image} alt={product.name} />
+                      </a>
+                    </td>
+                    <td>{product.name}</td>
+                    <td>{product.description}</td>
+                    <td>{product.status}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4">No products submitted yet.</td>
+                </tr>
+              )}
+            </tbody>
+          </ProductTable>
+        </ProductsSection>
       </InfoContainer>
     </SectionContainer>
   );
@@ -127,6 +129,9 @@ const SectionContainer = styled.div`
   // background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  margin-bottom: 10rem;
+  height: 750px;
+  overflow-y: scroll;
 `;
 
 const InfoContainer = styled.div`
@@ -194,6 +199,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
+  margin-bottom: 2rem;
 
   h3 {
     font-size: 2rem;

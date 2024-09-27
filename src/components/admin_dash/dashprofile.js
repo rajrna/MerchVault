@@ -37,7 +37,6 @@ const DashProfile = () => {
           {artistData.name}
         </div>
 
-        
         <div>
           <strong>
             Password:
@@ -66,7 +65,6 @@ const DashProfile = () => {
                   required
                 />
               </div>
-              
             </div>
 
             <div>
