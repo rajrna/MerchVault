@@ -25,6 +25,8 @@ import Dashdetails from "./components/admin_dash/dashdetails";
 import AdminDashboard from "./components/admin_dash/admindashboard";
 import DashProfile from "./components/admin_dash/dashprofile";
 import DashProduct from "./components/admin_dash/dashproduct";
+import DashOrder from "./components/admin_dash/dashorder";
+import DashMessage from "./components/admin_dash/dashmessage";
 
 const MyContext = createContext();
 
@@ -87,6 +89,8 @@ const App = () => {
             <Route path="/dashdetails" element={<Dashdetails/>} />
             <Route path="/adminprofile" element={<DashProfile/>} />
             <Route path="/dashproduct" element={<DashProduct/>} />
+            <Route path="/dashorder" element={<DashOrder/>} />
+            <Route path="/dashmessage" element={<DashMessage/>} />
             
 
           </Routes>

@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import UserProfile from "../userdashboard/UserProfile";
-import UserOrder from "../userdashboard/UserOrder";
-import ArtistDashboard from "../artistdashboard/Dashboard";
 import styled from "styled-components";
-import ArtistInfo from "../artistdashboard/ArtistInfo";
-import ProductSection from "../artistdashboard/ProductSection";
 import Dashdetails from "./dashdetails";
 import DashProfile from "./dashprofile";
 import DashProduct from "./dashproduct";
+import DashMessage from "./dashmessage";
+import DashOrder from "./dashorder";
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState("dashdetails");
@@ -35,14 +32,14 @@ const AdminDashboard = () => {
           Product
         </SidebarItem>
         <SidebarItem
-          active={activeSection === "orderlist"}
-          onClick={() => setActiveSection("orderlist")}
+          active={activeSection === "dashorder"}
+          onClick={() => setActiveSection("dashorder")}
         >
           Orders
         </SidebarItem>
         <SidebarItem
-          active={activeSection === "orderlist"}
-          onClick={() => setActiveSection("orderlist")}
+          active={activeSection === "dashmessage"}
+          onClick={() => setActiveSection("dashmessage")}
         >
           Messages
         </SidebarItem>
@@ -54,6 +51,9 @@ const AdminDashboard = () => {
         {activeSection === "dashdetails" && <Dashdetails />}
         {activeSection === "dashprofile" && <DashProfile />}
         {activeSection === "dashproduct" && <DashProduct/>}
+        {activeSection === "dashorder" && <DashOrder/>}
+        {activeSection === "dashmessage" && <DashMessage/>}
+
         
       </MainContent>
     </Container>
