@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 
 const DashProduct = () => {
   const [products, setProducts] = useState([]);
@@ -39,9 +40,16 @@ const DashProduct = () => {
     setShowPopup(true);
   };
 
-  const handleClosePopup = () => {
+  const handleClosePopupButton = () => {
     setShowPopup(false);
     setSelectedProduct(null);
+  };
+
+  // Handle Popup Close when clicking outside
+  const handleClosePopup = (e) => {
+    if (e.target.classList.contains("popup-overlay")) {
+      setShowPopup(false);
+    }
   };
 
   const handleDelete = (productName) => {
@@ -55,6 +63,12 @@ const DashProduct = () => {
     setSelectedProduct(product);
     setImagePreview(product.image); // Set image preview to the current product image
     setShowEditPopup(true); // Open edit popup
+  };
+
+  const handleCloseEditPopup = (e) => {
+    if (e.target.classList.contains("popup-overlay")) {
+      setShowEditPopup(false);
+    }
   };
 
   const handleUpdate = (updatedProduct) => {
@@ -197,13 +211,18 @@ const DashProduct = () => {
                     <td>{product.stock}</td>
                     <td>{product.status}</td>
                     <td>
-                      <button onClick={() => handleEdit(product)}>Edit</button>
-                      <button onClick={() => handleDelete(product.name)}>
-                        Delete
-                      </button>
-                      <button onClick={() => handleViewClick(product)}>
-                        View
-                      </button>
+                      <div className="action-btns">
+                        <button onClick={() => handleEdit(product)}>
+                          {" "}
+                          <FaEdit className="p-icon edit-icon" />
+                        </button>
+                        <button onClick={() => handleDelete(product.name)}>
+                          <FaTrash className="p-icon delete-icon" />
+                        </button>
+                        <button onClick={() => handleViewClick(product)}>
+                          <FaEye className="p-icon view-icon" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -218,29 +237,35 @@ const DashProduct = () => {
 
         {/* Popup window for product details */}
         {showPopup && selectedProduct && (
-          <PopupOverlay>
+          <PopupOverlay className="popup-overlay" onClick={handleClosePopup}>
             <PopupContent>
               <h3>Product Details</h3>
-              <img src={selectedProduct.image} alt={selectedProduct.name} />
-              <p>
-                <strong>Name:</strong> {selectedProduct.name}
-              </p>
-              <p>
-                <strong>Category:</strong> {selectedProduct.category}
-              </p>
-              <p>
-                <strong>Brand:</strong> {selectedProduct.brand}
-              </p>
-              <p>
-                <strong>Price:</strong> {selectedProduct.price}
-              </p>
-              <p>
-                <strong>Stock:</strong> {selectedProduct.stock}
-              </p>
-              <p>
-                <strong>Description:</strong> {selectedProduct.description}
-              </p>
-              <button onClick={handleClosePopup}>X</button>
+              <div className="prod-details-container">
+                {" "}
+                <img src={selectedProduct.image} alt={selectedProduct.name} />
+                <div>
+                  {" "}
+                  <p>
+                    <strong>Name:</strong> {selectedProduct.name}
+                  </p>
+                  <p>
+                    <strong>Category:</strong> {selectedProduct.category}
+                  </p>
+                  <p>
+                    <strong>Brand:</strong> {selectedProduct.brand}
+                  </p>
+                  <p>
+                    <strong>Price:</strong> {selectedProduct.price}
+                  </p>
+                  <p>
+                    <strong>Stock:</strong> {selectedProduct.stock}
+                  </p>
+                  <p>
+                    <strong>Description:</strong> {selectedProduct.description}
+                  </p>
+                </div>
+              </div>
+              <button onClick={handleClosePopupButton}>X</button>
             </PopupContent>
           </PopupOverlay>
         )}
@@ -253,6 +278,7 @@ const DashProduct = () => {
             onUpdate={handleUpdate}
             onImageChange={handleImageChange}
             imagePreview={imagePreview}
+            onCloseEdit={handleCloseEditPopup}
           />
         )}
       </InfoContainer>
@@ -260,13 +286,14 @@ const DashProduct = () => {
   );
 };
 
-// New Edit Popup Component
+// // New Edit Popup Component
 const EditPopup = ({
   product,
   onClose,
   onUpdate,
   onImageChange,
   imagePreview,
+  onCloseEdit,
 }) => {
   const [updatedProduct, setUpdatedProduct] = useState(product);
 
@@ -284,14 +311,14 @@ const EditPopup = ({
   };
 
   return (
-    <ModalOverlay>
+    <ModalOverlay className="popup-overlay" onClick={onCloseEdit}>
       <ModalContainer>
         <h3>Edit Product Design</h3>
         <Form onSubmit={handleSubmit}>
           <div className="edit-img">
             {" "}
-            <input type="file" onChange={onImageChange} />
             {imagePreview && <img src={imagePreview} alt="Preview" />}
+            <input type="file" onChange={onImageChange} />
           </div>
           <InputGroup>
             <InputColumn>
@@ -369,21 +396,19 @@ const EditPopup = ({
           </InputGroup>
 
           <InputGroup>
-            <InputColumn>
+            <>
               <button type="submit">Update Product</button>
               <button type="button" onClick={onClose}>
                 {" "}
                 Cancel
               </button>
-            </InputColumn>
+            </>
           </InputGroup>
         </Form>
       </ModalContainer>
     </ModalOverlay>
   );
 };
-
-// ...Styled components...
 
 const SectionContainer = styled.div`
   padding: 5rem 10rem;
@@ -417,6 +442,7 @@ const ProductsSection = styled.section`
     margin-bottom: 1.5rem;
   }
 `;
+
 const ProductTable = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -454,6 +480,49 @@ const ProductTable = styled.table`
       font-size: 1.5rem;
     }
   }
+
+  .action-btns,
+  .action-btns button {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+  .action-btns button {
+    border: none;
+    background: #fff;
+    cursor: pointer;
+  }
+  .p-icon {
+    // padding: 3px;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .edit-icon {
+    color: #007bff;
+    transition: transform 0.3s ease;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
+  .delete-icon {
+    color: rgb(231, 76, 60);
+    transition: transform 0.3s ease;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
+  .view-icon {
+    color: rgb(21, 176, 60);
+    transition: transform 0.3s ease;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
 `;
 
 // Overlay for dimming the background
@@ -467,13 +536,12 @@ const ModalOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  // z-index: 999;
   z-index: 1000;
 `;
 
 // Content area for the popup
 const ModalContainer = styled.div`
-  background: white;
+  background: rgb(248, 249, 250);
   padding: 4rem;
   border-radius: 10px;
   width: 800px;
@@ -481,6 +549,8 @@ const ModalContainer = styled.div`
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   height: 600px;
   overflow-y: scroll;
+  scrollbar-width: none;
+  transition: transform 0.3s ease;
 
   h3 {
     font-size: 2.8rem;
@@ -505,8 +575,11 @@ const ModalContainer = styled.div`
     }
 
     button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background-color: #007bff;
-      widht: 100%;
+      width: 200px;
       color: white;
       border: none;
       border-radius: 30px;
@@ -520,6 +593,7 @@ const ModalContainer = styled.div`
     }
 
     button[type="button"] {
+      // widht: 100px;
       background-color: #dc3545; // Red for cancel button
     }
 
@@ -537,6 +611,7 @@ const ModalContainer = styled.div`
   img {
     max-width: 50%;
     margin: 10px 0;
+    border-radius: 8px;
   }
 `;
 
@@ -556,28 +631,37 @@ const PopupOverlay = styled.div`
 
 // Popup content styling
 const PopupContent = styled.div`
-  background-color: white;
+  background-color: rgb(248, 249, 250);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 5rem;
   border-radius: 8px;
-  width: 400px;
-  height: 600px;
-  overflow-y: scroll;
+  width: 600px;
+  height: 400px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+
+  .prod-details-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    flex: 1;
+  }
 
   img {
-    max-width: 100%;
+    max-width: 50%;
     border-radius: 8px;
     margin-bottom: 1rem;
   }
 
   h3 {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
+    font-size: 2.8rem;
+    // font-weight: bold;
+    margin-bottom: 2rem;
   }
 
   p {
@@ -610,7 +694,6 @@ const PopupContent = styled.div`
   }
 `;
 
-// Add this styled component to your file
 const StyledSelect = styled.select`
   padding: 2rem;
   margin-bottom: 1rem;
@@ -634,6 +717,7 @@ const StyledSelect = styled.select`
     padding: 2rem;
   }
 `;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;

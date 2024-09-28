@@ -157,7 +157,7 @@ const Form = styled.form`
   align-items: center;
   justify-content: center;
   padding: 2.5rem 5rem;
-  background: #ddd;
+  background: rgb(248, 249, 250);
   border-radius: 8px;
   margin-top: 1rem;
   gap: 1rem;
