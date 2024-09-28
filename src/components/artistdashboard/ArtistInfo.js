@@ -1,16 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaEdit } from "react-icons/fa";
+import axios from "axios";
 
 const ArtistInfo = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [artistData, setArtistData] = useState({
-    name: "John Doe", // Replace with actual artist name
-    email: "johndoe@example.com", // Replace with actual email
-    description: "A brief description about the artist.", // Replace with actual description
+    name: "",
+    email: "",
+    description: "",
   });
 
-  const [formData, setFormData] = useState(artistData);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    description: "",
+  });
+
+  // Fetch artist data on component mount
+  useEffect(() => {
+    const fetchArtistData = async () => {
+      try {
+        const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
+        const response = await axios.get(
+          "http://localhost:8080/user/userdata",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setArtistData({
+          name: response.data.name,
+          email: response.data.email,
+          description: response.data.description,
+        });
+        setFormData({
+          name: response.data.name,
+          email: response.data.email,
+          description: response.data.description,
+        });
+      } catch (error) {
+        console.error("Error fetching artist data:", error);
+      }
+    };
+
+    fetchArtistData();
+  }, []);
 
   // Handle input change
   const handleChange = (e) => {
@@ -19,10 +55,28 @@ const ArtistInfo = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setArtistData(formData);
-    setIsEditing(false);
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        "/api/artistdata",
+        {
+          name: formData.name,
+          email: formData.email,
+          description: formData.description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setArtistData(formData); // Update artistData with the new formData
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating artist data:", error);
+    }
   };
 
   return (

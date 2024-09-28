@@ -1,16 +1,13 @@
 const mongoose = require("mongoose");
 
-const artistsDesignSchema = mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+const artProductSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  company: { type: String, default: "artist" },
-  productImages: { type: [String], required: true },
   description: { type: String, required: true },
-  artist: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
+  image: { type: String, required: true }, // URL or file path to the image
+  status: { type: String, default: "Pending" },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Reference to the user who submitted the product
+  createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("ArtistProduct", artistsDesignSchema);
+const ArtistProduct = mongoose.model("ArtistProduct", artProductSchema);
+module.exports = ArtistProduct;

@@ -107,6 +107,40 @@ exports.user_delete = (req, res, next) => {
       });
     });
 };
+
+exports.user_update = async (req, res) => {
+  const userId = req.userData.userId; // Assuming userId comes from an authenticated request
+
+  const updateFields = {};
+  // Build the updateFields object based on what fields are present in the request body
+  for (const [key, value] of Object.entries(req.body)) {
+    if (value !== undefined && value !== "") {
+      updateFields[key] = value;
+    }
+  }
+
+  try {
+    // Find the user by ID and update the fields
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: updateFields },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({
+      message: "User updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return res.status(500).json({ message: "Failed to update user" });
+  }
+};
+
 exports.getUserInfo = async (req, res) => {
   try {
     // Find the user based on the authenticated user's ID

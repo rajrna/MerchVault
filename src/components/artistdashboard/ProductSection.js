@@ -1,22 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const ProductSection = () => {
   const [products, setProducts] = useState([]);
   const [imagePreview, setImagePreview] = useState(null); // State for image preview
+  const [imageFile, setImageFile] = useState(null); // State to hold the file for uploading
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+      if (!token) {
+        console.error("User is not authenticated.");
+        return; // If no token, exit the function
+      }
+
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/artist-design/get-my-designs",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Include the token in the headers
+            },
+          }
+        );
+        setProducts(response.data); // Update state with fetched products
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   // Handle form submission and add product to the list
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newProduct = {
-      name: e.target.productName.value,
-      description: e.target.productDescription.value,
-      image: imagePreview, // Use the preview URL
-      status: "Pending", // default status
-    };
-    setProducts([...products, newProduct]);
-    e.target.reset();
-    setImagePreview(null); // Reset the preview
+    const formData = new FormData();
+    formData.append("name", e.target.productName.value);
+    formData.append("description", e.target.productDescription.value);
+    formData.append("image", e.target.productImage.files[0]); // Append the image file
+
+    try {
+      const token = localStorage.getItem("token"); // Assuming the token is stored in localStorage
+      await axios.post(
+        "http://localhost:8080/artist-design/submit-products",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Send the token with the request
+            "Content-Type": "multipart/form-data", // Important for file upload
+          },
+        }
+      );
+      // Reset the form and clear preview (optional)
+      setImagePreview(null);
+      e.target.reset();
+    } catch (error) {
+      console.error("Error submitting product:", error);
+    }
   };
 
   // Handle image upload and create preview
@@ -25,6 +67,7 @@ const ProductSection = () => {
     if (file) {
       const previewUrl = URL.createObjectURL(file);
       setImagePreview(previewUrl); // Set the preview URL
+      setImageFile(file); // Set the image file to be sent to the server
     }
   };
 
@@ -94,7 +137,6 @@ const ProductSection = () => {
             </LeftColumn>
             <RightColumn>
               <div>
-                {" "}
                 <label>Product Name:</label>
                 <input
                   type="text"
@@ -105,7 +147,6 @@ const ProductSection = () => {
               </div>
 
               <div>
-                {" "}
                 <label>Product Description:</label>
                 <textarea
                   name="productDescription"
