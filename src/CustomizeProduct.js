@@ -57,28 +57,8 @@ const CustomizeProduct = () => {
   let boundaryX = 160;
   let boundaryY = 120;
 
-  // Dynamic boundary assignment based on product
-  if (selectedProduct === "tshirt") {
-    boundaryWidth = 290;
-    boundaryHeight = 400;
-    boundaryX = 160;
-    boundaryY = 120;
-  } else if (selectedProduct === "hoodie") {
-    boundaryWidth = 270;
-    boundaryHeight = 400;
-    boundaryX = 160;
-    boundaryY = 120;
-  } else if (selectedProduct === "poster") {
-    boundaryWidth = 300;
-    boundaryHeight = 430;
-    boundaryX = 145;
-    boundaryY = 90;
-  } else if (selectedProduct === "hat") {
-    boundaryWidth = 300;
-    boundaryHeight = 330;
-    boundaryX = 150;
-    boundaryY = 150;
-  }
+
+ 
 
   // Predefined images for selection
   const predefinedImages = [

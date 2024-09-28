@@ -1,6 +1,6 @@
 const Order = require("../models/order");
 const Cart = require("../models/cart");
-
+const User = require("../models/user");
 // Place a new order
 exports.createOrder = async (req, res) => {
   const userId = req.userData.userId; // Get userId from JWT
@@ -18,7 +18,7 @@ exports.createOrder = async (req, res) => {
     const newOrder = new Order({
       userId,
       cartItems: cart.cartItems,
-      delivery_address,
+      delivery_address, // This is now a string
       totalAmount,
       paymentMethod: "Cash on Delivery", // Assuming cash on delivery
     });

@@ -97,6 +97,7 @@ const LogIn = () => {
 
               //<input type="submit" className="button" value="Log in" />
 
+
               {error && <p className="error-message">{error}</p>}
               <button type="submit" className="button">
                 {/* Log in */}

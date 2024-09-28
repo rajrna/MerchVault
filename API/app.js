@@ -3,15 +3,17 @@ const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const { sendEmail } = require("./emailservice");
 
 const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/orders");
 const userRoutes = require("./api/routes/user");
-
+const cartRoutes = require("./api/routes/cart");
+const artistDesignRoutes = require("./api/routes/artist-design");
 mongoose.connect(
-  "mongodb+srv://rajnepal1raj:@node-rest-shop.gsvab.mongodb.net/?retryWrites=true&w=majority&appName=node-rest-shop"
+  "mongodb+srv://rajnepal1raj:oxjPhKB4xgEF5WAX@node-rest-shop.gsvab.mongodb.net/?retryWrites=true&w=majority&appName=node-rest-shop"
 );
-// oxjPhKB4xgEF5WAX
+
 app.use(morgan("dev"));
 app.use("/uploads", express.static("uploads")); //makes upload folder available to everyone
 app.use(
@@ -38,6 +40,19 @@ app.use((req, res, next) => {
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/user", userRoutes);
+app.use("/cart", cartRoutes);
+app.use("/artist-design", artistDesignRoutes);
+// Endpoint to send email
+app.post("/send-email", async (req, res) => {
+  const { name, email, message } = req.body;
+
+  try {
+    await sendEmail(name, email, message);
+    res.status(200).send("Email sent successfully.");
+  } catch (error) {
+    res.status(500).send("Error sending email: " + error.toString());
+  }
+});
 
 //Error handling
 app.use((req, res, next) => {

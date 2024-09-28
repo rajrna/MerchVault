@@ -9,6 +9,7 @@ import FormatPrice from "./Helpers/FormatPrice";
 import Star from "./components/Star";
 import AddToCart from "./components/AddToCart";
 import RelatedProducts from "./components/RelatedProducts";
+import axios from "axios";
 
 const API = "http://localhost:8080/products";
 
@@ -18,10 +19,10 @@ const SingleProduct = () => {
 
   const [activeTabs, setActiveTabs] = useState(0);
   const [review, setReview] = useState({
-    name: "",
     rating: "",
     comment: "",
   });
+  const [reviewsData, setReviewsData] = useState([]);
 
   const { id } = useParams();
 
@@ -42,14 +43,25 @@ const SingleProduct = () => {
   } = singleProduct;
 
   useEffect(() => {
-    getSingleProduct(`${API}/${id}`); // Corrected API call
+    getSingleProduct(`${API}/${id}`);
+
+    // Fetch reviews for the product
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`${API}/${id}/get-review`);
+        setReviewsData(response.data.reviews);
+        console.log("Fetched reviews:", response.data.reviews);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    fetchReviews();
   }, [id]);
 
   if (isSingleLoading) {
     return <div className="page_loading">Loading.....</div>;
   }
-
-  // Render product details below (not shown)
 
   // Example sizes for the size selection (you can replace them with dynamic sizes if available in the API)
   const availableSizes = ["S", "M", "L", "XL", "XXL"];
@@ -76,14 +88,37 @@ const SingleProduct = () => {
     }));
   };
 
-  const handleReviewSubmit = (e) => {
+  const handleReviewSubmit = async (e) => {
     e.preventDefault();
-    // Logic to handle form submission
-    // Example: Send review data to API or update state
-    console.log("Review submitted:", review);
 
-    // Clear form after submission
-    setReview({ name: "", rating: "", comment: "" });
+    try {
+      const token = localStorage.getItem("token"); // Adjust according to your auth setup
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const reviewData = {
+        rating: review.rating,
+        comment: review.comment,
+      };
+
+      // Send POST request to the backend
+      await axios.post(`${API}/${id}/submit-review`, reviewData, config);
+
+      // Clear form after submission
+      setReview({ rating: "", comment: "" });
+
+      // Fetch updated reviews
+      const response = await axios.get(`${API}/${id}/get-review`);
+      setReviewsData(response.data);
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      // Handle errors (e.g., display an error message to the user)
+    }
   };
 
   return (
@@ -102,15 +137,12 @@ const SingleProduct = () => {
             <h3>
               Brand: <span>{company}</span>
             </h3>
-            <Star stars={stars} reviews={reviews} />
+            <Star stars={stars} reviews={reviewsData.length} />
             <div className="price-info">
               <p className="old-price">
                 <FormatPrice price={oldPrice} />
               </p>
-              <p className="current-price">
-                {/* <FormatPrice price={price} /> */}
-                {price}
-              </p>
+              <p className="current-price">{price}</p>
             </div>
             <p className="product-description">{description}</p>
             <div className="additional-info">
@@ -173,34 +205,36 @@ const SingleProduct = () => {
               </div>
             )}
             {activeTabs === 1 && (
-              // <div className="reviews-content">
-              //   <h2>Customer Reviews</h2>
-              //   {/* You can map over reviews array if you have reviews data */}
-              //   {reviews ? <p>Reviews: {reviews}</p> : <p>No reviews yet.</p>}
-              // </div>
-
-              // Add this inside the Reviews tab content
               <div className="reviews-content">
-                <h2>
-                  Customer Reviews{" "}
-                  {reviews ? <p>Reviews: {reviews}</p> : <p>No reviews yet.</p>}
-                </h2>
+                <h2>Customer Reviews</h2>
 
-                {/* List of existing reviews (if any) */}
+                {/* List of existing reviews */}
                 <div className="existing-reviews">
-                  {/* Replace with dynamic reviews from API or state */}
-                  <div className="review">
-                    <h3>John Doe</h3>
-                    <div className="stars">⭐⭐⭐⭐⭐</div>
-                    <p>Great product! High quality and fast delivery.</p>
-                  </div>
+                  {reviewsData.length > 0 ? (
+                    reviewsData.map((review) => (
+                      <div key={review._id} className="review">
+                        <h3>
+                          {review.user && review.user.name
+                            ? review.user.name
+                            : "Anonymous"}
+                        </h3>
+                        <div className="stars">
+                          {Array(review.rating).fill("⭐")}
+                        </div>
+                        <p>{review.comment}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No reviews yet.</p>
+                  )}
                 </div>
 
                 <h3>Leave a Review</h3>
 
                 {/* Review Form */}
                 <form className="review-form" onSubmit={handleReviewSubmit}>
-                  <div className="form-group">
+                  {/* Remove Name field if user is authenticated */}
+                  {/* <div className="form-group">
                     <label htmlFor="name">Your Name</label>
                     <input
                       type="text"
@@ -210,7 +244,7 @@ const SingleProduct = () => {
                       onChange={handleInputChange}
                       required
                     />
-                  </div>
+                  </div> */}
 
                   <div className="form-group">
                     <label htmlFor="rating">Rating</label>
@@ -484,6 +518,7 @@ const Wrapper = styled.section`
             padding: 1rem;
             border-bottom: 1px solid #ddd;
             margin-bottom: 1rem;
+            border: 1px solid #ccc;
 
             h3 {
               font-size: 1.4rem;

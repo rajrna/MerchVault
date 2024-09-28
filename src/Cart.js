@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useState } from "react";
 import styled from "styled-components";
 import { useCartContext } from "./context/cart_context";
 import CartItem from "./components/CartItem";
@@ -8,33 +10,42 @@ import { useState } from "react";
 
 const Cart = () => {
   const { cart, clearCart, total_price, shipping_fee } = useCartContext();
-  const [showPopup, setShowPopup] = useState(false);
-  const [address, setAddress] = useState({ street: "", city: "" });
 
-  const handleProceedToCheckout = () => {
-    setShowPopup(true);
-  };
+  const [deliveryAddress, setDeliveryAddress] = useState("");
 
-  const handleClosePopup = () => {
-    setShowPopup(false);
-  };
+  const handleCheckout = async () => {
+    try {
+      // Make the POST request to your API to create a new order
+      const token = localStorage.getItem("token"); // Assuming the token is stored in localStorage
 
-  const handleAddressChange = (e) => {
-    const { name, value } = e.target;
-    setAddress({ ...address, [name]: value });
-  };
+      const response = await axios.post(
+        "http://localhost:8080/orders/place-order", // Update with your actual backend endpoint
+        {
+          delivery_address: deliveryAddress, // deliveryAddress should be a simple string
+          totalAmount: total_price + shipping_fee, // Total amount including shipping
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the JWT token in headers
+          },
+        }
+      );
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    // Handle the address form submission (e.g., send it to backend or proceed to payment)
-    console.log("Address submitted:", address);
-    handleClosePopup();
+      // If successful, clear the cart and show a success message
+      if (response.status === 201) {
+        clearCart();
+        alert("Order placed successfully!");
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("Failed to place the order.");
+    }
   };
 
   if (cart.length === 0) {
     return (
       <EmptyDiv>
-        <h3>No Cart in Item </h3>
+        <h3>No Cart in Item</h3>
       </EmptyDiv>
     );
   }
@@ -98,10 +109,23 @@ const Cart = () => {
                 <FormatPrice price={shipping_fee + total_price} />
               </p>
             </div>
+
+            {/* Add an input field for delivery address */}
+            <div>
+              <label>Delivery Address:</label>
+              <input
+                type="text"
+                value={deliveryAddress}
+                onChange={(e) => setDeliveryAddress(e.target.value)}
+                placeholder="Enter your delivery address"
+                required
+              />
+            </div>
+
             <div className="cart-two-button">
-              <Button onClick={handleProceedToCheckout}>
-                Proceed To CheckOut
-              </Button>
+
+              <Button onClick={handleCheckout}>Proceed To CheckOut</Button>
+
             </div>
           </div>
         </div>
