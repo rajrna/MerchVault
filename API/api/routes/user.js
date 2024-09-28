@@ -22,4 +22,5 @@ router.patch("/updateUser", checkAuth, UserController.user_update);
 router.get("/check", checkAuth, AuthenticationController.check_auth);
 
 router.get("/userdata", checkAuth, UserController.getUserInfo);
+
 module.exports = router;

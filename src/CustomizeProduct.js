@@ -33,7 +33,6 @@ const CustomizeProduct = () => {
     { text: "Your Text 2", color: "black", size: 24, fontWeight: "normal" },
   ]);
   const [collapsed, setCollapsed] = useState(Array(texts.length).fill(false));
-
   const [selectedShape, setSelectedShape] = useState(null);
   const [image, setImage] = useState(null);
   const [customImage] = useImage(imageUrl);
@@ -49,11 +48,17 @@ const CustomizeProduct = () => {
   // State to store the selected size
   const [selectedSize, setSelectedSize] = useState(null);
 
+  // Example sizes for the size selection (you can replace them with dynamic sizes if available in the API)
+  const availableSizes = ["S", "M", "L", "XL", "XXL"];
+
   // Boundary constants
   let boundaryWidth = 290;
   let boundaryHeight = 400;
   let boundaryX = 160;
   let boundaryY = 120;
+
+
+ 
 
   // Predefined images for selection
   const predefinedImages = [
@@ -109,6 +114,29 @@ const CustomizeProduct = () => {
     }
   };
 
+  // Handle adding new text
+  const handleAddText = () => {
+    if (texts.length < 10) {
+      setTexts([
+        ...texts,
+        {
+          text: `Your Text ${texts.length + 1}`,
+          color: "black",
+          size: 24,
+          fontWeight: "normal",
+          fontFamily: "Arial", // Default font family
+        },
+      ]);
+      setCollapsed([...collapsed, false]); // Update collapsed state
+    }
+  };
+
+  const handleToggleCollapse = (index) => {
+    const newCollapsed = [...collapsed];
+    newCollapsed[index] = !newCollapsed[index];
+    setCollapsed(newCollapsed);
+  };
+
   // Handle text change
   const handleTextChange = (index, event) => {
     const newTexts = [...texts];
@@ -144,33 +172,30 @@ const CustomizeProduct = () => {
     setTexts(newTexts);
   };
 
-  // Handle adding new text
-  const handleAddText = () => {
-    if (texts.length < 10) {
-      setTexts([
-        ...texts,
-        {
-          text: `Your Text ${texts.length + 1}`,
-          color: "black",
-          size: 24,
-          fontWeight: "normal",
-          fontFamily: "Arial", // Default font family
-        },
-      ]);
-      setCollapsed([...collapsed, false]); // Update collapsed state
-    }
-  };
-
-  const handleToggleCollapse = (index) => {
-    const newCollapsed = [...collapsed];
-    newCollapsed[index] = !newCollapsed[index];
-    setCollapsed(newCollapsed);
-  };
-
   //Handle delete text
   const handleDeleteText = (index) => {
     const newTexts = texts.filter((_, i) => i !== index);
     setTexts(newTexts);
+  };
+
+  //handle text draggable
+  const handleTextDragMove = (e, text) => {
+    const { width, height } = e.target.getClientRect();
+    const x = Math.max(
+      boundaryX,
+      Math.min(
+        e.target.x(),
+        boundaryX + boundaryWidth - width * e.target.scaleX()
+      )
+    );
+    const y = Math.max(
+      boundaryY,
+      Math.min(
+        e.target.y(),
+        boundaryY + boundaryHeight - height * e.target.scaleY()
+      )
+    );
+    e.target.position({ x, y });
   };
 
   // Generate the image for preview when the popup is opened
@@ -191,9 +216,6 @@ const CustomizeProduct = () => {
         });
     }
   };
-
-  // Example sizes for the size selection (you can replace them with dynamic sizes if available in the API)
-  const availableSizes = ["S", "M", "L", "XL", "XXL"];
 
   // Function to handle size selection
   const handleSizeClick = (size) => {
@@ -246,25 +268,6 @@ const CustomizeProduct = () => {
       .catch((error) => {
         console.error("Error exporting image: ", error);
       });
-  };
-
-  const handleTextDragMove = (e, text) => {
-    const { width, height } = e.target.getClientRect();
-    const x = Math.max(
-      boundaryX,
-      Math.min(
-        e.target.x(),
-        boundaryX + boundaryWidth - width * e.target.scaleX()
-      )
-    );
-    const y = Math.max(
-      boundaryY,
-      Math.min(
-        e.target.y(),
-        boundaryY + boundaryHeight - height * e.target.scaleY()
-      )
-    );
-    e.target.position({ x, y });
   };
 
   return (
@@ -441,25 +444,30 @@ const CustomizeProduct = () => {
                     ref={imageRef}
                     onClick={handleSelectImage} // Select the image when clicked
                     onDragMove={(e) => {
+                      const target = e.target; // Caching the target for cleaner code
+                      const scaledWidth = target.width() * target.scaleX();
+                      const scaledHeight = target.height() * target.scaleY();
+
+                      // Constrain X position
                       const x = Math.max(
                         boundaryX,
                         Math.min(
-                          e.target.x(),
-                          boundaryX +
-                            boundaryWidth -
-                            e.target.width() * e.target.scaleX()
+                          target.x(),
+                          boundaryX + boundaryWidth - scaledWidth
                         )
                       );
+
+                      // Constrain Y position
                       const y = Math.max(
                         boundaryY,
                         Math.min(
-                          e.target.y(),
-                          boundaryY +
-                            boundaryHeight -
-                            e.target.height() * e.target.scaleY()
+                          target.y(),
+                          boundaryY + boundaryHeight - scaledHeight
                         )
                       );
-                      e.target.position({ x, y });
+
+                      // Set the new position
+                      target.position({ x, y });
                     }}
                     onTransformEnd={() => {
                       const node = imageRef.current;
@@ -531,7 +539,8 @@ const CustomizeProduct = () => {
                           onClick={() => handleToggleCollapse(index)}
                           style={{ cursor: "pointer" }}
                         >
-                          Text No. {index + 1}{" "}
+                          {/* Text No. {index + 1}{" "} */}
+                          {textObj.text}
                           <button
                             onClick={() => handleDeleteText(index)}
                             className="delete-btn"
@@ -539,6 +548,7 @@ const CustomizeProduct = () => {
                             <FaTrash className="d-icons" />
                           </button>
                         </h4>
+                        <hr />
                         {!collapsed[index] && ( // Show controls only if not collapsed
                           <>
                             <label>

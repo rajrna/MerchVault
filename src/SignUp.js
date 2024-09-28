@@ -7,12 +7,11 @@ import axios from "axios";
 const SignUp = () => {
   const context = useContext(MyContext);
   const [formData, setFormData] = useState({
-    fname: "",
-    lname: "",
-    username: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
+    address: "",
   });
   const navigate = useNavigate(); // Initialize navigate
 
@@ -42,8 +41,8 @@ const SignUp = () => {
 
     try {
       const response = await axios.post("http://localhost:8080/user/signup", {
-        fname: formData.fname,
-        lname: formData.lname,
+        fname: formData.name,
+        address: formData.address,
         username: formData.username,
         email: formData.email,
         password: formData.password,
@@ -75,23 +74,23 @@ const SignUp = () => {
             <form onSubmit={handleSubmit}>
               <div className="input-group">
                 <div className="input-column">
-                  <label htmlFor="first-name">First Name</label>
+                  <label htmlFor="name">Name</label>
                   <input
                     type="text"
-                    id="fname"
-                    placeholder="Enter your first name"
-                    value={formData.fname}
+                    id="name"
+                    placeholder="Enter your name"
+                    value={formData.name}
                     onChange={handleChange}
                     required
                   />
                 </div>
                 <div className="input-column">
-                  <label htmlFor="last-name">Last Name</label>
+                  <label htmlFor="email">Email</label>
                   <input
-                    type="text"
-                    id="lname"
-                    placeholder="Enter your last name"
-                    value={formData.lname}
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    value={formData.email}
                     onChange={handleChange}
                     required
                   />
@@ -111,12 +110,12 @@ const SignUp = () => {
                   />
                 </div>
                 <div className="input-column">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="last-name">Address</label>
                   <input
-                    type="email"
-                    id="email"
-                    placeholder="Enter your email"
-                    value={formData.email}
+                    type="text"
+                    id="address"
+                    placeholder="Street, City"
+                    value={formData.address}
                     onChange={handleChange}
                     required
                   />

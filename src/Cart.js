@@ -6,9 +6,11 @@ import CartItem from "./components/CartItem";
 import { NavLink } from "react-router-dom";
 import { Button } from "./styles/Button";
 import FormatPrice from "./Helpers/FormatPrice";
+import { useState } from "react";
 
 const Cart = () => {
   const { cart, clearCart, total_price, shipping_fee } = useCartContext();
+
   const [deliveryAddress, setDeliveryAddress] = useState("");
 
   const handleCheckout = async () => {
@@ -121,15 +123,98 @@ const Cart = () => {
             </div>
 
             <div className="cart-two-button">
+
               <Button onClick={handleCheckout}>Proceed To CheckOut</Button>
+
             </div>
           </div>
         </div>
+        {showPopup && (
+          <PopupOverlay>
+            <PopupContent>
+              <h2>Enter Delivery Address</h2>
+              <form onSubmit={handleFormSubmit}>
+                <label>
+                  Street:
+                  <input
+                    type="text"
+                    name="street"
+                    value={address.street}
+                    onChange={handleAddressChange}
+                    required
+                  />
+                </label>
+                <label>
+                  City:
+                  <input
+                    type="text"
+                    name="city"
+                    value={address.city}
+                    onChange={handleAddressChange}
+                    required
+                  />
+                </label>
+                <div className="popup-buttons">
+                  <Button type="submit">Submit</Button>
+                  <Button type="button" onClick={handleClosePopup}>
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </PopupContent>
+          </PopupOverlay>
+        )}
       </div>
     </Wrapper>
   );
 };
 
+// Styled Components for Popup
+const PopupOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const PopupContent = styled.div`
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+
+  h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 1rem;
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
+  }
+
+  .popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+
+    button {
+      width: 45%;
+    }
+  }
+`;
 const EmptyDiv = styled.div`
   display: grid;
   place-items: center;

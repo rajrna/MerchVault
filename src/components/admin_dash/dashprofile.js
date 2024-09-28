@@ -1,54 +1,17 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { FaEdit, FaEye, FaEyeSlash } from "react-icons/fa";
 
-
-const UserProfile = () => {
+const DashProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [artistData, setArtistData] = useState({
-
-    name: "",
-    email: "",
-    address: "", // Add address field
-  });
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    address: "", // Add address field
+    name: "John Doe", // Replace with actual artist name
+    email: "johndoe@example.com", // Replace with actual email
+    password: "johndoe123.", // Replace with actual description
   });
 
-  // Fetch artist data on component mount
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
-        const response = await axios.get(
-          "http://localhost:8080/user/userdata",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setArtistData({
-          name: response.data.name,
-          email: response.data.email,
-          address: response.data.address || "", // Set address from response
-        });
-        setFormData({
-          name: response.data.name,
-          email: response.data.email,
-          address: response.data.address || "", // Set address from response
-        });
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
+  const [formData, setFormData] = useState(artistData);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   // Handle input change
   const handleChange = (e) => {
@@ -57,30 +20,10 @@ const UserProfile = () => {
   };
 
   // Handle form submission
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const token = localStorage.getItem("token");
-      await axios.put(
-        "/", //add PATCH API
-        {
-          name: formData.name,
-          email: formData.email,
-          address: formData.address,
-        }, // Include address
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setArtistData(formData); // Update artistData with the new formData
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Error updating user data:", error);
-    }
-
+    setArtistData(formData);
+    setIsEditing(false);
   };
 
   return (
@@ -89,27 +32,18 @@ const UserProfile = () => {
       <InfoContainer>
         <div>
           <strong>
-            Full Name: <br />
+            Admin Name: <br />
           </strong>{" "}
           {artistData.name}
         </div>
 
         <div>
           <strong>
-            Email: <br />
+            Password:
+            <br />
           </strong>{" "}
-          {artistData.email}
+          {artistData.password}
         </div>
-
-
-        <div>
-          <strong>
-            Address: <br />
-          </strong>{" "}
-          {artistData.address}
-        </div>
-
-
         <EditButton onClick={() => setIsEditing(true)}>
           Edit
           <FaEdit className="p-icon" />
@@ -122,7 +56,7 @@ const UserProfile = () => {
             <h3>Edit Info</h3>
             <div className="data-container">
               <div>
-                <label>Full Name: </label>
+                <label>Admin Name: </label>
                 <input
                   type="text"
                   name="name"
@@ -131,28 +65,25 @@ const UserProfile = () => {
                   required
                 />
               </div>
-              <div>
-                <label>Email: </label>
+            </div>
+
+            <div>
+              <label>Password: </label>
+              <PasswordInputContainer>
                 <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
+                  type={showPassword ? "text" : "password"} // Toggle input type
+                  name="password"
+                  value={formData.password}
                   onChange={handleChange}
                   required
                 />
-              </div>
-
-              <div>
-                <label>Address: </label>
-                <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
+                <ToggleButton
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </ToggleButton>
+              </PasswordInputContainer>
             </div>
 
             <div className="btn-container">
@@ -170,7 +101,7 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default DashProfile;
 
 const SectionContainer = styled.div`
   padding: 5rem 10rem;

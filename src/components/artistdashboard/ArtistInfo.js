@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaEdit } from "react-icons/fa";
@@ -6,6 +7,7 @@ import axios from "axios";
 const ArtistInfo = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [artistData, setArtistData] = useState({
+
     name: "",
     email: "",
     description: "",
@@ -48,6 +50,7 @@ const ArtistInfo = () => {
     fetchArtistData();
   }, []);
 
+
   // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,6 +58,7 @@ const ArtistInfo = () => {
   };
 
   // Handle form submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -77,6 +81,7 @@ const ArtistInfo = () => {
     } catch (error) {
       console.error("Error updating artist data:", error);
     }
+
   };
 
   return (
