@@ -55,29 +55,6 @@ const CustomizeProduct = () => {
   let boundaryX = 160;
   let boundaryY = 120;
 
-  // // Dynamic boundary assignment based on product
-  // if (selectedProduct === "tshirt") {
-  //   boundaryWidth = 300;
-  //   boundaryHeight = 350;
-  //   boundaryX = 150;
-  //   boundaryY = 100;
-  // } else if (selectedProduct === "hoodie") {
-  //   boundaryWidth = 350;
-  //   boundaryHeight = 450;
-  //   boundaryX = 140;
-  //   boundaryY = 90;
-  // } else if (selectedProduct === "poster") {
-  //   boundaryWidth = 400;
-  //   boundaryHeight = 500;
-  //   boundaryX = 100;
-  //   boundaryY = 50;
-  // } else if (selectedProduct === "hat") {
-  //   boundaryWidth = 200;
-  //   boundaryHeight = 250;
-  //   boundaryX = 180;
-  //   boundaryY = 120;
-  // }
-
   // Predefined images for selection
   const predefinedImages = [
     "/images/pre-images/p1.png",

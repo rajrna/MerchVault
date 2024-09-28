@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const multer = require("multer");
+
 const checkAuth = require("../middleware/check-auth");
 const ProductsController = require("../controllers/products");
+const ReviewContoller = require("../controllers/reviews");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -67,4 +69,16 @@ router.delete(
   ProductsController.products_delete_product
 );
 ////////////////////////////////////////////
+
+///////////////Review routes
+// Route to submit a review (requires user authentication)
+router.post(
+  "/:productId/submit-review",
+  checkAuth,
+  ReviewContoller.submitReview
+);
+
+// Route to get all reviews for a product (no authentication required)
+router.get("/:productId/get-review", ReviewContoller.getProductReviews);
+
 module.exports = router;
