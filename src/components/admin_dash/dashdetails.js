@@ -31,7 +31,7 @@ const Dashdetails = ({ users, products }) => {
 
           <div>
             <div className="dashboardBox">
-              <h2>Total Products</h2>
+              <h2>Products</h2>
               <h3>30000</h3>
             </div>
           </div>

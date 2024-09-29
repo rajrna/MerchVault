@@ -3,9 +3,18 @@ import styled from "styled-components";
 
 const DashMessage = () => {
   const [messages, setMessages] = useState([
-    { id: 1, name: "John Doe", email: "john@example.com", message: "Great products!" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com", message: "Can I customize this banner?" },
-    
+    {
+      id: 1,
+      name: "John Doe",
+      email: "john@example.com",
+      message: "Great products!",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      email: "jane@example.com",
+      message: "Can I customize this banner?",
+    },
   ]);
 
   return (
@@ -45,7 +54,6 @@ const DashMessage = () => {
     </SectionContainer>
   );
 };
-
 
 const SectionContainer = styled.div`
   padding: 5rem 10rem;

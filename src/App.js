@@ -25,6 +25,7 @@ import DashProfile from "./components/admin_dash/dashprofile";
 import DashProduct from "./components/admin_dash/dashproduct";
 import DashOrder from "./components/admin_dash/dashorder";
 import DashMessage from "./components/admin_dash/dashmessage";
+import DashArtist from "./components/admin_dash/dashartist";
 
 // Create context
 const MyContext = createContext();
@@ -93,14 +94,13 @@ const App = () => {
             <Route path="/userprofile" element={<UserProfile />} />
             <Route path="/orderlist" element={<UserOrder />} />
             <Route path="*" element={<ErrorPage />} />
-            <Route path="/admindash" element={<AdminDashboard/>} />
-            <Route path="/dashdetails" element={<Dashdetails/>} />
-            <Route path="/adminprofile" element={<DashProfile/>} />
-            <Route path="/dashproduct" element={<DashProduct/>} />
-            <Route path="/dashorder" element={<DashOrder/>} />
-            <Route path="/dashmessage" element={<DashMessage/>} />
-            
-
+            <Route path="/admindash" element={<AdminDashboard />} />
+            <Route path="/dashdetails" element={<Dashdetails />} />
+            <Route path="/adminprofile" element={<DashProfile />} />
+            <Route path="/dashproduct" element={<DashProduct />} />
+            <Route path="/dashorder" element={<DashOrder />} />
+            <Route path="/dashartist" element={<DashArtist />} />
+            <Route path="/dashmessage" element={<DashMessage />} />
           </Routes>
           {isHeaderFooterShow === true && <Footer />}
         </MyContext.Provider>
